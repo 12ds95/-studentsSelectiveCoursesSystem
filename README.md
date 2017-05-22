@@ -1,1 +1,1 @@
-# -studentsSelectiveCoursesSystem
+# studentsSelectiveCoursesSystem
