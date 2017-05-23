@@ -10,10 +10,11 @@ caixin.save(function (err) {
         console.log('Insert success!');
     }
 });
+
 router.post('/', function (req, res) {
     var id = req.body.UserId;
     var pw = req.body.Password;
-    if (id !== 'undefined') { // 已经存在的电影数据
+    if (id !== 'undefined') {
         User.findById(id, function (err, User) {
             if (err || User._doc.Password !== pw) {
                 res.redirect('/');
