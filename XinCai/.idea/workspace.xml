@@ -34,8 +34,8 @@
       <file leaf-file-name="login.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/login.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="16" column="29" lean-forward="false" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+            <state relative-caret-position="260">
+              <caret line="17" column="48" lean-forward="true" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -55,7 +55,7 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="728">
-              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -336,12 +336,12 @@
       <option name="presentableId" value="Default" />
       <updated>1495463045915</updated>
       <workItem from="1495463050828" duration="111000" />
-      <workItem from="1495535951251" duration="4280000" />
+      <workItem from="1495535951251" duration="4689000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4391000" />
+    <option name="totallyTimeSpent" value="4800000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="169" y="-16" width="3047" height="1832" extended-state="6" />
@@ -388,7 +388,7 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="728">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -427,8 +427,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/login.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="16" column="29" lean-forward="false" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+        <state relative-caret-position="260">
+          <caret line="17" column="48" lean-forward="true" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
           <folding />
         </state>
       </provider>
