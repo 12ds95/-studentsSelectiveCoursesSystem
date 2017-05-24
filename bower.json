@@ -1,15 +1,11 @@
 {
-  "name": "i_movie",
-  "authors": [
-    "itpoet <itpoet@yeah.net>"
-  ],
-  "description": "itPoet imooc movie",
+  "name": "myapp",
+  "authors": "Group 3",
   "main": "app.js",
   "keywords": [
     "Node.js",
     "MongoDB"
   ],
-  "license": "MIT",
   "homepage": "",
   "ignore": [
     "**/.*",
