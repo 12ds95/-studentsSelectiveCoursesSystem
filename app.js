@@ -6,11 +6,23 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
+var mongoStore = require('connect-mongo')(session);
+var morgan = require('morgan');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/User');
+var dbUrl = 'mongodb://localhost/User';
+mongoose.connect(dbUrl);
 
 var app = express();
+
+if (app.get('env') === 'development') {
+    app.set('showStackError', true);
+    app.use(morgan(':method :url :status'));
+    app.locals.pretty = true; //html code style
+    mongoose.set('debug', true);
+}
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views/pages'));
@@ -24,6 +36,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+        secret: 'stuSelCourSys',
+        store: new mongoStore({
+            url: dbUrl,
+            collection: 'session'
+        }),
+        resave: false,
+        saveUninitialized: true
+    }
+));
 
 //router control
 var routers = require('./routes/routes');

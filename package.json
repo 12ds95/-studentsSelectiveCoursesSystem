@@ -18,5 +18,10 @@
     "path": "^0.12.7"
   },
   "author": "Group 3",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "connect-mongo": "^1.3.2",
+    "express-session": "^1.15.3",
+    "morgan": "^1.8.2"
+  }
 }
