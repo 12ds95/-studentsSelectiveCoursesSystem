@@ -5,10 +5,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/User');
+//use personal mongoose.js to finish database authentication
+var mongoose = require('./mongoose');
+
+//mongoose.Promise = global.Promise;
+//mongoose.connect('mongodb://localhost/User');
 
 var app = express();
 
