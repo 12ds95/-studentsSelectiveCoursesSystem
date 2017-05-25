@@ -1,4 +1,65 @@
 extends ../layout
 
 block content
-
+    .container(style="padding-top:80px;")
+        .row
+            .col-md-8.column
+                div(style="margin-bottom:20px;")
+                    img(alt="浙江大学",src="/images/zju.png",class="img-rounded",width="100%")
+                div(class="panel panel-primary",height="1500px")
+                    div(class="panel-heading")
+                        h3(class="panel-title") 本科生通知公告
+                    table(class="table table-hover")
+                        thead
+                            tr
+                                th 公告标题
+                                th 发布单位
+                                th 发布时间
+                        tbody
+                            -for (var i = 1; i <= 10; i++)
+                                tr
+                                    td
+                                        a(href="#") 公告#{i}
+                                    td 本科生院
+                                    td 发布时间
+                    center
+                        ul.pagination
+                            li
+                                a(href="#") &laquo;
+                            li
+                                a(href="#") 1
+                            li
+                                a(href="#") 2
+                            li
+                                a(href="#") 3
+                            li
+                                a(href="#") &raquo;
+            .col-md-4.column
+                .panel.panel-primary
+                    .panel-heading
+                        h3.panel-title 登录
+                    .panel-body
+                        form.form-horizontal
+                            .form-group
+                                label(for="username",class="col-md-3 control-label") 用户名
+                                .col-md-6
+                                    input(type="text",class="form-control input-sm",placeholder="请输入用户名")
+                            .form-group
+                                label(for="password",class="col-md-3 control-label") 密码
+                                .col-md-6
+                                    input(type="text",class="form-control input-sm",placeholder="请输入密码")
+                                button(type="button",class="btn btn-link") 忘记密码
+                            .form-group
+                                label(for="password",class="col-md-3 control-label") 验证码
+                                .col-md-3
+                                    input(type="text",class="form-control input-sm")
+                                .col-md-3
+                                    img(src="/images/verification.png",alt="验证码",width="100%",height="100%")
+                                button(type="button",class="btn btn-link") 换张图片
+                            .form-group
+                                .col-sm-offset-3.col-sm-5
+                                    .checkbox
+                                            input(type="checkbox")
+                                            label 记住密码
+                                .col-sm-3
+                                    button(type="submit",class="btn btn-primary btn-sm btn-block") 登录
