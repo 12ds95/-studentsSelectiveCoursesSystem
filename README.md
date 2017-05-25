@@ -14,7 +14,7 @@ You have to install mongoDB to use this web app, if you have mongoDB,
 
 use command line
 
-`mongo`
+`mongod`
 to run mongoDB before you run this webapp
 
 

@@ -7,6 +7,11 @@ var login = require('./login');
 var admin = require('./admin');
 
 module.exports = function(app) {
+    //user session
+    app.use(function (req, res, next) {
+         next();
+    });
+
     app.use('/', index);
     app.use('/users', users);
     app.use('/login', login);
