@@ -6,6 +6,11 @@ var users = require('./users');
 var login = require('./login');
 var admin = require('./admin');
 
+var curriculum = require('./curriculum')
+var student = require('./student');
+var select = require('./select');
+
+
 module.exports = function(app) {
     //user session
     app.use(function (req, res, next) {
@@ -16,6 +21,10 @@ module.exports = function(app) {
     app.use('/users', users);
     app.use('/login', login);
     app.use('/admin', admin);
+    app.use('/curriculum', curriculum)
+    app.use('/student', student);
+    app.use('/select', select);
+
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

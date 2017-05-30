@@ -4,8 +4,6 @@ html
         meta(charset="utf-8")
         title #{title}
         include includes/head
-        block script
-        
-    body(style="padding-top:80px;")<!--防止导航栏遮盖-->
-        include includes/header
+
+    body
         block content
