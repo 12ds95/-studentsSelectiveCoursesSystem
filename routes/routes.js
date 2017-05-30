@@ -10,7 +10,6 @@ var curriculum = require('./curriculum')
 var student = require('./student');
 var select = require('./select');
 
-
 module.exports = function(app) {
     //user session
     app.use(function (req, res, next) {

@@ -1,0 +1,52 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .panel.panel-primary
+                .panel-heading
+                    h3.panel-title 开课申请
+                .panel-body
+                    .row
+                        label(for="classname",class="col-sm-offset-1 col-md-2 control-label") 课程名称：
+                        p #{classname}
+                    .row
+                        label(for="Engclassname",class="col-sm-offset-1 col-md-2 control-label") 课程英文名称：
+                        p #{Engclassname}
+                    .row
+                        label(for="department",class="col-sm-offset-1 col-md-2 control-label") 开课学院：
+                        p #{department}
+                    .row
+                        label(for="classhours",class="col-sm-offset-1 col-md-2 control-label") 周学时：
+                        p #{classhours}
+                    .row
+                        label(for="credit",class="col-sm-offset-1 col-md-2 control-label") 学分：
+                        p #{credit}
+                    .row
+                        label(for="classtype",class="col-sm-offset-1 col-md-2 control-label") 课程归属：
+                        p #{classtype}
+                    .row
+                        label(for="preparation",class="col-sm-offset-1 col-md-2 control-label") 预修要求：
+                        p #{preparation}
+                    .row
+                        label(for="capacity",class="col-sm-offset-1 col-md-2 control-label") 课程容量：
+                        p #{capacity}
+                    .row
+                        label(for="objectstudent",class="col-sm-offset-1 col-md-2 control-label") 面向对象：
+                        p #{objectstudent}
+                    .row
+                        label(for="campus",class="col-sm-offset-1 col-md-2 control-label") 开课校区：
+                        p #{campus}
+                    .row
+                        label(for="classinfo",class="col-sm-offset-1 col-md-2 control-label") 课程简介：
+                        p #{classinfo}
+                    .row
+                        label(for="fileupload",class="col-sm-offset-1 col-md-2 control-label") 文件下载：
+                        -var file=file1;
+                        -var fileurlCount=file.split('/').length;
+                        -var filename=file.split('/')[fileurlCount-1];
+                        p #{filename}
+                            button(type="submit",class="btn btn-primary btn-sm",) 下载
+                    .btn-group.btn-group-sm(style="float:right")
+                        button(type="submit",class="btn btn-default") 驳回申请
+                        button(type="submit",class="btn btn-primary") 通过申请
