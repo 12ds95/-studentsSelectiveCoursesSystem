@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var StudentSchema = new mongoose.Schema({
 	id : {
@@ -8,6 +9,8 @@ var StudentSchema = new mongoose.Schema({
 	name:String,
 	ismale:Boolean,
 	credit:Double,
+
+	department:{type:Schema.Types.ObjectID, ref:'Department'},
 	uname:{
 		type: String,
 		unique: true
