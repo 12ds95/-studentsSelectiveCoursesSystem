@@ -1,5 +1,4 @@
 .idea/
 test/
-public/
 node_modules/
 mongoose.js
