@@ -1,0 +1,91 @@
+extends ../layout
+
+block content
+    .container(style="padding-top:80px;")
+        .row
+            .panel.panel-primary
+                .panel-heading
+                    h3.panel-title 开课申请
+                .panel-body
+                    form.form-horizontal
+                        .form-group
+                            label(for="classname",class="col-md-3 control-label") 课程名称：
+                            .col-md-6
+                                input(type="text",class="form-control input-sm",placeholder="请输入课程名")
+                        .form-group
+                            label(for="Engclassname",class="col-md-3 control-label") 课程英文名称：
+                            .col-md-6
+                                input(type="text",class="form-control input-sm",placeholder="请输入课程英文名")
+                        .form-group
+                            label(for="department",class="col-md-3 control-label") 开课学院：
+                            .col-md-6
+                                department.droplist
+                                    select department
+                                        option(value="")请选择学院
+                                        option(value='计算机')计算机学院
+                                        option(value='海洋')海洋学院
+                        .form-group
+                            label(for="classhours",class="col-md-3 control-label") 周学时：
+                            .col-md-6
+                                input(type="text",class="form-control input-sm",placeholder="请输入周学时")
+                        .form-group
+                            label(for="credit",class="col-md-3 control-label") 学分：
+                            .col-md-6
+                                credit.droplist
+                                    select credit
+                                        option(value='0.5') 0.5
+                                        option(value='1.0') 1.0
+                                        option(value='1.5') 1.5
+                                        option(value='2.0') 2.0
+                                        option(value='2.5') 2.5
+                                        option(value='3.0') 3.0
+                                        option(value='3.5') 3.5
+                                        option(value='4.0') 4.0
+                                        option(value='4.5') 4.5
+                                        option(value='5.0') 5.0
+                        .form-group
+                            label(for="classtype",class="col-md-3 control-label") 课程归属：
+                            .col-md-6
+                                classtype.droplist
+                                    select department
+                                        option(value='')清选择课程归属
+                                        option(value='专业课程')专业课程
+                                        option(value='大类课程')大类课程
+                                        option(value='通识课程')通识课程
+                                        option(value='外语类课程')外语类课程
+                        .form-group
+                            label(for="preparation",class="col-md-3 control-label") 预修要求：
+                            .col-md-6
+                                input(type="text",class="form-control input-sm",placeholder="请输入预修要求")
+                        .form-group
+                            label(for="capacity",class="col-md-3 control-label") 课程容量：
+                            .col-md-6
+                                input(type="text",class="form-control input-sm",placeholder="请输入课程容量")
+                        .form-group
+                            label(for="objectstudent",class="col-md-3 control-label") 面向对象：
+                            .col-md-6
+                                input(type="text",class="form-control input-sm",placeholder="请输入面向对象")
+                        .form-group
+                            label(for="campus",class="col-md-3 control-label") 开课校区：
+                            .col-md-6
+                                campus.droplist
+                                    select campus
+                                        option(value='紫金港')紫金港
+                                        option(value='玉泉')玉泉
+                                        option(value='西溪')西溪
+                                        option(value='之江')之江
+                                        option(value='华家池')华家池
+                        .form-group
+                            label(for="classinfo",class="col-md-3 control-label") 课程简介：
+                            .col-md-6
+                                textarea(style="width:200px;height:80px;",placeholder="不超过1000字")
+                        .form-group
+                            label(for="fileupload",class="col-md-3 control-label") 文件上传：
+                            .col-md-3
+                                input(type="file",id="file1",name="file1")
+                            .col-sm-1
+                                button(type="submit",class="btn btn-primary btn-sm btn-block") 上传
+                        .form-group
+                            .col-md-2
+                            .col-sm-1
+                                button(type="submit",class="btn btn-primary btn-sm btn-block") 申请
