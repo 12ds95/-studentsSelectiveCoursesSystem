@@ -5,6 +5,7 @@ var index = require('./index');
 var users = require('./users');
 var login = require('./login');
 var admin = require('./admin');
+var curriculum = require('./curriculum')
 
 module.exports = function(app) {
     //user session
@@ -16,6 +17,7 @@ module.exports = function(app) {
     app.use('/users', users);
     app.use('/login', login);
     app.use('/admin', admin);
+    app.use('/curriculum', curriculum)
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
