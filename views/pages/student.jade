@@ -1,0 +1,41 @@
+extends ../layout_main
+
+block content
+    .container
+        // head
+        .row
+            .col-md-12(style='background-color:black; border-radius:15px')
+                .col-md-8
+                    h1(style={color:'white'}) 学生选课系统
+        // body
+        .row(style='margin-top:15px')
+            // left
+            .col-md-3
+                .row
+                    .col-md-12.text-center(style='background-color:#7aabee; border-radius:10px; box-shadow: 3px 3px 10px #444')
+                        h3 信息与动态
+                .row
+                    .col-md-12(style='border-radius:10px; box-shadow: 3px 3px 10px #444')
+                        .row(style='margin-top:20px')
+                            .col-md-12
+                                img.img-rounded.center-block(style='border-radius:10px' src=leftColAttr['照片'])
+                        .row(style='margin-top:10px')
+                            .col-md-10.col-md-push-1
+                                - var llleft = leftColAttr
+                                h3= '你好！' + llleft['姓名']
+                                - for(var attr in llleft)
+                                    - if(attr != '姓名' && attr != '照片')
+                                        h4= attr + '：' + llleft[attr]
+                        .row(align="right")
+                            button.btn.btn-primary(type="button" style="margin-right:10px;margin-bottom:10px") 修改个人资料
+            // right
+            .col-md-9
+                .row(style='margin-left:15px; border-radius:10px; border-style:solid; border-width:1px; border-color:#C1C1C1; box-shadow:3px 3px 3px #C1C1C1')
+                    each link in rightColAttr
+                        .col-md-3(style='margin-top:10px')
+                            .row
+                                .col-md-10.col-md-push-1(style='border-radius:10px; border-style:solid; border-width:1px; border-color:#79CDCD')
+                                    a(href=link['URL'])
+                                        img.img-rounded.center-block(style='border-radius:10px', src=link['imgURL'])
+                            .row
+                                p.text-center(style='margin-top:5px; font-size:18px')= link['名称']
