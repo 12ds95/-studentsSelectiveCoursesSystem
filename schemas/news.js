@@ -10,6 +10,10 @@ var NewsSchema = new mongoose.Schema({
 	updateAt:{
 		type:Date,
 		default: Date.now()
+	},
+	department:{
+		type:mongoose.Schema.Types.ObjectId, 
+		ref:'Department'
 	}
 });
 
