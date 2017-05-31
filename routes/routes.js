@@ -9,7 +9,9 @@ var admin = require('./admin');
 var curriculum = require('./curriculum')
 var student = require('./student');
 var select = require('./select');
-
+var applyforclass = require('./applyforclass');
+var changepw = require('./changepw');
+var personalinfo = require('./personalinfo');
 
 module.exports = function(app) {
     //user session
@@ -24,7 +26,9 @@ module.exports = function(app) {
     app.use('/curriculum', curriculum)
     app.use('/student', student);
     app.use('/select', select);
-
+    app.use('/applyforclass',applyforclass);
+    app.use('/changepw',changepw);
+    app.use('/personalinfo',personalinfo);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

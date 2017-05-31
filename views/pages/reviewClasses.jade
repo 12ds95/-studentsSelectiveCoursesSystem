@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            center
+                .input-group.col-md-4
+                    input(type="text" class="form-control")
+                    span.input-group-btn
+                        button.btn.btn-default(type="button") 搜索
+            div(style="padding-top:20px")
+                .panel.panel-primary
+                    table.table.table-hover
+                        thead
+                            tr
+                                td 课程名称
+                                td 申请人
+                                td 学院
+                                td 申请时间
+                        tbody
+                            mixin panelCourse(courseName,userName,department,date)
+                                tr(onclick="window.open('reviewApplyforclass')")
+                                    mixin cellTitle(cell)
+                                        td=cell
+                                    +cellTitle(courseName)
+                                    +cellTitle(userName)
+                                    +cellTitle(department)
+                                    +cellTitle(date)
+                            each course in classList
+                                +panelCourse(course.courseName,course.userName,course.department,course.date)
+                    
+
+
+                      
+
+
+
