@@ -1,0 +1,126 @@
+// 需要传入filterNameData, filterOpData
+// 需要调用initSelector(filterNameDefault0, filterOpDefault0)
+script.
+    var filterNum = 1;
+    var MAXFILTERNUM = 8;
+    var filterNameDefault;
+    var filterOpDefault;
+    function initSelector(filterNameDefault0, filterOpDefault0) {
+        // 初始化
+        filterNameDefault = filterNameDefault0;
+        filterOpDefault = filterOpDefault0;
+        for (var i = 1; i < MAXFILTERNUM; i++) {
+            $('#filter' + i).hide();
+        }
+
+        // 筛选名称
+        $('.filterName').click(function () {
+            var str = $(this).attr('id');
+            var num = parseInt(str.charAt(str.length - 1));
+            $('#filterName' + num).html($(this).text() + '<span class="caret">');
+        });
+
+        // 筛选运算符
+        $('.filterOp').click(function () {
+            var str = $(this).attr('id');
+            var num = parseInt(str.charAt(str.length - 1));
+            $('#filterOp' + num).html($(this).text() + '<span class="caret">');
+        });
+
+        // 删除筛选
+        $('.filterDelete').click(function () {
+            var str = $(this).attr('id');
+            var num = parseInt(str.charAt(str.length - 1));
+            if (filterNum == 1) {
+                return;
+            }
+            for (var i = num; i < filterNum - 1; i++) {
+                var ii = i + 1;
+                $('#filterName' + i).html($('#filterName' + ii).html());
+                $('#filterOp' + i).html($('#filterOp' + ii).html());
+                $('#filterContent' + i).val($('#filterContent' + ii).val());
+            }
+            $('#filterName' + (filterNum - 1)).html(filterNameDefault + '<span class="caret">');
+            $('#filterOp' + (filterNum - 1)).html(filterOpDefault + '<span class="caret">');
+            $('#filterContent' + (filterNum - 1)).val('');
+            $('#filter' + (filterNum - 1)).hide();
+            filterNum--;
+        });
+
+        // 添加筛选
+        $('.filterAdd').click(function () {
+            var str = $(this).attr('id');
+            var num = parseInt(str.charAt(str.length - 1));
+            if (filterNum == MAXFILTERNUM) {
+                return;
+            }
+            for (var i = filterNum - 1; i > num; i--) {
+                var ii = i + 1;
+                $('#filterName' + ii).html($('#filterName' + i).html());
+                $('#filterOp' + ii).html($('#filterOp' + i).html());
+                $('#filterContent' + ii).val($('#filterContent' + i).val());
+            }
+            $('#filterName' + (num + 1)).html(filterNameDefault + '<span class="caret">');
+            $('#filterOp' + (num + 1)).html(filterOpDefault + '<span class="caret">');
+            $('#filterContent' + (num + 1)).val('');
+            $('#filter' + (filterNum)).show();
+            filterNum++;
+        });
+    }
+
+.row
+    .col-md-9.col-md-push-1
+        +filter(0)
+        +filter(1)
+        +filter(2)
+        +filter(3)
+        +filter(4)
+        +filter(5)
+        +filter(6)
+        +filter(7)
+    .col-md-1.col-md-push-1
+        button.btn.btn-primary(type="button") 搜索
+
+// 筛选部分
+//- mixin filter, filterNameItem, filterOpItem
+mixin filter(i)
+    .filter(id='filter'+i)
+        // 与和或
+        if i!=0
+            .row
+                .col-md-1
+                    .radio
+                        label
+                            input(type='radio', name='FilterConnectRadio'+i, value='option1', checked)
+                        | 与
+                .col-md-1
+                    .radio
+                        label
+                            input(type='radio', name='FilterConnectRadio'+i, value='option2')
+                        | 或
+        // 筛选条件和筛选运算符
+        .row(style)
+            .col-md-12
+                .input-group
+                    .input-group-btn
+                        button.btn.dropdown-toggle(id='filterName' + i, type='button', data-toggle='dropdown')= filterNameData[0]
+                            span.caret
+                        ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu1')
+                            mixin filterNameItem(ID, itemText)
+                                li(role='presentation')
+                                    a.filterName(id=ID role='menuitem', tabindex='-1', style='cursor:pointer')= itemText
+                            each filterNameText, filterNameIndex in filterNameData
+                                +filterNameItem(filterNameIndex.toString() + '_' + i.toString(), filterNameText)
+                    .input-group-btn
+                        button.btn.dropdown-toggle(id='filterOp' + i, type='button', data-toggle='dropdown')= filterOpData[0]
+                            span.caret
+                        ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu1')
+                            mixin filterOpItem(ID, itemText)
+                                li(role='presentation')
+                                    a.filterOp(id=ID role='menuitem', tabindex='-1', style='cursor:pointer')= itemText
+                            each filterOpText, filterOpIndex in filterOpData
+                                +filterOpItem(filterOpIndex.toString() + '_' + i.toString(), filterOpText)
+                    input.form-control.col-md-8(id='filterContent'+i, type='text')
+                    span.input-group-btn
+                        button.filterDelete.btn.btn-default(id='filterDelete'+i, type='button') 删除
+                        button.filterAdd.btn.btn-default(id='filterAdd'+i, type='button') 添加

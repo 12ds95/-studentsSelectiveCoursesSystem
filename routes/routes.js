@@ -12,6 +12,9 @@ var select = require('./select');
 var applyforclass = require('./applyforclass');
 var changepw = require('./changepw');
 var personalinfo = require('./personalinfo');
+var teacherManager = require('./teacherManager');
+var studentManager = require('./studentManager');
+var noticeManager = require('./noticeManager');
 
 module.exports = function(app) {
     //user session
@@ -29,6 +32,15 @@ module.exports = function(app) {
     app.use('/applyforclass',applyforclass);
     app.use('/changepw',changepw);
     app.use('/personalinfo',personalinfo);
+    app.use('/teacherManager',teacherManager);
+    app.post('/teacherManager/tableData', teacherManager);
+    app.post('/teacherManager/addData', teacherManager);
+    app.use('/studentManager', studentManager);
+    app.post('/studentManager/tableData', studentManager);
+    app.post('/studentManager/addData', studentManager);
+    app.use('/noticeManager', noticeManager);
+    app.post('/noticeManager/tableData', noticeManager);
+    app.post('/noticeManager/addData', noticeManager);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

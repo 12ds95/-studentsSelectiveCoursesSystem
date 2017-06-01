@@ -7,30 +7,30 @@ block rightContent
         function init(filterNameDefault, filterOpDefault) {
             $(document).ready(function () {
                 initSelector(filterNameDefault, filterOpDefault);
-                refreshTable('teacherManager/tableData',1)
+                refreshTable('studentManager/tableData',1)
             })
         }
         function showAddModal() {
             var modalData = {
-                'Title': '教师信息添加表',
-                'ContentItem': ['教师工号', '教师姓名', '学院'],
+                'Title': '学生信息添加表',
+                'ContentItem': ['学生学号', '学生姓名', '学院'],
                 'ContentData': ['', '', ''],
                 'SuccessMsg': '添加成功',
                 'ErrorMsg': '添加失败'
             };
             var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'teacherManager/tableData');
+            showModal(modalID, modalData, 'studentManager/tableData');
         }
         function showModifyModal(modifyData) {
             var modalData = {
-                'Title': '教师信息修改表',
+                'Title': '学生信息修改表',
                 'ContentItem': modifyData['ModifyItem'],
                 'ContentData': modifyData['ModifyData'],
                 'SuccessMsg': '修改成功',
                 'ErrorMsg': '修改失败'
             }
             var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'teacherManager/tableData');
+            showModal(modalID, modalData, 'studentManager/tableData');
         }
 
     - var filterNameDefault = filterNameData[0]
