@@ -16,7 +16,9 @@ var captchapng = require('captchapng');
 
 
 mongoose.Promise = global.Promise;
-var dbUrl = 'mongodb://localhost/User';
+//var dbUrl = 'mongodb://localhost/User';
+// Use test db current
+var dbUrl = 'mongodb://localhost/test';
 mongoose.connect(dbUrl);
 
 var app = express();
