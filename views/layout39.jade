@@ -1,3 +1,4 @@
+// 需传入leftTitle, leftImage, leftText
 doctype
 html
     head
@@ -7,11 +8,31 @@ html
 
     body
         include includes/header
-        .col-md-3.column
-            .container(style="padding-top:80px;")
-                .row
-                    block content1
-        .col-md-9.column
-            .container(style="padding-top:80px;")
-                .row
-                    block content2
+        .container(style="padding-top:80px;")
+            .row
+                // 左侧栏
+                .col-md-3
+                    .panel.panel-primary
+                        .panel-heading.text-center
+                            // 左侧栏标题
+                            h3= leftTitle
+                        .panel-body
+                            // 左侧栏图片
+                            .row(style='margin-top:10px')
+                                .col-md-12
+                                    img.img-rounded.center-block(style='border-radius:10px' src=leftImage)
+                            // 左侧栏文本
+                            .row(style='margin-top:10px')
+                                .col-md-12
+                                    each textData, textKey in leftText
+                                        .row
+                                            .col-md-4
+                                                h5= textKey + '：'
+                                            .col-md-8
+                                                h5= textData
+                            // 左侧栏其他
+                            block leftAddition
+                // 右侧栏
+                .col-md-9
+                    .row(style='margin-left:10px; border-radius:10px; border-style:solid; border-width:1px; border-color:#C0C0C0; box-shadow:3px 3px 3px #C0C0C0')
+                        block rightContent

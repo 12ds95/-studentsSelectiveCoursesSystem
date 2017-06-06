@@ -1,0 +1,46 @@
+// 需要调用showModal
+script.
+    function showModal(modalID, modalData, refreshURL) {
+        var modalHTML = '' +
+            '<div id="addItemModal" class="modal fade" role="dialog" aria-hidden="true">' +
+            '   <div class="modal-dialog">' +
+            '       <div class="modal-content">' +
+            '           <div class="modal-header">' +
+            '               <h4 class="modal-title">' + modalData['Title'] + '</h1>' +
+            '           </div>' +
+            '           <div class="modal-body">' +
+            '               <form role="form">';
+        for (var i = 0; i < modalData['ContentItem'].length; i++) {
+            modalHTML += '       <div class="form-group">' +
+                '                   <label style="font-size:15px">' + modalData['ContentItem'][i] + '</label>' +
+                '                   <input id="ContentItem_' + i + '" class="form-control" type="text" value="'+modalData['ContentData'][i]+'">' +
+                '               </div>';
+        }
+        modalHTML += '' +
+            '               </form>' +
+            '           </div>' +
+            '           <div class="modal-footer">' +
+            '               <button id="addItemSubmit" type="submit" class="btn btn-default">提交</button>' +
+            '           </div>' +
+            '       </div>' +
+            '   </div>' +
+            '</div>';
+        $(modalID).empty().append(modalHTML);
+        $('#addItemModal').modal('show');
+        $('#addItemSubmit').click(function () {
+            var submitData = {};
+            for (var i = 0; i < modalData['ContentItem'].length; i++) {
+                submitData[modalData['ContentItem'][i]] = $('#ContentItem_' + i).val();
+            }
+            $.post('teacherManager/addData', submitData, function (data) {
+                var status = data['status'];
+                if (status === -1) {
+                    alert(modalData['ErrorMsg'] + '，原因：' + data['errMsg']);
+                } else {
+                    $('#addItemModal').modal('hide');
+                    alert(modalData['SuccessMsg'] + '！');
+                    refreshTable(refreshURL, 1);
+                }
+            })
+        })
+    }

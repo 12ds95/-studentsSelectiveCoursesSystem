@@ -3,70 +3,13 @@ extends ../layout_main
 block content
 
     script.
-        var filterNum = 1;
         var classNum;
 
-        function init(num) {
+        function init(num, filterNameDefault, filterOpDefault) {
             // 初始化
+            initSelector(filterNameDefault, filterOpDefault)
             classNum = num;
-            for (var i = 1; i<=7; i++) {
-                $('#filter'+i).hide();
-            }
             $('.classDetailBlock').hide();
-
-            // 筛选名称
-            $('.filterName').click(function () {
-                var str = $(this).attr('id');
-                var num = parseInt(str.charAt(str.length - 1));
-                $('#filterName'+num).html($(this).text() + '<span class="caret">');
-            });
-
-            // 筛选运算符
-            $('.filterOp').click(function () {
-                var str = $(this).attr('id');
-                var num = parseInt(str.charAt(str.length - 1));
-                $('#filterOp' + num).html($(this).text() + '<span class="caret">');
-            });
-
-            // 删除筛选
-            $('.filterDelete').click(function () {
-                var str = $(this).attr('id');
-                var num = parseInt(str.charAt(str.length - 1));
-                if (filterNum == 1) {
-                    return;
-                }
-                for (var i=num; i<filterNum-1; i++) {
-                    var ii = i + 1;
-                    $('#filterName' + i).html($('#filterName' + ii).html());
-                    $('#filterOp' + i).html($('#filterOp' + ii).html());
-                    $('#filterContent' + i).val($('#filterContent' + ii).val());
-                }
-                $('#filterName' + (filterNum-1)).html('课程名称<span class="caret">');
-                $('#filterOp' + (filterNum-1)).html('包含<span class="caret">');
-                $('#filterContent' + (filterNum-1)).val('');
-                $('#filter' + (filterNum-1)).hide();
-                filterNum--;
-            });
-
-            // 添加筛选
-            $('.filterAdd').click(function () {
-                var str = $(this).attr('id');
-                var num = parseInt(str.charAt(str.length - 1));
-                if (filterNum == 8) {
-                    return;
-                }
-                for (var i = filterNum-1; i > num; i--) {
-                    var ii = i+1;
-                    $('#filterName' + ii).html($('#filterName' + i).html());
-                    $('#filterOp' + ii).html($('#filterOp' + i).html());
-                    $('#filterContent' + ii).val($('#filterContent' + i).val());
-                }
-                $('#filterName' + (num+1)).html('课程名称<span class="caret">');
-                $('#filterOp' + (num+1)).html('包含<span class="caret">');
-                $('#filterContent' + (num+1)).val('');
-                $('#filter' + (filterNum)).show();
-                filterNum++;
-            });
 
             // 导航栏选课
             $('.classSelectNav').click(function () {
@@ -97,21 +40,14 @@ block content
 
 
     - var classNum = classList.length;
-    body(onload='init("#{classNum}")')
+    - var filterNameDefault = filterNameData[0]
+    - var filterOpDefault = filterOpData[0];
+    body(onload='init("#{classNum}","#{filterNameDefault}","#{filterOpDefault}")')
 
     // 筛选部分
     .row(style="margin-top:10px; margin-bottom:10px")
-        .col-md-7.col-md-push-2
-            +filter(0)
-            +filter(1)
-            +filter(2)
-            +filter(3)
-            +filter(4)
-            +filter(5)
-            +filter(6)
-            +filter(7)
-        .col-md-1.col-md-push-2
-            button.btn.btn-primary(type="button") 搜索
+        .col-md-10.col-md-push-1
+            include ../includes/selector
 
     // 列表部分
     .row
@@ -131,63 +67,6 @@ block content
                 .panel-body
                     each class0, index in classList
                         +classItem(class0['课程代码'], class0['课程名称'], class0['课程网址'], class0['课程类别'], class0['学分'], class0['学期'], class0['详情'], class0['课程信息'], index)
-
-
-
-// 筛选部分
-//- mixin filter, filterNameItem, filterOpItem
-mixin filter(i)
-    .filter(id='filter'+i)
-        if i!=0
-            // 与和或
-            .row
-                .col-md-1
-                    .radio
-                        label
-                            input(type='radio', name='FilterConnectRadio'+i, value='option1', checked)
-                        | 与
-                .col-md-1
-                    .radio
-                        label
-                            input(type='radio', name='FilterConnectRadio'+i, value='option2')
-                        | 或
-        // 筛选条件和筛选运算符
-        .row(style)
-            .col-md-12
-                .input-group
-                    .input-group-btn
-                        button.btn.dropdown-toggle(id='filterName' + i, type='button', data-toggle='dropdown') 课程名称
-                            span.caret
-                        ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu1')
-                            mixin filterNameItem(ID, itemText)
-                                li(role='presentation')
-                                    a.filterName(id=ID role='menuitem', tabindex='-1', style='cursor:pointer')= itemText
-                            +filterNameItem('className' + i,    '课程名称')
-                            +filterNameItem('classCode' + i,    '课程代码')
-                            +filterNameItem('teacherName' + i,  '教师名字')
-                            +filterNameItem('classType' + i,    '课程类别')
-                            +filterNameItem('classTime' + i,    '上课时间')
-                            +filterNameItem('classPlace' + i,   '上课地点')
-                            +filterNameItem('semester' + i,     '学期')
-                    .input-group-btn
-                        button.btn.dropdown-toggle(id='filterOp' + i, type='button', data-toggle='dropdown') 包含
-                            span.caret
-                        ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu1')
-                            mixin filterOpItem(ID, itemText)
-                                li(role='presentation')
-                                    a.filterOp(id=ID role='menuitem', tabindex='-1', style='cursor:pointer')= itemText
-                            +filterOpItem('contain' + i,          '包含')
-                            +filterOpItem('not_contain' + i,     '不包含')
-                            +filterOpItem('equal' + i,            '等于')
-                            +filterOpItem('not_equal' + i,       '不等于')
-                            +filterOpItem('begin_from' + i,      '始于')
-                            +filterOpItem('not_begin_from' + i, '并非起始于')
-                            +filterOpItem('end_at' + i,           '止于')
-                            +filterOpItem('not_end_at' + i,      '并非停止于')
-                    input.form-control.col-md-8(id='filterContent'+i, type='text')
-                    span.input-group-btn
-                        button.filterDelete.btn.btn-default(id='filterDelete'+i, type='button') 删除
-                        button.filterAdd.btn.btn-default(id='filterAdd'+i, type='button') 添加
 
 
 

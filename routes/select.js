@@ -3,6 +3,26 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    // 筛选器固定参数
+    var filterNameData = [
+        '课程名称',
+        '课程代码',
+        '教师名字',
+        '课程类别',
+        '上课时间',
+        '上课地点',
+        '学期'
+    ];
+    var filterOpData = [
+        '包含',
+        '不包含',
+        '等于',
+        '不等于',
+        '始于',
+        '并非起始于',
+        '止于',
+        '并非停止于'
+    ];
     var classList = [{
         '课程代码': '0xcccc',
         '课程名称': 'Hello World',
@@ -59,6 +79,8 @@ router.get('/', function(req, res, next) {
     ];
     res.render('select',{
         title: '选课页',
+        filterNameData: filterNameData,
+        filterOpData: filterOpData,
         classList: classList
     });
 });

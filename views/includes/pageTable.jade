@@ -1,0 +1,100 @@
+// 需要调用refreshTable
+// 需要外部实现showAddModal, showModifyModal等
+script.
+
+    var activePage;
+
+    // 刷新表格
+    function refreshTable(URL, pageNum) {
+        $.post(URL, {'pageNum': pageNum}, function (data) {
+            activePage = pageNum;
+            paintTable(data['Title'], data['Content']);
+            initTable(URL, data['Title'], data['Content']);
+            paintPage(data['pageTotal']);
+            initPage(URL);    // 给刚绘制的分页添加属性
+        });
+    }
+
+    // 给定表头, 表格内容, 绘制表格
+    function paintTable(tableTitle, tableContent) {
+        // 表格标题
+        var tableTitleHTML = '';
+        for (var i = 0; i < tableTitle.length; i++) {
+            tableTitleHTML += '<th style="text-align:center">' + tableTitle[i] + '</th>';
+        }
+        tableTitleHTML += '' +
+            '<th style="text-align:center">' +
+            '   <a id="addTableItem" style="cursor:pointer">添加</a>' +
+            '</th>';
+        // 表格内容
+        var tableContentHTML = '';
+        for (var i = 0; i < tableContent.length; i++) {
+            tableContentHTML += '<tr>';
+            for (var j = 0; j < tableContent[i].length; j++)
+                tableContentHTML += '<th style="text-align:center">' + tableContent[i][j] + '</th>';
+            tableContentHTML += '' +
+                '<th style="text-align:center">' +
+                '   <p>' +
+                '       <a id="modifyTableItem_'+i+'" class="modifyTableItem" style="cursor:pointer">修改</a>' +
+                '       /' +
+                '       <a style="cursor:pointer">删除</a>' +
+                '   </p>' +
+                '</th>';
+            tableContentHTML += '</tr>';
+        }
+        $('#pagedTableContainer').empty().append('<table class="table">' + tableTitleHTML + tableContentHTML + '</table>');
+    }
+
+    // 给表格按钮(添加/删除/修改)赋予属性
+    function initTable(URL,tableTitle, tableContent) {
+        $('#addTableItem').click(function () {
+            showAddModal();
+        });
+        $('.modifyTableItem').click(function () {
+            var str = $(this).attr('id');
+            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            var modifyData = {'ModifyItem':[], 'ModifyData':[]};
+            for (var i=0; i<tableTitle.length; i++) {
+                modifyData['ModifyItem'].push(tableTitle[i]);
+                modifyData['ModifyData'].push(tableContent[itemNum][i]);
+            }
+            showModifyModal(modifyData);
+        })
+    }
+
+    // 给定总页面, 当前页面, 绘制分页
+    function paintPage(pageTotalNum) {
+        var pageHTML = '<ul class="pagination">';
+        if (activePage === 1) pageHTML += '<li class="disabled"><a id="page_prev">&laquo;</a></li>';
+        else pageHTML += '<li><a id="page_prev" style="cursor:pointer">&laquo;</a></li>';
+        for (var i = 1; i <= pageTotalNum; i++) {
+            if (i === activePage) pageHTML += '<li class="active"><a id="page_'+i+'" class="page" style="cursor:pointer">' + i + '</a></li>';
+            else pageHTML += '<li><a id="page_'+i+'" class="page" style="cursor:pointer">' + i + '</a></li>';
+        }
+        if (activePage === pageTotalNum) pageHTML += '<li class="disabled"><a id="page_next">&raquo;</a></li>';
+        else pageHTML += '<li><a id="page_next" style="cursor:pointer">&raquo;</a></li>';
+        pageHTML += '</ul>';
+        $('#pageContainer').empty().append(pageHTML);
+    }
+
+    // 给分页赋予属性
+    function initPage(URL) {
+        $('.page').click(function () {
+            var str = $(this).attr('id');
+            var pageNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            refreshTable(URL, pageNum);
+        });
+        $('#page_prev').click(function () {
+            if ($(this).parent().attr('class') !== 'disabled') {
+                refreshTable(URL, activePage-1);
+            }
+        });
+        $('#page_next').click(function () {
+            if ($(this).parent().attr('class') !== 'disabled') {
+                refreshTable(URL, activePage+1);
+            }
+        });
+    }
+
+.row#pagedTableContainer
+.row#pageContainer(align='center')
