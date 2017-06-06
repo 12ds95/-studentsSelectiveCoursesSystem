@@ -11,9 +11,6 @@ var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
 var morgan = require('morgan');
 
-var http = require('http');
-var captchapng = require('captchapng');
-
 
 
 mongoose.Promise = global.Promise;
@@ -62,21 +59,5 @@ app.set('port', port);
 app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
-
-http.createServer(function (request, response) {
-    if(request.url == '/captcha.png') {
-        var checkcode = parseInt(Math.random()*9000+1000);
-        var p = new captchapng(80,30,checkcode); // width,height,numeric captcha
-        p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
-        p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
-
-        var img = p.getBase64();
-        var imgbase64 = new Buffer(img,'base64');
-        response.writeHead(200, {
-            'Content-Type': 'image/png'
-        });
-        response.end(imgbase64);
-    } else response.end('');
-}).listen(8181);
 
 module.exports = app;
