@@ -2,8 +2,8 @@
  * Created by CaiXin on 2017/5/23.
  */
 var index = require('./index');
-var users = require('./users');
-var login = require('./login');
+// var users = require('./users');
+// var login = require('./login');
 var admin = require('./admin');
 
 var curriculum = require('./curriculum');
@@ -24,8 +24,8 @@ module.exports = function(app) {
     });
 
     app.use('/', index);
-    app.use('/users', users);
-    app.use('/login', login);
+    // app.use('/users', users);
+    // app.use('/login', login);
     app.use('/admin', admin);
     app.use('/curriculum', curriculum)
     app.use('/student', student);
