@@ -1,0 +1,155 @@
+extends ../layout
+block script
+    script(type="text/javascript").
+        $(document).ready(function(){  
+            $('a').click(function (){  
+            //这个是点击处理函数的内部处理  
+                //alert($(this).index());
+                var p=$(this).attr('class');
+                if(p=="list-group-item")
+                    $(this).attr("class","list-group-item list-group-item-info");
+                else
+                    $(this).attr("class","list-group-item");
+            });
+            $("#search").click(function(){
+                clearSelection();//先清空一下上次高亮显示的内容；
+                $('a.list-group-item').each(function()//遍历文章；
+                {
+                    var str=$("#key")[0].value;
+                    if($(this)[0].innerText.indexOf(str)!=-1)
+                        $(this).attr("class","list-group-item list-group-item-info");
+                });
+            });
+            $("#select").click(function(){
+                alert('select');//给后端发消息选中
+            });
+            $("#delete").click(function(){
+                alert('delete');//给后端发消息删除
+            });
+        });
+        function clearSelection()
+        {
+            $('a.list-group-item.list-group-item-info').each(function()//遍历
+            {
+                $(this).attr("class","list-group-item");
+            });
+        };
+        function sortByCreditsA(a,b){
+            return a.credits-b.credits;
+        };
+        function sortByCreditsD(a,b){
+            return b.credits-a.credits;
+        };
+        function sortByIdA(a,b){
+            return a.id-b.id;
+        };
+        function sortByIdD(a,b){
+            return b.id-a.id;
+        };
+        function sort(str,aord,studentsp,studentsr){
+            var studentsP=JSON.parse(studentsp);
+            var studentsR=JSON.parse(studentsr);
+            var filter1=document.getElementById('filter1');
+            var filter2=document.getElementById('filter2');
+            if(str&&aord){
+                if(str=='按学号'){
+                    filter1.firstChild.nodeValue='按学号';
+                    if(aord=='升序'){
+                        filter2.firstChild.nodeValue='升序';
+                        studentsP.sort(sortByIdA);
+                        studentsR.sort(sortByIdA);
+                    }
+                    else if (aord='降序'){
+                        filter2.firstChild.nodeValue='降序';
+                        studentsP.sort(sortByIdD);
+                        studentsR.sort(sortByIdD);
+                    }
+
+                }
+                else if(str=='按学分'){
+                    filter1.firstChild.nodeValue='按学分';
+                    if(aord=='升序'){
+                        filter2.firstChild.nodeValue='升序';
+                        studentsP.sort(sortByCreditsA);
+                        studentsR.sort(sortByCreditsA);
+                    }
+                    else if(aord='降序'){
+                        filter2.firstChild.nodeValue='降序';
+                        studentsP.sort(sortByCreditsD);
+                        studentsR.sort(sortByCreditsD);
+                    }
+                }
+                displayPending(studentsP);
+                displayReady(studentsR);
+            }
+            else{
+                if(str==null){
+                    sort(filter1.firstChild.nodeValue,aord,studentsp,studentsr);
+                }
+                else{
+                    sort(str,filter2.firstChild.nodeValue,studentsp,studentsr);
+                }
+            }
+        };
+        function displayPending(studentsP){
+            var ul=document.getElementById('listPending');
+            for(var i=0;i<studentsP.length;i++){
+                ul.childNodes[i].innerHTML=studentsP[i].id;
+            }
+        };
+        function displayReady(studentsR){
+            var ul=document.getElementById('listReady');
+            for(var i=0;i<studentsR.length;i++){
+                ul.childNodes[i].innerHTML=studentsR[i].id;
+            }
+        };
+block content
+    .container
+        .row.clearfix
+            .col-md-12.column
+                - var studentsP=JSON.stringify(studentsPending);
+                - var studentsR=JSON.stringify(studentsReady);
+                .panel.panel-primary
+                    .panel-heading
+                        h3.panel-title #{course}
+                    .panel-body
+                        center
+                            .btn-group
+                                button(class="btn btn-default",id="filter1") 按学号
+                                button(data-toggle="dropdown",class="btn btn-default dropdown-toggle")
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(href="javascript:void(0);",onclick="sort('按学号',null,'#{studentsP}','#{studentsR}')") 按学号
+                                    li
+                                        a(href="javascript:void(0);",onclick="sort('按学分',null,'#{studentsP}','#{studentsR}')") 按学分
+                                .btn-group
+                                    button(class="btn btn-default",id="filter2") 升序
+                                    button(data-toggle="dropdown",class="btn btn-default dropdown-toggle")
+                                        span.caret
+                                    ul.dropdown-menu
+                                        li
+                                            a(href="javascript:void(0);",onclick="sort(null,'升序','#{studentsP}','#{studentsR}')") 升序
+                                        li
+                                            a(href="javascript:void(0);",onclick="sort(null,'降序','#{studentsP}','#{studentsR}')") 降序
+                                    .input-group
+                                        input(type="text" class="form-control",id="key")
+                                        span.input-group-btn
+                                            button.btn.btn-default(type="button",id="search") 搜索
+                        div(style="padding-top:20px")
+                            .col-md-6.column
+                                label 补选人数:#{studentsPending.length}
+                                .row(id="ulp")
+                                    ul.list-group.pre-scrollable(id='listPending')
+                                        each studentP in studentsPending
+                                            a.list-group-item #{studentP.id}
+                                button(id="select",type="submit",class="btn btn-primary btn-sm btn-block")
+                                            span.glyphicon.glyphicon-chevron-right
+                            .col-md-6.column
+                                label 已选人数:#{studentsReady.length}
+                                .row(id="ulp2")
+                                    ul.list-group.pre-scrollable(id='listReady')
+                                        each studentR in studentsReady
+                                            a.list-group-item #{studentR.id}
+                                button(id="delete",type="submit",class="btn btn-primary btn-sm btn-block")
+                                            span.glyphicon.glyphicon-chevron-left

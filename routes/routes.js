@@ -9,7 +9,7 @@ var admin = require('./admin');
 var curriculum = require('./curriculum')
 var student = require('./student');
 var select = require('./select');
-var applyforclass = require('./applyforclass');
+var teacher = require('./teacher');
 var changepw = require('./changepw');
 var personalinfo = require('./personalinfo');
 var teacherManager = require('./teacherManager');
@@ -29,7 +29,7 @@ module.exports = function(app) {
     app.use('/curriculum', curriculum)
     app.use('/student', student);
     app.use('/select', select);
-    app.use('/applyforclass',applyforclass);
+    app.use('/teacher',teacher);
     app.use('/changepw',changepw);
     app.use('/personalinfo',personalinfo);
     app.use('/teacherManager',teacherManager);
