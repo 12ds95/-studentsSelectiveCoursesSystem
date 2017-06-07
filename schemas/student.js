@@ -30,13 +30,7 @@ StudentSchema.statics = {
 		return Course.find({})
 					 .populate({path:'_time', select:' -_id'})
 					 .populate({path:'_classroom', select:' -_id'})
-					 //.select('id name time')
-					 //.select({id:1, name:1,credit:1,time:1,classroom:1})
-					 //.select({id:1, name:1,credit:1, _time.day:1,_time.time:1,_classroom.campus:1,_classroom.building:1})
 					 .exec(function(err,res){
-					 	// console.log(res.haha);
-					 	// console.log(res.time);
-					 	// console.log(res.classroom);
 					 	cb(err,res);
 					 });
 	}

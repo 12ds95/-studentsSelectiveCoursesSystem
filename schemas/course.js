@@ -12,11 +12,13 @@ var CourseSchema = new mongoose.Schema({
 	, course_type: {type:String,alias:'type'}
 	, _teacher:{type:Schema.Types.ObjectId, ref:'Teacher'}
 	// 上课时间
-	, _time:{type:Schema.Types.ObjectId,ref:'Timeslot'}
+	, _time:[{type:Schema.Types.ObjectId,ref:'Timeslot'}]
 	// 上课地点
-	, _classroom:{type:Schema.Types.ObjectId, ref:'Classroom'}
-	// 学期 - 是一个学期的数组
+	, _classroom:[{type:Schema.Types.ObjectId, ref:'Classroom'}]
+	// 学期 - 是一个学期的数组：
 	, _semester:{type:Schema.Types.ObjectId,ref:'Semester'}
+	// 也许直接表示会简单一些
+	, semester:{type: String }
 	, capacity: Number
 	, campus:{
 		type:String,
@@ -27,12 +29,25 @@ var CourseSchema = new mongoose.Schema({
 },{toJSON:{virtuals:true},toObject:{virtuals:true}});
 
 CourseSchema.virtual('time').get(function(){
-	return this._time.day+ this._time.time;
+	var resstring = "";
+	// for (var x in this._time){
+	// 	resstring = resstring + x.day+x.time + " ";
+	// }
+	this._time.forEach(function(x,i,a){
+		if (i != 0) resstring = resstring+ " ";
+        resstring = resstring + x.day+x.time ;
+	});
+	return resstring;
 });
 
 
 CourseSchema.virtual('classroom').get(function(){
-	return this._classroom.campus + this._classroom.building + this._classroom.room_number;
+	var resString="";
+	this._classroom.forEach(function (x, i, a) {
+        if (i != 0) resString = resString+ " ";
+		resString = resString +x.campus + x.building +x.room_number;
+    });
+	return resString;
 });
 
 CourseSchema.pre('find',function(next){
