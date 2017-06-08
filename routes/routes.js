@@ -16,6 +16,7 @@ var teacherManager = require('./teacherManager');
 var studentManager = require('./studentManager');
 var noticeManager = require('./noticeManager');
 var captcha = require('./captcha');
+var byselection = require('./byselection');
 
 module.exports = function(app) {
     //user session
@@ -43,6 +44,7 @@ module.exports = function(app) {
     app.post('/noticeManager/tableData', noticeManager);
     app.post('/noticeManager/addData', noticeManager);
     app.use('/captcha',captcha);
+    app.use('/byselection',byselection);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
