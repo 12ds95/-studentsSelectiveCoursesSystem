@@ -55,5 +55,12 @@ router.get('/reviewApplyforclass',function(req,res){
         file1: './index.js'
     })
 });
-
+router.post('/admin/reviewClasses/apply', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1
+    };
+    console.log(data);
+    res.json(data);
+});
 module.exports = router;
