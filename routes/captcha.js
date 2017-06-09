@@ -4,11 +4,9 @@
 var express = require('express');
 var router = express.Router();
 var captchapng = require('captchapng');
-var number = number = Math.random()*9000 + 1000;
 
 router.get('/', function(req, res, next) {
-    number = Math.random()*9000 + 1000;
-    var code = parseInt(number);
+    var code = parseInt(Math.random()*9000 + 1000);
     req.session.checkcode = code;
     var p = new captchapng(100,30,code);
     p.color(0, 0, 0, 0);
@@ -21,6 +19,5 @@ router.get('/', function(req, res, next) {
     res.end(imgbase64);
 });
 
-router.number = number;
 module.exports = router;
 

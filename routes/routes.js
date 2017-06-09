@@ -20,6 +20,8 @@ var byselection = require('./byselection');
 
 module.exports = function(app) {
     //user session
+    app.locals.titles = ["膜拜各位大神", "最佳第六人评选"];
+
     app.use(function (req, res, next) {
          next();
     });
