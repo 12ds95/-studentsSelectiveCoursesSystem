@@ -3,6 +3,9 @@
  */
 var express = require('express');
 var router = express.Router();
+var ApplyClass = require('../models/ApplyClass')
+    ,Course = require('../models/Course')
+;
 
 /* GET home page. */
 router.get('/applyforclass', function(req, res, next) {
@@ -13,100 +16,20 @@ router.get('/applyforclass', function(req, res, next) {
 
 
 router.get('/pickStudents', function(req, res, next) {
-    res.render('pickStudents',{
-        course:'面向对象程序设计',
-        studentsPending:[
-        {
-            id:'3140104444',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'52'
-        },{
-            id:'3140105555',
-            credits:'53'
-        },{
-            id:'3140105555',
-            credits:'54'
-        },{
-            id:'3140105555',
-            credits:'55'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105553',
-            credits:'56'
-        }],
-        studentsReady:[
-        {
-            id:'3140100000',
-            credits:'12'
-        },{
-            id:'3140105555',
-            credits:'23'
-        },{
-            id:'3140105555',
-            credits:'24'
-        },{
-            id:'3140105555',
-            credits:'103'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3140105555',
-            credits:'56'
-        },{
-            id:'3232222222',
-            credits:'56'
-        }]
-    });
+    // 需要变成从请求中获取
+    var tid = 'teacher1';
+    var cid = '230202030';
+
+    ApplyClass.fetchStu(tid,cid,function (err, stuPending) {
+        Course.fetchStu(cid,tid,function (err, stuReady) {
+            res.render('pickStudents',{
+                course:'面向对象程序设计',
+                studentsPending:stuPending,
+                studentsReady:stuReady
+            });
+        })
+    })
+
 });
 
 router.post('/teacher/pickStudents/select', function(req, res, next) {

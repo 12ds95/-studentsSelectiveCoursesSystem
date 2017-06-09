@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
 var Timeslot = require('../models/Timeslot');
 var Classroom = require('../models/Classroom');
+var Student = require('../models/Student');
+
 var Schema = mongoose.Schema;
 var CourseSchema = new mongoose.Schema({
-	  id:{type:String,unique:true}
+	  id:{type:String}
 	, name:{
 		type: String
 	}
@@ -25,6 +27,7 @@ var CourseSchema = new mongoose.Schema({
 		enum:['紫金港','玉泉','西溪','华家池','之江','舟山','海宁']
 	}
 	, exam:{type:Schema.Types.ObjectId, ref	:'exam'}
+	, _stulist:[{type:Schema.Types.ObjectId,ref:'Student'}]
 	// tid:String, // teacher's id
 },{toJSON:{virtuals:true},toObject:{virtuals:true}});
 
@@ -49,6 +52,24 @@ CourseSchema.virtual('classroom').get(function(){
     });
 	return resString;
 });
+
+CourseSchema.statics = {
+	fetchStu:function (cid,tid,cb) {
+		return this.find({cid:cid})
+			.populate('_teacher')
+			.find({_teacher:tid})
+			// .populate('_stulist')
+			.exec(function(err,res){
+				if (res != null){
+					res.populate('_stulist');
+                    cb(err,res);
+				}else {
+					cb("Can't find such list",null);
+				}
+			});
+    }
+};
+
 
 CourseSchema.pre('find',function(next){
 
