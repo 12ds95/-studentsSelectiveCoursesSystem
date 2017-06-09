@@ -87,7 +87,7 @@ router.post('/addData', function(req, res, next) {
     var teacherName = req.body['教师姓名'];
     var teacherDepartment = req.body['学院'];
     console.log(teacherID, teacherName, teacherDepartment);
-    res.json({'status':-1, 'errMsg':'其实没有错'});
+    res.json({'status':0, 'errMsg':'其实没有错'});
 });
 
 module.exports = router;

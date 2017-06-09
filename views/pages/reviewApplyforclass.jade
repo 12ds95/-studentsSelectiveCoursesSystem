@@ -40,13 +40,6 @@ block content
                     .row
                         label(for="classinfo",class="col-sm-offset-1 col-md-2 control-label") 课程简介：
                         p #{classinfo}
-                    .row
-                        label(for="fileupload",class="col-sm-offset-1 col-md-2 control-label") 文件下载：
-                        -var file=file1;
-                        -var fileurlCount=file.split('/').length;
-                        -var filename=file.split('/')[fileurlCount-1];
-                        p #{filename}
-                            button(type="submit",class="btn btn-primary btn-sm",) 下载
                     .btn-group.btn-group-sm(style="float:right")
                         button(type="submit",class="btn btn-default") 驳回申请
                         button(type="submit",class="btn btn-primary") 通过申请

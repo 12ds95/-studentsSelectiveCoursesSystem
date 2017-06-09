@@ -186,4 +186,13 @@ router.post('/teacher/pickStudents/delete', function(req, res, next) {
     console.log(data);
     res.json(data);
 });
+
+router.post('/applyforclass/upload', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1
+    };
+    console.log(data);
+    res.json(data);
+});
 module.exports = router;
