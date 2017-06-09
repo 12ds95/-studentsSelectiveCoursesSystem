@@ -21,6 +21,10 @@ block script
                 });
             });
             $("#select").click(function(){
+                $("#modal2").modal("show");
+            });
+            $("#select-s").click(function(){
+                $("#modal2").modal("hide");
                 var sList = new Array();
                 $('#listPending .list-group-item-info').each(function()
                 {
@@ -38,6 +42,11 @@ block script
                 });
             });
             $("#delete").click(function(){
+                $("#modal").modal("show");
+            });
+            $("#delete-s").click(function(){
+                //退选学生
+                $("#modal").modal("hide");
                 var sList = new Array();
                 $('#listReady .list-group-item-info').each(function()
                 {
@@ -194,14 +203,34 @@ block content
                             .col-md-6.column
                                 label(id="num1") 补选人数:#{studentsPending.length}
                                 .row(id="ulp")
-                                    ul.list-group.pre-scrollable(id='listPending')
+                                    ul.list-group.pre-scrollable(id='listPending',style="height:500px")
                                         each studentP in studentsPending
                                             a.list-group-item #{studentP.id}
                                 button(id="select",type="submit",class="btn btn-primary btn-sm btn-block") 选进当前课程
                             .col-md-6.column
                                 label(id="num2") 已选人数:#{studentsReady.length}
                                 .row(id="ulp2")
-                                    ul.list-group.pre-scrollable(id='listReady')
+                                    ul.list-group.pre-scrollable(id='listReady',style="height:500px")
                                         each studentR in studentsReady
                                             a.list-group-item #{studentR.id}
                                 button(id="delete",type="submit",class="btn btn-primary btn-sm btn-block") 退选当前课程
+    div(class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
+                    h4.modal-title 操作确认
+                .modal-body 确认退选这些学生？
+                .modal-footer
+                    button(type="button" class="btn btn-default" data-dismiss="modal") 取消
+                    button(id="delete-s",type="button" class="btn btn-primary") 确认
+    div(class="modal fade" id="modal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
+                    h4.modal-title 操作确认
+                .modal-body 确认为这些学生选课？
+                .modal-footer
+                    button(type="button" class="btn btn-default" data-dismiss="modal") 取消
+                    button(id="select-s",type="button" class="btn btn-primary") 确认
