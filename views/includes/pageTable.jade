@@ -54,6 +54,7 @@ script.
             var str = $(this).attr('id');
             var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
             var modifyData = {'ModifyItem':[], 'ModifyData':[]};
+
             for (var i=0; i<tableTitle.length; i++) {
                 modifyData['ModifyItem'].push(tableTitle[i]);
                 modifyData['ModifyData'].push(tableContent[itemNum][i]);

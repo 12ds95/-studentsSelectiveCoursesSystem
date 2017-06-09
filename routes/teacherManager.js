@@ -82,12 +82,68 @@ function getTeacherData(from, to) {     // 取[from,to]的数据
     return result;
 }
 
+router.post('/getData', function (req, res, next) {
+    var ID = req.body['工号'];
+    var name = req.body['姓名'];
+    var department = req.body['学院'];
+    // 以下是后端数据库的函数：查找教师
+    // 返回值：result包，包括该教师的所有信息
+    // result = addData(...)
+    // 以上
+    var jsonn = {};
+    jsonn['工号'] = result['id'];
+    jsonn['性别'] = result['ismale'] === true ? '男': '女';
+    jsonn['姓名'] = result['name'];
+    jsonn['学院'] = result['department'];
+    jsonn['手机号码'] = result['phone_number'];
+    jsonn['个人简介'] = result['info'];
+    res.json(jsonn);
+});
+
 router.post('/addData', function(req, res, next) {
-    var teacherID = req.body['教师工号'];
-    var teacherName = req.body['教师姓名'];
-    var teacherDepartment = req.body['学院'];
-    console.log(teacherID, teacherName, teacherDepartment);
-    res.json({'status':0, 'errMsg':'其实没有错'});
+    var ID = req.body['工号'];
+    var name = req.body['姓名'];
+    var render = req.body['性别'];
+    var department = req.body['学院'];
+    var phone = req.body['手机号码'];
+    var info = req.body['个人简介'];
+    // 以下是后端数据库的函数：添加教师
+    // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
+    // result = addData(...)
+    // 以上
+    var jsonn = {};
+    jsonn['status'] = result['status'];
+    jsonn['errMsg'] = result['errMsg'];
+    res.json(jsonn);
+});
+
+router.post('/modifyData', function(req, res, next) {
+    var ID = req.body['工号'];
+    var name = req.body['姓名'];
+    var render = req.body['性别'];
+    var department = req.body['学院'];
+    var phone = req.body['手机号码'];
+    var info = req.body['个人简介'];
+    // 以下是后端数据库的函数：修改教师信息
+    // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
+    // result = modifyData(...)
+    // 以上
+    var jsonn = {};
+    jsonn['status'] = result['status'];
+    jsonn['errMsg'] = result['errMsg'];
+    res.json(jsonn);
+});
+
+router.post('/deleteData', function(req, res, next) {
+    var ID = req.body['工号'];
+    // 以下是后端数据库的函数：修改教师信息
+    // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
+    // result = modifyData(...)
+    // 以上
+    var jsonn = {};
+    jsonn['status'] = result['status'];
+    jsonn['errMsg'] = result['errMsg'];
+    res.json(jsonn);
 });
 
 module.exports = router;
