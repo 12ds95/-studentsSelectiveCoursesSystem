@@ -1,5 +1,9 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+var   bcrypt = require('bcrypt')
+    , Student = require('../models/Student')
+    , Teacher = require('../models/Teacher')
+;
+
 var SALT_WORK_FACTOR = 10;
 var UserSchema = new mongoose.Schema({
     name:{
@@ -21,6 +25,7 @@ UserSchema.methods = {
             cb(null,isMatch)
         })
     }
+
 };
 
 UserSchema.pre('save',function(next){
@@ -51,6 +56,25 @@ UserSchema.statics = {
         return this
             .findOne({name:name})
             .exec(cb)
+    },
+    getUserType: function(uname,cb){
+        Teacher.find({uname:uname},function (err,res) {
+            if (err) { console.log(err);}
+            if (!res){
+                // The current user is not a teacher
+                Student.find({uname:uname},function (err, res) {
+                    if (err) { console.log(err);}
+                    if (!res){
+                        // The current user is not a student too!!!
+                        return res.redirect('/');
+                    }else{
+                        cb(null,2)
+                    }
+                })
+            }else{
+                cb(null,1); // teacher type
+            }
+        })
     }
 };
 module.exports = UserSchema;
