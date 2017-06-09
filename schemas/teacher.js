@@ -8,7 +8,7 @@ var TeacherSchema = new mongoose.Schema({
 		unique: true
 	},
 	id:{type: String, unique:true},
-	department:{type:mongoose.Schema.Types.ObjectId, ref:'Department'}
+	department:{type:mongoose.Schema.Types.ObjectId, ref:'Department'},
 	phone_number: String,
 	info: String
 });
