@@ -32,24 +32,18 @@ script.
     ];
 
     var activePage = 1;
+    var type;
 
-    function refreshCourse(URL, pageNum) {
+    function refreshCourse(URL, pageNum, type0) {
         $.post(URL, {'pageNum': pageNum}, function (data) {
             activePage = pageNum;
+            type = type0;
             drawCoursePanelHeading();
             drawCoursePanelBody(data['Content']);
-            initButtons();
+            initButtons(data['Content']);
             drawPage(data['pageTotal']);
             initPage(URL);
         });
-    }
-
-    function initCourse(coursePanelHeadingID, coursePanelBodyID, courseItemList) {
-        drawCoursePanelHeading();
-        drawCoursePanelBody(courseItemList);
-        initButtons();
-        drawPage(5);
-        initPage();
     }
 
     function drawCoursePanelHeading() {
@@ -172,7 +166,7 @@ script.
             }
             bodyHTML += '' +
                 '       <div class="col-md-1">' +
-                '           <button class="btn btn-primary courseSelectButton" id="courseSelectButton_' + i + '_' + j + '" type="button">选课</button>' +
+                '           <button class="btn btn-primary courseButton" id="courseButton_' + i + '_' + k + '" type="button">'+type+'</button>' +
                 '       </div>' +
                 '   </div>';
         }
@@ -193,7 +187,7 @@ script.
         return bodyHTML;
     }
 
-    function initButtons() {
+    function initButtons(courseItemList) {
         $('.courseDetailBlock').hide();
 
         // 导航栏选课
@@ -218,10 +212,11 @@ script.
 
         // 展开
         $('.collapseSwitcher').click(function () {
-            console.log($(this).text());
             if ($(this).text() === '展开') $(this).text('合拢');
             else $(this).text('展开');
-        })
+        });
+
+        initCourseButton(courseItemList);
     }
 
     function drawPage(pageTotalNum) {
@@ -243,16 +238,26 @@ script.
         $('.page').click(function () {
             var str = $(this).attr('id');
             var pageNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
-            refreshCourse(URL, pageNum);
+            refreshCourse(URL, pageNum, type);
         });
         $('#page_prev').click(function () {
             if ($(this).parent().attr('class') !== 'disabled') {
-                refreshCourse(URL, activePage - 1);
+                refreshCourse(URL, activePage - 1, type);
             }
         });
         $('#page_next').click(function () {
             if ($(this).parent().attr('class') !== 'disabled') {
-                refreshCourse(URL, activePage + 1);
+                refreshCourse(URL, activePage + 1, type);
             }
         });
     }
+
+
+.row
+    .col-md-12
+        .panel.panel-primary
+            .panel-heading
+                .row(style='margin-left:10px; margin-right:10px;')
+                    .col-md-12#coursePanelHeading
+            .panel-body#coursePanelBody
+.row#pageContainer(align='center')

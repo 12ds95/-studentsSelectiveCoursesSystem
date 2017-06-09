@@ -23,8 +23,8 @@ router.get('/', function(req, res, next) {
         '止于',
         '并非停止于'
     ];
-    res.render('select',{
-        title: '选课页',
+    res.render('reselect',{
+        title: '补选页',
         filterNameData: filterNameData,
         filterOpData: filterOpData
     });
@@ -92,5 +92,15 @@ function getTeacherData(from, to) {     // 取[from,to]的数据
     }
 }
 
+
+router.post('/submit', function(req, res, next) {
+    var courseName = req.body['课程名称'];
+    var courseTime = req.body['上课时间'];
+    var coursePlace = req.body['上课地点'];
+    var phoneNum = req.body['手机号码'];
+    var reselectReason = req.body['补选理由'];
+    console.log(courseName, courseTime, coursePlace, phoneNum, reselectReason);
+    res.json({'status':0, 'errMsg':'其实没有错'});
+});
 
 module.exports = router;

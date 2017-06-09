@@ -3,18 +3,19 @@ extends ../layout_main
 block content
 
     script.
-        function init(filterNameDefault, filterOpDefault, courseItemList) {
-            // 初始化
-            courseItemList = JSON.parse(courseItemList);
+        function init(filterNameDefault, filterOpDefault) {
             initSelector(filterNameDefault, filterOpDefault);
-            refreshCourse('select/courseData', 1);
+            refreshCourse('select/courseData', 1, '选课');
+        }
+
+        function initCourseButton(courseItemList) {
+            alert('123');
         }
 
 
     - var filterNameDefault = filterNameData[0]
     - var filterOpDefault = filterOpData[0];
-    - var courseList = JSON.stringify(courseItemList);
-    body(onload="init('#{filterNameDefault}','#{filterOpDefault}','#{courseList}')")
+    body(onload="init('#{filterNameDefault}','#{filterOpDefault}')")
 
     // 筛选部分
     .row(style="margin-top:10px; margin-bottom:10px")
@@ -23,11 +24,4 @@ block content
 
     // 列表部分
     .row
-        .col-md-12
-            .panel.panel-primary
-                include ../includes/pageCourse
-                .panel-heading
-                    .row(style='margin-left:10px; margin-right:10px;')
-                        .col-md-12#coursePanelHeading
-                .panel-body#coursePanelBody
-    .row#pageContainer(align='center')
+        include ../includes/pageCourse

@@ -57,6 +57,7 @@ script.
             for (var i=0; i<tableTitle.length; i++) {
                 modifyData['ModifyItem'].push(tableTitle[i]);
                 modifyData['ModifyData'].push(tableContent[itemNum][i]);
+                modifyData['ModifyDisabled'].push('');
             }
             showModifyModal(modifyData);
         })
