@@ -28,10 +28,10 @@ NewsSchema.pre('save',function(next){
 
 NewsSchema.statics ={
 	fetch: function(cb){
-		return this;
-			.find({});
-			.sort('updateAt');
-			.exec(cb);
+		return this
+			.find({})
+			.sort('updateAt')
+			.exec(cb)
 	}
 };
 

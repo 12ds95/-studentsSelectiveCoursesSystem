@@ -8,60 +8,36 @@ script.
     function refreshTable(URL, pageNum) {
         $.post(URL, {'pageNum': pageNum}, function (data) {
             activePage = pageNum;
-            paintTable(data['Title'], data['Content']);
-            initTable(URL, data['Title'], data['Content']);
+            paintTable(data['Title'], data['Head'], data['Content']);
             paintPage(data['pageTotal']);
+            initTable(URL, data['Title'], data['Content']);
             initPage(URL);    // 给刚绘制的分页添加属性
         });
     }
 
     // 给定表头, 表格内容, 绘制表格
-    function paintTable(tableTitle, tableContent) {
+    function paintTable(tableTitle, tableHead, tableContent) {
         // 表格标题
         var tableTitleHTML = '';
         for (var i = 0; i < tableTitle.length; i++) {
             tableTitleHTML += '<th style="text-align:center">' + tableTitle[i] + '</th>';
         }
-        tableTitleHTML += '' +
-            '<th style="text-align:center">' +
-            '   <a id="addTableItem" style="cursor:pointer">添加</a>' +
-            '</th>';
-        // 表格内容
         var tableContentHTML = '';
         for (var i = 0; i < tableContent.length; i++) {
             tableContentHTML += '<tr>';
-            for (var j = 0; j < tableContent[i].length; j++)
-                tableContentHTML += '<th style="text-align:center">' + tableContent[i][j] + '</th>';
-            tableContentHTML += '' +
-                '<th style="text-align:center">' +
-                '   <p>' +
-                '       <a id="modifyTableItem_'+i+'" class="modifyTableItem" style="cursor:pointer">修改</a>' +
-                '       /' +
-                '       <a style="cursor:pointer">删除</a>' +
-                '   </p>' +
-                '</th>';
+            for (var j = 0; j < tableHead.length - 1; j++) {
+                if (j === 0) {
+                    tableContentHTML += '<th style="text-align:center">'
+                        + '<a id="showContent_'+i+'" class = "showContent" style="cursor:pointer">'
+                        + tableContent[i][tableHead[j]] + '</a>'
+                        + '</th>';
+                } else {
+                    tableContentHTML += '<th style="text-align:center">' + tableContent[i][tableHead[j]] + '</th>';
+                }
+            }
             tableContentHTML += '</tr>';
         }
         $('#pagedTableContainer').empty().append('<table class="table">' + tableTitleHTML + tableContentHTML + '</table>');
-    }
-
-    // 给表格按钮(添加/删除/修改)赋予属性
-    function initTable(URL,tableTitle, tableContent) {
-        $('#addTableItem').click(function () {
-            showAddModal();
-        });
-        $('.modifyTableItem').click(function () {
-            var str = $(this).attr('id');
-            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
-            var modifyData = {'ModifyItem':[], 'ModifyData':[]};
-
-            for (var i=0; i<tableTitle.length; i++) {
-                modifyData['ModifyItem'].push(tableTitle[i]);
-                modifyData['ModifyData'].push(tableContent[itemNum][i]);
-                modifyData['ModifyDisabled'].push('');
-            }
-            showModifyModal(modifyData);
-        })
     }
 
     // 给定总页面, 当前页面, 绘制分页
@@ -78,6 +54,46 @@ script.
         pageHTML += '</ul>';
         $('#pageContainer').empty().append(pageHTML);
     }
+
+    // 给表格按钮(添加/删除/修改)赋予属性
+    function initTable(URL, tableTitle, tableContent) {
+        $('.showContent').click(function () {
+            var str = $(this).attr('id');
+            var idx = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            showContentModal(tableContent[idx]['title'], tableContent[idx]['content']);
+        });
+    }
+
+    function showContentModal(title, content) {
+        showModal('#placeForModal', title, content);
+    }
+
+    function showModal(modalID, title, content) {
+        var modalHTML =
+        '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"'
+        + '     aria-hidden="true">'
+        + '   <div class="modal-dialog">'
+        + '       <div class="modal-content">'
+        + '           <div class="modal-header">'
+        + '                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'
+        + '                <h4 class="modal-title" id="myModalLabel"> ' + title + '</h4>'
+        + '            </div>'
+        + '            <div class="modal-body">' + content + '</div>'
+        + '           <div class="modal-footer">'
+        + '               <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>'
+        + '           </div>'
+        + '       </div>'
+        + '       <!-- /.modal-content -->'
+        + '   </div>'
+        + '   <!-- /.modal -->'
+        + ' </div>';
+        $(modalID).empty().append(modalHTML);
+        $('#myModal').modal('show');
+        $('#myModal').click(function () {
+
+        })
+    }
+
 
     // 给分页赋予属性
     function initPage(URL) {
@@ -97,6 +113,6 @@ script.
             }
         });
     }
-
 .row#pagedTableContainer
 .row#pageContainer(align='center')
+#placeForModal

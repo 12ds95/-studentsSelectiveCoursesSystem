@@ -327,8 +327,12 @@ block content
                                                 a(href="#") #{course.name}
                                             td #{course.type}
                                             td #{course.credit}
-                                            td #{course.time}
-                                            td #{course.classroom}
+                                            - var str=course.time;
+                                            - strs=str.split(" ");
+                                            td #{strs[0]}<br>#{strs[1]}
+                                            - var classroom=course.classroom;
+                                            - classrooms=classroom.split(" ");
+                                            td #{classrooms[0]}<br>#{classrooms[1]}
                                             td #{course.semester}
                 div(class="tab-pane fade" id="table")
                     div(style="padding-top:20px")

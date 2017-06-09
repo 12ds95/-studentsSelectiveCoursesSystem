@@ -17,9 +17,12 @@ var studentManager = require('./studentManager');
 var noticeManager = require('./noticeManager');
 var captcha = require('./captcha');
 var byselection = require('./byselection');
+var reselect = require('./reselect');
 
 module.exports = function(app) {
     //user session
+    app.locals.titles = ["膜拜各位大神", "最佳第六人评选"];
+
     app.use(function (req, res, next) {
          next();
     });
@@ -35,17 +38,12 @@ module.exports = function(app) {
     app.use('/changepw',changepw);
     app.use('/personalinfo',personalinfo);
     app.use('/teacherManager',teacherManager);
-    app.post('/teacherManager/tableData', teacherManager);
-    app.post('/teacherManager/addData', teacherManager);
     app.use('/studentManager', studentManager);
-    app.post('/studentManager/tableData', studentManager);
-    app.post('/studentManager/addData', studentManager);
     app.use('/noticeManager', noticeManager);
-    app.post('/noticeManager/tableData', noticeManager);
-    app.post('/noticeManager/addData', noticeManager);
     app.use('/captcha',captcha);
     app.use('/byselection',byselection);
     app.use('/applyforclass',applyforclass);
+    app.use('/reselect',reselect);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

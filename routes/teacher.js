@@ -33,7 +33,7 @@ router.get('/pickStudents', function(req, res, next) {
 });
 
 router.post('/teacher/pickStudents/select', function(req, res, next) {
-    console.log(req);
+    console.log(req.body);
     var data={
         status: 1,
         studentsPending:[
@@ -67,12 +67,12 @@ router.post('/teacher/pickStudents/select', function(req, res, next) {
             id:'3232220002',
             credits:'51'
         }]};
-        console.log(data);
+    console.log(data);
     res.json(data);
 });
 
 router.post('/teacher/pickStudents/delete', function(req, res, next) {
-    console.log(req);
+    console.log(req.body);
     var data={
         status: 1,
         studentsReady:[
@@ -106,7 +106,16 @@ router.post('/teacher/pickStudents/delete', function(req, res, next) {
             id:'3232220002',
             credits:'51'
         }]};
-        console.log(data);
+    console.log(data);
+    res.json(data);
+});
+
+router.post('/applyforclass/upload', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1
+    };
+    console.log(data);
     res.json(data);
 });
 module.exports = router;

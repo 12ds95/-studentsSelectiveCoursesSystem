@@ -15,22 +15,27 @@ block rightContent
                 'Title': '学生信息添加表',
                 'ContentItem': ['学生学号', '学生姓名', '学院'],
                 'ContentData': ['', '', ''],
+                'ContentDisabled': ['', '', ''],
                 'SuccessMsg': '添加成功',
                 'ErrorMsg': '添加失败'
             };
             var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'studentManager/tableData');
+            showModal(modalID, modalData, 'studentManager/addData');
         }
         function showModifyModal(modifyData) {
             var modalData = {
                 'Title': '学生信息修改表',
                 'ContentItem': modifyData['ModifyItem'],
                 'ContentData': modifyData['ModifyData'],
+                'ContentDisabled': modifyData['ModifyDisabled'],
                 'SuccessMsg': '修改成功',
                 'ErrorMsg': '修改失败'
             }
             var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'studentManager/tableData');
+            showModal(modalID, modalData, 'studentManager/modifyData');
+        }
+        function afterModalSubmitSuccess() {
+            refreshTable('studentManager/tableData', 1);
         }
 
     - var filterNameDefault = filterNameData[0]
