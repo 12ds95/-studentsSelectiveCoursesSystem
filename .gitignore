@@ -1,3 +1,7 @@
-\.idea/
-.idea/workspace.xml
+
+.idea/
+test/
+node_modules
+
 mongoose.js
+.gitignore

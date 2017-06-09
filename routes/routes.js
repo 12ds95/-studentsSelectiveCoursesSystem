@@ -2,19 +2,21 @@
  * Created by CaiXin on 2017/5/23.
  */
 var index = require('./index');
-var users = require('./users');
-var login = require('./login');
+// var users = require('./users');
+// var login = require('./login');
 var admin = require('./admin');
-
-var curriculum = require('./curriculum')
+var applyforclass = require('./applyforclass');
+var curriculum = require('./curriculum');
 var student = require('./student');
 var select = require('./select');
-var applyforclass = require('./applyforclass');
+var teacher = require('./teacher');
 var changepw = require('./changepw');
 var personalinfo = require('./personalinfo');
 var teacherManager = require('./teacherManager');
 var studentManager = require('./studentManager');
 var noticeManager = require('./noticeManager');
+var captcha = require('./captcha');
+var byselection = require('./byselection');
 
 module.exports = function(app) {
     //user session
@@ -23,13 +25,13 @@ module.exports = function(app) {
     });
 
     app.use('/', index);
-    app.use('/users', users);
-    app.use('/login', login);
+    // app.use('/users', users);
+    // app.use('/login', login);
     app.use('/admin', admin);
     app.use('/curriculum', curriculum)
     app.use('/student', student);
     app.use('/select', select);
-    app.use('/applyforclass',applyforclass);
+    app.use('/teacher',teacher);
     app.use('/changepw',changepw);
     app.use('/personalinfo',personalinfo);
     app.use('/teacherManager',teacherManager);
@@ -41,6 +43,9 @@ module.exports = function(app) {
     app.use('/noticeManager', noticeManager);
     app.post('/noticeManager/tableData', noticeManager);
     app.post('/noticeManager/addData', noticeManager);
+    app.use('/captcha',captcha);
+    app.use('/byselection',byselection);
+    app.use('/applyforclass',applyforclass);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
