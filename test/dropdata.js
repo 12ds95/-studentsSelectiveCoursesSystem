@@ -5,6 +5,8 @@ var Course = require('../models/Course');
 var Classroom = require('../models/Classroom');
 var mongoose = require('mongoose');
 var Teacher = require('../models/Teacher')
+var PreCourse = require('../models/PreCourse')
+var Department = require('../models/Department')
 mongoose.connect('mongodb://localhost/test')
 mongoose.Promise = global.Promise;
 
@@ -26,4 +28,12 @@ Classroom.collection.drop(function(err,res){
 Teacher.collection.drop(function(err, res){
 	if(err){console.log(err);}
 	console.log('Drop Classroom success!');
+});
+PreCourse.collection.drop(function(err, res){
+    if(err){console.log(err);}
+    console.log('Drop PreCourse success!');
+});
+Department.collection.drop(function(err, res){
+    if(err){console.log(err);}
+    console.log('Drop Department success!');
 });

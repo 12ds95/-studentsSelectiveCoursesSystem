@@ -5,7 +5,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User.js');
-
+var PreCourse = require('../models/PreCourse');
 
 
 
@@ -22,21 +22,8 @@ router.get('/userlist',function(req,res){
     });
 });
 router.get('/reviewClasses',function(req,res){
-    res.render('reviewClasses',{
-        classList:[
-            {
-                courseName: '当代中国经济',
-                userName: '徐晓红',
-                department: '经济学院',
-                date: '2017/5/17'
-            },
-            {
-                courseName: '当代中国经济2',
-                userName: '徐晓红',
-                department: '经济学院',
-                date: '2017/5/17'
-            }
-        ]
+    PreCourse.getAll(0, function(err, courselist){
+        res.render('reviewClasses', {classList:courselist});
     })
 });
 router.get('/reviewApplyforclass',function(req,res){
