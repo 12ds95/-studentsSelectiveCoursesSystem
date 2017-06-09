@@ -37,7 +37,7 @@ StudentSchema.statics = {
 					 .exec(function(err,res){
 					 	cb(err,res);
 					 });
-	}
+	},
 
 	getStudentList:function(cb){
 		return Student.find({})
@@ -48,7 +48,7 @@ StudentSchema.statics = {
 					  	cb(err,res);
 					  });
 	}
-}
+};
 
 
 module.exports = StudentSchema;

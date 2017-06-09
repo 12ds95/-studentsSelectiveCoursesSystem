@@ -1,9 +1,13 @@
 var express = require('express');
 var router = express.Router();
-
+var Teacher = require('../models/Teacher');
+var TeacherSchema =
 /* GET home page. */
 router.get('/', function(req, res, next) {
     // 左侧固定参数
+    Teacher.getTeacherList(function (err, res) {
+        console.log(res);
+    });
     var leftTitle = '信息与动态';
     var leftImage = 'images/people_default.png';
     var leftText = {
@@ -42,6 +46,7 @@ router.post('/tableData', function(req, res, next) {
 });
 function getTeacherData(from, to) {     // 取[from,to]的数据
     var result;
+
     if (from === 1) {
         result = {
             'Title': ['工号','姓名','学院'],

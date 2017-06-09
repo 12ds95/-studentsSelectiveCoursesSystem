@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-
+var   mongoose = require('mongoose')
+	;
 var TeacherSchema = new mongoose.Schema({
 	name:String,
 	ismale:Boolean,
@@ -17,11 +17,11 @@ TeacherSchema.virtual('department').get(function(){
 	// var resstring = "";
 	// 直接返回系的名字
 	return this._department.dept_name;
-})
+});
 
 TeacherSchema.statics = {
 	getTeacherList: function(cb){
-		return Teacher.find({})
+		return this.find({})
 					  .populate({path:'_department',select:'-_id'})
 					  .sort('id')
 					  .exec(function(err,res){
@@ -29,7 +29,7 @@ TeacherSchema.statics = {
 					  });
 
 	}			
-}
+};
 
 
 module.exports = TeacherSchema;
