@@ -24,7 +24,7 @@ var StudentSchema = new mongoose.Schema({
 	} //用于记录学生的用户名，内容唯一
 },{toJSON:{virtuals:true}});
 
-StudentSchema.virtuals('department').get(function(){
+StudentSchema.virtual('department').get(function(){
 	return this._department.dept_name;
 });
 
@@ -42,7 +42,7 @@ StudentSchema.statics = {
 	getStudentList:function(cb){
 		return Student.find({})
 					  .populate({path:'_department',select:'-_id'})
-					  .sort(id)
+					  .sort('id')
 					  .select('id name _department')
 					  .exec(function(err,res){
 					  	cb(err,res);
