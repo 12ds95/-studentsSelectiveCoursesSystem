@@ -3,46 +3,18 @@ extends ../layout_main
 block content
 
     script.
-        var classNum;
-
-        function init(num, filterNameDefault, filterOpDefault) {
+        function init(filterNameDefault, filterOpDefault, courseItemList) {
             // 初始化
-            initSelector(filterNameDefault, filterOpDefault)
-            classNum = num;
-            $('.classDetailBlock').hide();
-
-            // 导航栏选课
-            $('.classSelectNav').click(function () {
-                var str = $(this).attr('id');
-                var num = parseInt(str.substring(str.indexOf('_')+1, str.length));
-                $(this).attr('class', 'active');
-                $('#classDetailNav_'+num).removeClass('active');
-                $('#classSelectBlock_'+num).show();
-                $('#classDetailBlock_'+num).hide();
-            });
-
-            // 导航栏课程信息
-            $('.classDetailNav').click(function () {
-                var str = $(this).attr('id');
-                var num = parseInt(str.substring(str.indexOf('_') + 1, str.length));
-                $(this).attr('class', 'active');
-                $('#classSelectNav_'+num).removeClass('active');
-                $('#classSelectBlock_' + num).hide();
-                $('#classDetailBlock_' + num).show();
-            });
-
-            // 展开
-            $('.collapseSwitcher').click(function () {
-                if ($(this).text() == '展开') $(this).text('合拢');
-                else $(this).text('展开');
-            })
+            courseItemList = JSON.parse(courseItemList);
+            initSelector(filterNameDefault, filterOpDefault);
+            refreshCourse('select/courseData', 1);
         }
 
 
-    - var classNum = classList.length;
     - var filterNameDefault = filterNameData[0]
     - var filterOpDefault = filterOpData[0];
-    body(onload='init("#{classNum}","#{filterNameDefault}","#{filterOpDefault}")')
+    - var courseList = JSON.stringify(courseItemList);
+    body(onload="init('#{filterNameDefault}','#{filterOpDefault}','#{courseList}')")
 
     // 筛选部分
     .row(style="margin-top:10px; margin-bottom:10px")
@@ -53,102 +25,9 @@ block content
     .row
         .col-md-12
             .panel.panel-primary
+                include ../includes/pageCourse
                 .panel-heading
                     .row(style='margin-left:10px; margin-right:10px;')
-                        .col-md-12
-                            mixin panelTitle(title)
-                                .col-md-1
-                                    h3.panel-title(style='text-align:center')= title
-                            +panelTitle('课程代码')
-                            +panelTitle('课程名称')
-                            +panelTitle('课程类别')
-                            +panelTitle('学分')
-                            +panelTitle('学期')
-                .panel-body
-                    each class0, index in classList
-                        +classItem(class0['课程代码'], class0['课程名称'], class0['课程网址'], class0['课程类别'], class0['学分'], class0['学期'], class0['详情'], class0['课程信息'], index)
-
-
-
-// 课程部分
-//- mixin classItem, classAttr, classSelectItem, classSelectAttr
-//- id class_i, classBlock_i, classSelectNav_i, classDetailNav_i, classSelectBlock_i, classDetailBlock_i, classSelectButton_i_j
-//- class classSelectNav, classDetailNav, classSelectBlock, classDetailBlock, classSelectButton, collapseSwitcher
-mixin classItem(classCode, classTitle, classWeb, classType, credit, semester, detailList, classDetail, classIndex)
-
-    // 总课程项
-    .panel.panel-default
-        .panel-heading
-            .row(id='class_'+classIndex,)
-                mixin classAttr(str, type, others)
-                    .col-md-1
-                        if type == 'String'
-                            p(style='font-size:15px; text-align:center')= str
-                        else if type == 'StringLink'
-                            a(style='font-size:15px; text-align:center' href=others)= str
-                        else
-                            p(style='font-size:15px; text-align:center') Error
-                +classAttr(classCode, 'String', '')
-                +classAttr(classTitle, 'StringLink', classWeb)
-                +classAttr(classType, 'String', '')
-                +classAttr(credit, 'String', '')
-                +classAttr(semester, 'String', '')
-                .col-md-1.col-md-push-6
-                    a.collapseSwitcher(data-toggle='collapse', href='#classBlock_'+classIndex) 展开
-        .panel-collapse.collapse(id='classBlock_'+classIndex)
-            .panel-body
-                // 具体课程框
-                .row(style='margin-left:10px; margin-right:10px')
-                    .col-md-12
-                        // 导航栏
-                        .row
-                            nav.navbar.navbar-default(role='navigation', style='height=30px')
-                                ul.nav.navbar-nav
-                                    li.classSelectNav.active(id='classSelectNav_'+classIndex): a(style='cursor:pointer') 选课
-                                    li.classDetailNav(id='classDetailNav_'+classIndex): a(style='cursor:pointer') 课程信息
-                        // 具体选课项
-                        .row.classSelectBlock(id='classSelectBlock_'+classIndex)
-                            mixin classSelectItem(classCode1, classTitle1, classWeb1, classType1, teacherName1, credit1, classTime1, classPlace1, semester1, classIndex1, detailIndex1)
-                                .row(style='margin-left:10px; margin-right:10px;')
-                                    mixin classSelectAttr(str, type, others)
-                                        .col-md-1(style='')
-                                            if type == 'String'
-                                                p(style='font-size:13px;')= str
-                                            else if type == 'StringLink'
-                                                a(style='font-size:13px;', href=others)= str
-                                            else if type == 'Button'
-                                                button.btn.btn-primary.classSelectButton(id='classSelectButton_'+classIndex1+'_'+detailIndex1, type="button") 选课
-                                            else
-                                                p(style='font-size:13px') Error
-                                    +classSelectAttr(classCode1, 'String', '')
-                                    +classSelectAttr(classTitle1, 'StringLink', classWeb1)
-                                    +classSelectAttr(classType1, 'String', '')
-                                    +classSelectAttr(teacherName1, 'String', '')
-                                    +classSelectAttr(credit1,     'String', '')
-                                    +classSelectAttr(classTime1, 'String', '')
-                                    +classSelectAttr(classPlace1, 'String', '')
-                                    +classSelectAttr(semester1,     'String', '')
-                                    +classSelectAttr('',         'Button', '')
-                            each detail, detailIndex in detailList
-                                +classSelectItem(classCode, classTitle, classWeb, classType, detail['教师名称'], credit, detail['上课时间'], detail['上课地点'], semester, classIndex, detailIndex)
-                        .row.classDetailBlock(id='classDetailBlock_'+classIndex)
-                            mixin classDetailItem(classCode2, classEnglishTitle2, classDepartment2, credit2, classHour2, classWeight2, classBelong2, classPrerequisite2, classDescription2, classSyllabus2)
-                                mixin classDetailAttr(str1, str2)
-                                    .row
-                                        .col-md-2
-                                            p(style='font-size:13px; margin-left:10px;')= str1
-                                        .col-md-10
-                                            p(style='font-size:13px')= str2
-                                +classDetailAttr('课程代码：', classCode2)
-                                +classDetailAttr('课程英文名称：', classEnglishTitle2)
-                                +classDetailAttr('开课学院：', classDepartment2)
-                                +classDetailAttr('学分：', credit2)
-                                +classDetailAttr('周学时：', classHour2)
-                                +classDetailAttr('权重系数：', classWeight2)
-                                +classDetailAttr('课程归属：', classBelong2)
-                                +classDetailAttr('预修要求：', classPrerequisite2)
-                                +classDetailAttr('课程简介：', classDescription2)
-                                +classDetailAttr('教学大纲：', classSyllabus2)
-                            +classDetailItem(classCode, classDetail['课程英文名称'], classDetail['开课学院'], credit, classDetail['周学时'], classDetail['权重系数'], classDetail['课程归属'], classDetail['预修要求'], classDetail['课程简介'], classDetail['教学大纲'])
-
-
+                        .col-md-12#coursePanelHeading
+                .panel-body#coursePanelBody
+    .row#pageContainer(align='center')
