@@ -24,6 +24,10 @@ var StudentSchema = new mongoose.Schema({
 	} //用于记录学生的用户名，内容唯一
 },{toJSON:{virtuals:true}});
 
+StudentSchema.virtuals('department').get(function(){
+	return this._department.dept_name;
+});
+
 StudentSchema.statics = {
 	getSchedule: function(sid,cb){
 		// 由于暂时没有添加学生的信息，因此先把所有的课程显示出来
@@ -33,6 +37,16 @@ StudentSchema.statics = {
 					 .exec(function(err,res){
 					 	cb(err,res);
 					 });
+	}
+
+	getStudentList:function(cb){
+		return Student.find({})
+					  .populate({path:'_department',select:'-_id'})
+					  .sort(id)
+					  .select('id name _department')
+					  .exec(function(err,res){
+					  	cb(err,res);
+					  });
 	}
 }
 
