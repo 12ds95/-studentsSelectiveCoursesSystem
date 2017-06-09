@@ -23,66 +23,125 @@ router.get('/', function(req, res, next) {
         '止于',
         '并非停止于'
     ];
-    var classList = [{
-        '课程代码': '0xcccc',
-        '课程名称': 'Hello World',
-        '课程网址': 'http://www.baidu.com/',
-        '课程类别': 'CS',
-        '学分': '12.0',
-        '学期': '春夏秋冬',
-        '详情': [{
-            '教师名称': '程序猿',
-            '上课时间': '周一',
-            '上课地点': '世界一流大学'
+    var courseItemList = [{
+        'courseCode': '0xcccc',
+        'courseName': 'Hello World',
+        'courseWeb': 'http://www.baidu.com/',
+        'courseType': 'CS',
+        'courseCredit': '12.0',
+        'courseSemester': '春夏秋冬',
+        'courseEnglish': 'English Name',
+        'courseDepartment': 'Course Department',
+        'courseHour': '3.0-2.0',
+        'courseWeight': '1.0',
+        'courseBelong': '布吉岛',
+        'coursePrerequisite': '无',
+        'courseDescription': '不存在的',
+        'courseSyllabus': '无',
+        'courseDetail': [{
+            'courseTeacher': '程序猿',
+            'courseTime': '周一',
+            'coursePlace': '世界一流大学'
         },{
-            '教师名称': '程序媛',
-            '上课时间': '周二',
-            '上课地点': '三本大学'
-        }],
-        '课程信息': {
-            '课程英文名称': 'English Name',
-            '开课学院': 'Course Department',
-            '周学时': '3.0-2.0',
-            '权重系数': '1.0',
-            '课程归属': '布吉岛',
-            '预修要求': '无',
-            '课程简介': '不存在的',
-            '教学大纲': '无'
-        }
+            'courseTeacher': '程序媛',
+            'courseTime': '周二',
+            'coursePlace': '三本大学'
+        }]
     },{
-        '课程代码': '烫烫烫烫',
-        '课程名称': '錕斤洘哴',
-        '课程网址': 'http://www.cc98.org/',
-        '课程类别': 'bug',
-        '学分': '0.0',
-        '学期': '夏冬春秋',
-        '详情': [{
-            '教师名称': '虫子',
-            '上课时间': '周三',
-            '上课地点': '虫洞'
+        'courseCode': '烫烫烫烫',
+        'courseName': '錕斤洘哴',
+        'courseWeb': 'http://www.cc98.org/',
+        'courseType': 'bug',
+        'courseCredit': '0.0',
+        'courseSemester': '夏冬春秋',
+        'courseEnglish': 'English Name',
+        'courseDepartment': 'Course Department',
+        'courseHour': '3.0-2.0',
+        'courseWeight': '1.0',
+        'courseBelong': '布吉岛',
+        'coursePrerequisite': '无',
+        'courseDescription': '不存在的',
+        'courseSyllabus': '无',
+        'courseDetail': [{
+            'courseTeacher': '虫子',
+            'courseTime': '周三',
+            'coursePlace': '虫洞'
         },{
-            '教师名称': '蛤蛤',
-            '上课时间': '周四',
-            '上课地点': '上海交通大学'
-        }],
-        '课程信息': {
-            '课程英文名称': 'English Name',
-            '开课学院': 'Course Department',
-            '周学时': '3.0-2.0',
-            '权重系数': '1.0',
-            '课程归属': '布吉岛',
-            '预修要求': '无',
-            '课程简介': '不存在的',
-            '教学大纲': '无'
-        }
+            'courseTeacher': '蛤蛤',
+            'courseTime': '周四',
+            'coursePlace': '上海交通大学'
+        }]
     }
     ];
     res.render('select',{
         title: '选课页',
         filterNameData: filterNameData,
         filterOpData: filterOpData,
-        classList: classList
+        courseItemList: courseItemList
     });
 });
+
+
+router.post('/courseData', function(req, res, next) {
+    var pageNum = req.body['pageNum'];
+    var itemPerPage = 20;
+    var result = getTeacherData((pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
+    res.json(result);
+});
+function getTeacherData(from, to) {     // 取[from,to]的数据
+    return {
+        Content: [{
+            'courseCode': from,
+            'courseName': 'Hello World',
+            'courseWeb': 'http://www.baidu.com/',
+            'courseType': 'CS',
+            'courseCredit': '12.0',
+            'courseSemester': '春夏秋冬',
+            'courseEnglish': 'English Name',
+            'courseDepartment': 'Course Department',
+            'courseHour': '3.0-2.0',
+            'courseWeight': '1.0',
+            'courseBelong': '布吉岛',
+            'coursePrerequisite': '无',
+            'courseDescription': '不存在的',
+            'courseSyllabus': '无',
+            'courseDetail': [{
+                'courseTeacher': '程序猿',
+                'courseTime': '周一',
+                'coursePlace': '世界一流大学'
+            }, {
+                'courseTeacher': '程序媛',
+                'courseTime': '周二',
+                'coursePlace': '三本大学'
+            }]
+        },{
+            'courseCode': '烫烫烫烫',
+            'courseName': '錕斤洘哴',
+            'courseWeb': 'http://www.cc98.org/',
+            'courseType': 'bug',
+            'courseCredit': '0.0',
+            'courseSemester': '夏冬春秋',
+            'courseEnglish': 'English Name',
+            'courseDepartment': 'Course Department',
+            'courseHour': '3.0-2.0',
+            'courseWeight': '1.0',
+            'courseBelong': '布吉岛',
+            'coursePrerequisite': '无',
+            'courseDescription': '不存在的',
+            'courseSyllabus': '无',
+            'courseDetail': [{
+                'courseTeacher': '虫子',
+                'courseTime': '周三',
+                'coursePlace': '虫洞'
+            },{
+                'courseTeacher': '蛤蛤',
+                'courseTime': '周四',
+                'coursePlace': '上海交通大学'
+            }]
+        }],
+        pageTotal: 4
+    }
+}
+
 
 module.exports = router;

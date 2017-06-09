@@ -2,10 +2,10 @@ extends ../layout
 block script
     script(type="text/javascript").
         $(document).ready(function(){  
-            $('a').click(function (){  
+            $("a").click(function (){  
             //这个是点击处理函数的内部处理  
                 //alert($(this).index());
-                var p=$(this).attr('class');
+                var p=$(this).attr("class");
                 if(p=="list-group-item")
                     $(this).attr("class","list-group-item list-group-item-info");
                 else
@@ -21,10 +21,47 @@ block script
                 });
             });
             $("#select").click(function(){
-                alert('select');//给后端发消息选中
+                $("#modal2").modal("show");
+            });
+            $("#select-s").click(function(){
+                $("#modal2").modal("hide");
+                var sList = new Array();
+                $('#listPending .list-group-item-info').each(function()
+                {
+                    sList.push($(this)[0].innerText);
+                });
+                console.log(sList);
+                $.post('teacher/pickStudents/select', {'id':sList}, function (data) {
+                    if(data['status']==1){
+                        refreshPending(data['studentsPending']);
+                        refreshReady(data['studentsReady']);
+                        rebind();
+                    }
+                    else
+                        alert("error!");
+                });
             });
             $("#delete").click(function(){
-                alert('delete');//给后端发消息删除
+                $("#modal").modal("show");
+            });
+            $("#delete-s").click(function(){
+                //退选学生
+                $("#modal").modal("hide");
+                var sList = new Array();
+                $('#listReady .list-group-item-info').each(function()
+                {
+                    sList.push($(this)[0].innerText);
+                });
+                console.log(sList);
+                $.post('teacher/pickStudents/delete', {'id':sList}, function (data) {
+                    if(data['status']==1){
+                        refreshPending(data['studentsPending']);
+                        refreshReady(data['studentsReady']);
+                        rebind();
+                    }
+                    else
+                        alert("error!");
+                });
             });
         });
         function clearSelection()
@@ -79,8 +116,9 @@ block script
                         studentsR.sort(sortByCreditsD);
                     }
                 }
-                displayPending(studentsP);
-                displayReady(studentsR);
+                refreshPending(studentsP);
+                refreshReady(studentsR);
+                rebind();
             }
             else{
                 if(str==null){
@@ -91,17 +129,42 @@ block script
                 }
             }
         };
-        function displayPending(studentsP){
+        function rebind(){
+            $("a").click(function (){  
+                //这个是点击处理函数的内部处理  
+                    //alert($(this).index());
+                    var p=$(this).attr("class");
+                    if(p=="list-group-item")
+                        $(this).attr("class","list-group-item list-group-item-info");
+                    else
+                        $(this).attr("class","list-group-item");
+                });
+        }
+        function refreshPending(studentsR){
             var ul=document.getElementById('listPending');
-            for(var i=0;i<studentsP.length;i++){
-                ul.childNodes[i].innerHTML=studentsP[i].id;
-            }
-        };
-        function displayReady(studentsR){
-            var ul=document.getElementById('listReady');
+            $("#listPending a").remove();
             for(var i=0;i<studentsR.length;i++){
-                ul.childNodes[i].innerHTML=studentsR[i].id;
+                var a=document.createElement("a");
+                a.setAttribute("class", "list-group-item");
+                a.innerText=studentsR[i].id;
+                ul.append(a);
             }
+            var label1=document.getElementById('num1');
+            label1.innerText="补选人数:"+studentsR.length;
+            //- alert("ok");
+        };
+        function refreshReady(studentsR){
+            var ul=document.getElementById('listReady');
+            $("#listReady a").remove();
+            for(var i=0;i<studentsR.length;i++){
+                var a=document.createElement("a");
+                a.setAttribute("class", "list-group-item");
+                a.innerText=studentsR[i].id;
+                ul.append(a);
+            }
+            var label2=document.getElementById('num2');
+            label2.innerText="已选人数:"+studentsR.length;
+            //- alert("ok");
         };
 block content
     .container
@@ -111,7 +174,7 @@ block content
                 - var studentsR=JSON.stringify(studentsReady);
                 .panel.panel-primary
                     .panel-heading
-                        h3.panel-title #{course}
+                        h3.panel-title(id="courseName") #{course}
                     .panel-body
                         center
                             .btn-group
@@ -138,18 +201,36 @@ block content
                                             button.btn.btn-default(type="button",id="search") 搜索
                         div(style="padding-top:20px")
                             .col-md-6.column
-                                label 补选人数:#{studentsPending.length}
+                                label(id="num1") 补选人数:#{studentsPending.length}
                                 .row(id="ulp")
-                                    ul.list-group.pre-scrollable(id='listPending')
+                                    ul.list-group.pre-scrollable(id='listPending',style="height:500px")
                                         each studentP in studentsPending
                                             a.list-group-item #{studentP.id}
-                                button(id="select",type="submit",class="btn btn-primary btn-sm btn-block")
-                                            span.glyphicon.glyphicon-chevron-right
+                                button(id="select",type="submit",class="btn btn-primary btn-sm btn-block") 选进当前课程
                             .col-md-6.column
-                                label 已选人数:#{studentsReady.length}
+                                label(id="num2") 已选人数:#{studentsReady.length}
                                 .row(id="ulp2")
-                                    ul.list-group.pre-scrollable(id='listReady')
+                                    ul.list-group.pre-scrollable(id='listReady',style="height:500px")
                                         each studentR in studentsReady
                                             a.list-group-item #{studentR.id}
-                                button(id="delete",type="submit",class="btn btn-primary btn-sm btn-block")
-                                            span.glyphicon.glyphicon-chevron-left
+                                button(id="delete",type="submit",class="btn btn-primary btn-sm btn-block") 退选当前课程
+    div(class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
+                    h4.modal-title 操作确认
+                .modal-body 确认退选这些学生？
+                .modal-footer
+                    button(type="button" class="btn btn-default" data-dismiss="modal") 取消
+                    button(id="delete-s",type="button" class="btn btn-primary") 确认
+    div(class="modal fade" id="modal2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
+                    h4.modal-title 操作确认
+                .modal-body 确认为这些学生选课？
+                .modal-footer
+                    button(type="button" class="btn btn-default" data-dismiss="modal") 取消
+                    button(id="select-s",type="button" class="btn btn-primary") 确认

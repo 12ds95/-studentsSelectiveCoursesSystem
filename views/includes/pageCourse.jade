@@ -1,0 +1,258 @@
+script.
+
+    const courseTitle = ['课程代码', '课程名称', '课程类别', '学分', '学期'];
+    const courseItemAttr = [
+        {name: 'courseCode', width: '1', type: 'string'},
+        {name: 'courseName', width: '1', type: 'link'},
+        {name: 'courseType', width: '1', type: 'string'},
+        {name: 'courseCredit', width: '1', type: 'string'},
+        {name: 'courseSemester', width: '1', type: 'string'}
+    ];
+    const courseSelectAttr = [
+        {name: 'courseCode', width: '1', type: 'string'},
+        {name: 'courseName', width: '1', type: 'link'},
+        {name: 'courseType', width: '1', type: 'string'},
+        {name: 'courseTeacher', width: '1', type: 'string_s'},
+        {name: 'courseCredit', width: '1', type: 'string'},
+        {name: 'courseTime', width: '1', type: 'string_s'},
+        {name: 'courseSemester', width: '1', type: 'string'},
+        {name: 'coursePlace', width: '1', type: 'string_s'}
+    ];
+    const courseDetailAttr = [
+        {name: 'courseCode', text: '课程代码：'},
+        {name: 'courseEnglish', text: '课程英文名称：'},
+        {name: 'courseDepartment', text: '开课学院：'},
+        {name: 'courseCredit', text: '学分：'},
+        {name: 'courseHour', text: '周学时：'},
+        {name: 'courseWeight', text: '权重系数：'},
+        {name: 'courseBelong', text: '课程归属：'},
+        {name: 'coursePrerequisite', text: '预修要求：'},
+        {name: 'courseDescription', text: '课程简介：'},
+        {name: 'courseSyllabus', text: '教学大纲：'}
+    ];
+
+    var activePage = 1;
+
+    function refreshCourse(URL, pageNum) {
+        $.post(URL, {'pageNum': pageNum}, function (data) {
+            activePage = pageNum;
+            drawCoursePanelHeading();
+            drawCoursePanelBody(data['Content']);
+            initButtons();
+            drawPage(data['pageTotal']);
+            initPage(URL);
+        });
+    }
+
+    function initCourse(coursePanelHeadingID, coursePanelBodyID, courseItemList) {
+        drawCoursePanelHeading();
+        drawCoursePanelBody(courseItemList);
+        initButtons();
+        drawPage(5);
+        initPage();
+    }
+
+    function drawCoursePanelHeading() {
+        var headingHTML = '';
+        for (var i=0; i<courseTitle.length; i++) {
+            headingHTML += '' +
+                '<div class="col-md-' + courseItemAttr[i]['width'] + '">' +
+                '   <h3 class="panel-title" style="text-align:center">' +
+                '       ' + courseTitle[i] +
+                '   </h3>' +
+                '</div>';
+        }
+        $('#coursePanelHeading').empty().append(headingHTML);
+    }
+
+    function drawCoursePanelBody(courseItemList) {
+        var bodyHTML = '';
+        for (var i=0; i<courseItemList.length; i++) {
+            bodyHTML += '' +
+                '<div class="panel panel-default">' +
+                '   <div class="panel-heading">' +
+                '       <div class="row" id="course_' + i + '">';
+            bodyHTML = drawCourseItem(i, bodyHTML, courseItemList[i], courseItemAttr);
+            bodyHTML += '</div>' +
+                '   </div>';
+            bodyHTML += '' +
+                '   <div class="panel-collapse collapse" id="courseBlock_' + i + '">' +
+                '       <div class="panel-body">';
+            bodyHTML = drawCourseBlockNav(i, bodyHTML);
+            bodyHTML += '   <div class="courseSelectBlock row" id="courseSelectBlock_' + i + '">';
+            bodyHTML = drawCourseSelectBlock(i, bodyHTML, courseItemList[i], courseSelectAttr);
+            bodyHTML += '   </div>';
+            bodyHTML += '   <div class="courseDetailBlock row" id="courseDetailBlock_' + i + '">';
+            bodyHTML = drawCourseDetailBlock(i, bodyHTML, courseItemList[i], courseDetailAttr);
+            bodyHTML += '   </div>' +
+                '       </div>' +
+                '   </div>' +
+                '</div>';
+        }
+        $('#coursePanelBody').empty().append(bodyHTML);
+    }
+
+    // 绘制每一条课程条目
+    function drawCourseItem(i, bodyHTML, courseItemList_i) {
+        for (var j = 0; j < courseItemAttr.length; j++) {
+            if (courseItemAttr[j]['type'] === 'string') {
+                bodyHTML += '' +
+                    '<div class="col-md-' + courseItemAttr[j]['width'] + ' text-center">' +
+                    '    <p style="margin-left:10px; margin-right:10px">' +
+                    '        ' + courseItemList_i[courseItemAttr[j]['name']] +
+                    '    </p>' +
+                    '</div>';
+            }
+            if (courseItemAttr[j]['type'] === 'link') {
+                bodyHTML += '' +
+                    '<div class="col-md-' + courseItemAttr[j]['width'] + ' text-center">' +
+                    '    <a style="font-size:15px" href="' + courseItemList_i['courseWeb'] + '">' +
+                    '        ' + courseItemList_i[courseItemAttr[j]['name']] +
+                    '    </a>' +
+                    '</div>';
+            }
+        }
+        bodyHTML += '' +
+            '       <div class="col-md-1 col-md-push-5">' +
+            '           <a class="collapseSwitcher" data-toggle="collapse" href="#courseBlock_' + i + '">展开</a>' +
+            '       </div>';
+        return bodyHTML;
+    }
+
+    // 绘制每一条课程导航栏
+    function drawCourseBlockNav(i, bodyHTML) {
+        bodyHTML += '' +
+            '<div class="row">' +
+            '    <nav class="navbar navbar-default" role="navigation" style="height=30px">' +
+            '        <ul class="nav navbar-nav">' +
+            '            <li class="courseSelectNav active" id="courseSelectNav_' + i + '">' +
+            '                <a style="cursor:pointer">选课</a>' +
+            '            </li>' +
+            '        </ul>' +
+            '        <ul class="nav navbar-nav">' +
+            '            <li class="courseDetailNav" id="courseDetailNav_' + i + '">' +
+            '                <a style="cursor:pointer">课程信息</a>' +
+            '            </li>' +
+            '        </ul>' +
+            '    </nav>' +
+            '</div>';
+        return bodyHTML;
+    }
+
+    // 绘制每一条课程选课框
+    function drawCourseSelectBlock(i, bodyHTML, courseItemList_i) {
+        for (var k = 0; k < courseItemList_i['courseDetail'].length; k++) {
+            bodyHTML += '' +
+                '   <div class="row">';
+            for (var j = 0; j < courseSelectAttr.length; j++) {
+                if (courseSelectAttr[j]['type'] === 'string_s') {
+                    bodyHTML += '' +
+                        '<div class="col-md-' + courseSelectAttr[j]['width'] + '">' +
+                        '   <p style="font-size:13px">' +
+                        '       ' + courseItemList_i['courseDetail'][k][courseSelectAttr[j]['name']] +
+                        '   </p>' +
+                        '</div>';
+                }
+                if (courseSelectAttr[j]['type'] === 'string') {
+                    bodyHTML += '' +
+                        '<div class="col-md-' + courseSelectAttr[j]['width'] + '">' +
+                        '   <p style="font-size:13px">' +
+                        '       ' + courseItemList_i[courseSelectAttr[j]['name']] +
+                        '   </p>' +
+                        '</div>';
+                }
+                if (courseSelectAttr[j]['type'] === 'link') {
+                    bodyHTML += '' +
+                        '<div class="col-md-' + courseSelectAttr[j]['width'] + '">' +
+                        '   <a style="font-size:13px" href="' + courseItemList_i['courseWeb'] + '">' +
+                        '       ' + courseItemList_i[courseSelectAttr[j]['name']] +
+                        '   </a>' +
+                        '</div>';
+                }
+            }
+            bodyHTML += '' +
+                '       <div class="col-md-1">' +
+                '           <button class="btn btn-primary courseSelectButton" id="courseSelectButton_' + i + '_' + j + '" type="button">选课</button>' +
+                '       </div>' +
+                '   </div>';
+        }
+        return bodyHTML;
+    }
+
+    // 绘制每一条课程信息框
+    function drawCourseDetailBlock(i, bodyHTML, courseItemList_i) {
+        for (var j = 0; j < courseDetailAttr.length; j++) {
+            bodyHTML += '' +
+                '<div class="col-md-2">' +
+                '    <p style="font-size:13px; margin-left:10px">' + courseDetailAttr[j]['text'] + '</p>' +
+                '</div>' +
+                '<div class="col-md-10">' +
+                '    <p style="font-size:13px">' + courseItemList_i[courseDetailAttr[j]['name']] + '</p>' +
+                '</div>';
+        }
+        return bodyHTML;
+    }
+
+    function initButtons() {
+        $('.courseDetailBlock').hide();
+
+        // 导航栏选课
+        $('.courseSelectNav').click(function () {
+            var str = $(this).attr('id');
+            var num = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            $(this).attr('class', 'active');
+            $('#courseDetailNav_' + num).removeClass('active');
+            $('#courseSelectBlock_' + num).show();
+            $('#courseDetailBlock_' + num).hide();
+        });
+
+        // 导航栏课程信息
+        $('.courseDetailNav').click(function () {
+            var str = $(this).attr('id');
+            var num = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            $(this).attr('class', 'active');
+            $('#courseSelectNav_' + num).removeClass('active');
+            $('#courseSelectBlock_' + num).hide();
+            $('#courseDetailBlock_' + num).show();
+        });
+
+        // 展开
+        $('.collapseSwitcher').click(function () {
+            console.log($(this).text());
+            if ($(this).text() === '展开') $(this).text('合拢');
+            else $(this).text('展开');
+        })
+    }
+
+    function drawPage(pageTotalNum) {
+        var pageHTML = '<ul class="pagination">';
+        if (activePage === 1) pageHTML += '<li class="disabled"><a id="page_prev">&laquo;</a></li>';
+        else pageHTML += '<li><a id="page_prev" style="cursor:pointer">&laquo;</a></li>';
+        for (var i = 1; i <= pageTotalNum; i++) {
+            if (i === activePage) pageHTML += '<li class="active"><a id="page_' + i + '" class="page" style="cursor:pointer">' + i + '</a></li>';
+            else pageHTML += '<li><a id="page_' + i + '" class="page" style="cursor:pointer">' + i + '</a></li>';
+        }
+        if (activePage === pageTotalNum) pageHTML += '<li class="disabled"><a id="page_next">&raquo;</a></li>';
+        else pageHTML += '<li><a id="page_next" style="cursor:pointer">&raquo;</a></li>';
+        pageHTML += '</ul>';
+        $('#pageContainer').empty().append(pageHTML);
+    }
+
+    // 给分页赋予属性
+    function initPage(URL) {
+        $('.page').click(function () {
+            var str = $(this).attr('id');
+            var pageNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            refreshCourse(URL, pageNum);
+        });
+        $('#page_prev').click(function () {
+            if ($(this).parent().attr('class') !== 'disabled') {
+                refreshCourse(URL, activePage - 1);
+            }
+        });
+        $('#page_next').click(function () {
+            if ($(this).parent().attr('class') !== 'disabled') {
+                refreshCourse(URL, activePage + 1);
+            }
+        });
+    }

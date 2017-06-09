@@ -109,4 +109,81 @@ router.get('/pickStudents', function(req, res, next) {
     });
 });
 
+router.post('/teacher/pickStudents/select', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1,
+        studentsPending:[
+        {
+            id:'222222222',
+            credits:'5'
+        },{
+            id:'3140102223',
+            credits:'52'
+        },{
+            id:'3140102224',
+            credits:'53'
+        },{
+            id:'3140102225',
+            credits:'56'
+        },{
+            id:'3140102226',
+            credits:'56'
+        }],
+        studentsReady:[
+        {
+            id:'3140100000',
+            credits:'12'
+        },{
+            id:'3140100005',
+            credits:'53'
+        },{
+            id:'3140100001',
+            credits:'52'
+        },{
+            id:'3232220002',
+            credits:'51'
+        }]};
+    console.log(data);
+    res.json(data);
+});
+
+router.post('/teacher/pickStudents/delete', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1,
+        studentsReady:[
+        {
+            id:'222222222',
+            credits:'5'
+        },{
+            id:'3140102223',
+            credits:'52'
+        },{
+            id:'3140102224',
+            credits:'53'
+        },{
+            id:'3140102225',
+            credits:'56'
+        },{
+            id:'3140102226',
+            credits:'56'
+        }],
+        studentsPending:[
+        {
+            id:'3140100000',
+            credits:'12'
+        },{
+            id:'3140100005',
+            credits:'53'
+        },{
+            id:'3140100001',
+            credits:'52'
+        },{
+            id:'3232220002',
+            credits:'51'
+        }]};
+    console.log(data);
+    res.json(data);
+});
 module.exports = router;
