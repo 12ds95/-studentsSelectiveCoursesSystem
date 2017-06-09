@@ -28,16 +28,16 @@ block content
                             .form-group
                                 label(for="username",class="col-md-3 control-label") 用户名
                                 .col-md-6
-                                    input(type="text",class="form-control input-sm",name="username" placeholder="请输入用户名")
+                                    input(type="text",class="form-control input-sm",name="user[name]", placeholder="请输入用户名")
                             .form-group
                                 label(for="password",class="col-md-3 control-label") 密码
                                 .col-md-6
-                                    input(type="password",class="form-control input-sm",id="psw",name="password" placeholder="请输入密码")
+                                    input(type="password",class="form-control input-sm",id="psw",name="user[password]" placeholder="请输入密码")
                                 button(type="button",class="btn btn-link") 忘记密码
                             .form-group
                                 label(for="checkcode",class="col-md-3 control-label") 验证码
                                 .col-md-3
-                                    input(type="text", class="form-control input-sm")
+                                    input(type="text", name='user[code]', class="form-control input-sm")
                                 .col-md-3
                                     img(src="/captcha",id = "captcha", alt="验证码",width="100%",height="100%")
                                 button(type="button",class="btn btn-link", onclick="changeImg()") 换张图片
@@ -55,19 +55,5 @@ block content
                                     button(type="submit",class="btn btn-primary btn-sm btn-block",onclick="encryptpw()") 登录
                                     script.
                                         function encryptpw(){
-                                            var bcrypt = require('bcrypt');
                                             var psw = document.getElementById("psw");
-                                            bcrypt.genSalt(10, function (err, salt) {
-                                                if (err) {
-                                                    return next('Error at genSalt:' + err)
-                                                }
-                                                bcrypt.hash(psw.value, salt, function (err, hash) {
-                                                    if (err) {
-                                                        return next(err)
-                                                    }
-                                                    psw.value = hash;
-                                                    console.log('Saved password: ' + hash);
-                                                    next()
-                                                })
-                                            })
                                         }

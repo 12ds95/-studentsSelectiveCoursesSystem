@@ -3,7 +3,7 @@
  */
 var index = require('./index');
 // var users = require('./users');
-// var login = require('./login');
+var login = require('./login');
 var admin = require('./admin');
 var applyforclass = require('./applyforclass');
 var curriculum = require('./curriculum');
@@ -18,8 +18,15 @@ var noticeManager = require('./noticeManager');
 var captcha = require('./captcha');
 var byselection = require('./byselection');
 var reselect = require('./reselect');
+// var cryptico = require('../modules/cryptico');
+// var passPhrase = "studentsSelectiveCourseSystem";
+// var bits = 1024;
+// var myRSAkey = cryptico.generateRSAKey(passPhrase, bits);
+// var myPublicKeyString = cryptico.publicKeyString(myRSAkey);
 
 module.exports = function(app) {
+    // app.locals.publicKey = myPublicKeyString;
+
     //user session
     app.use(function (req, res, next) {
          next();
@@ -27,7 +34,7 @@ module.exports = function(app) {
 
     app.use('/', index);
     // app.use('/users', users);
-    // app.use('/login', login);
+    app.use('/login', login);
     app.use('/admin', admin);
     app.use('/curriculum', curriculum)
     app.use('/student', student);

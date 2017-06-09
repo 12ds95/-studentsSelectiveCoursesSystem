@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+// var cryptico = require('../modules/cryptico');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -8,12 +9,37 @@ router.get('/', function(req, res, next) {
     });
 });
 
+// var passPhrase = "studentsSelectiveCourseSystem";
+// var bits = 1024;
+// var myRSAkey = cryptico.generateRSAKey(passPhrase, bits);
+var User = require('../models/User.js');
 router.post('/signin', function (req, res, next) {
     var username = req.body.user.name;
     var password = req.body.user.password;
     var code = parseInt(req.body.user.code);
+    // password = cryptico.decrypt(password.cipher, myRSAkey);
     if (req.session.checkcode === code) {
-
+        User.findOne({name: username},function(err,user){
+            if (err) {
+                console.log(err)
+            }
+            if (!user) {
+                return res.redirect('/')
+            }
+            user.comparePassword(password,function(err,isMatch){
+                if (err) {
+                    console.log(err)
+                }
+                if (isMatch) {
+                    // req.session.loginUser = name;
+                    console.log('matched');
+                    return res.redirect('/student');
+                }else{
+                    console.log('Password is not matched');
+                    return res.redirect('/')
+                }
+            })
+        });
     }
 });
 
