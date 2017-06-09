@@ -1,0 +1,72 @@
+//
+   Created by iqich on 2017/6/8.
+extends ../layout
+
+block content
+    .container
+        .row
+            .panel.panel-primary
+                .panel-heading
+                    h3.panel-title 补选申请
+                .panel-body
+                    form.form-horizontal
+                        .form-group
+                            label(for="classname",class="col-sm-offset-1 col-md-2 control-label") 课程名称：
+                            .col-md-6
+                                p #{classname}
+                        .form-group
+                            label(for="classnumber",class="col-sm-offset-1 col-md-2 control-label") 课程编号：
+                            .col-md-6
+                                p #{classnumber}
+                        .form-group
+                            label(for="teacher",class="col-sm-offset-1 col-md-2 control-label") 任课教师：
+                            .col-md-6
+                                p #{teacher}
+                        .form-group
+                            label(for="classtime",class="col-sm-offset-1 col-md-2 control-label") 课程时间：
+                            .col-md-6
+                                p #{classtime}
+                        .form-group
+                            label(for="department",class="col-sm-offset-1 col-md-2 control-label") 开课学院：
+                            .col-md-6
+                                p #{department}
+                        .form-group
+                            label(for="classhours",class="col-sm-offset-1 col-md-2 control-label") 周学时：
+                            .col-md-6
+                                p #{classhours}
+                        .form-group
+                            label(for="credit",class="col-sm-offset-1 col-md-2 control-label") 学分：
+                            .col-md-6
+                                p #{credit}
+                        .form-group
+                            label(for="campus",class="col-sm-offset-1 col-md-2 control-label") 校区：
+                            .col-md-6
+                                p #{campus}
+                        .form-group
+                            label(for="stuname",class="col-sm-offset-1 col-md-2 control-label") 学生姓名：
+                            .col-md-6
+                                p #{stuname}
+                        .form-group
+                            label(for="stunumber",class="col-sm-offset-1 col-md-2 control-label") 学生学号：
+                            .col-md-6
+                                p #{stunumber}
+                        .form-group
+                            label(for="studepartment",class="col-sm-offset-1 col-md-2 control-label") 学生学院：
+                            .col-md-6
+                                p #{studepartment}
+                        .form-group
+                            label(for="phonenum",class="col-md-3 control-label") 手机号：
+                            .col-md-6
+                                input(type="text",class="form-control input-sm",placeholder="请输入手机号")
+                        .form-group
+                            label(for="email",class="col-md-3 control-label") 邮箱：
+                            .col-md-6
+                                input(type="text",class="form-control input-sm",placeholder="请输入邮箱")
+                        .form-group
+                            label(for="selectinfo",class="col-md-3 control-label") 补选原因：
+                            .col-md-6
+                                textarea(style="width:200px;height:80px;",placeholder="不超过1000字")
+                        .form-group
+                            .col-sm-2
+                            .col-sm-1
+                                button(type="submit",class="btn btn-primary btn-sm btn-block") 申请
