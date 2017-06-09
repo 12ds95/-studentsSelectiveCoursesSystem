@@ -1,3 +1,3 @@
-.idea/
-test/
+\.idea/
+.idea/workspace.xml
 mongoose.js
