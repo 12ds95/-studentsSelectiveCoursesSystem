@@ -37,57 +37,92 @@ router.get('/', function(req, res, next) {
 router.post('/tableData', function(req, res, next) {
     var pageNum = req.body['pageNum'];
     var itemPerPage = 20;
-    var result = getTeacherData((pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
+    var result = getStudentData((pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
     res.json(result);
 });
-function getTeacherData(from, to) {     // 取[from,to]的数据
-    var result;
-    if (from === 1) {
-        result = {
-            'Title': ['学号','姓名','学院'],
-            'Content': [
-                ['1_1','张三','计算机科学与技术学院'],
-                ['1_2','李四','信电']
-            ],
-            'pageTotal': 4
-        }
-    } else if(from === 21) {
-        result = {
-            'Title': ['学号','姓名','学院'],
-            'Content': [
-                ['2_1','张三','计算机科学与技术学院'],
-                ['2_2','李四','信电']
-            ],
-            'pageTotal': 4
-        }
-    } else if(from === 41) {
-        result = {
-            'Title': ['学号','姓名','学院'],
-            'Content': [
-                ['3_1','张三','计算机科学与技术学院'],
-                ['3_2','李四','信电']
-            ],
-            'pageTotal': 4
-        }
-    } else {
-        result = {
-            'Title': ['学号','姓名','学院'],
-            'Content': [
-                ['4_1','张三','计算机科学与技术学院'],
-                ['4_2','李四','信电']
-            ],
-            'pageTotal': 4
-        }
+function getStudentData(from, to) {
+    // 以下是后端数据库的函数：读取20位学生信息（不到20则以实际为准），返回学生总数
+    // 返回值：result包，包括TotalItem标签的全部学生总数，和Data标签的[from,to]区间的学生学号、姓名、学院信息
+    // result = get20Data(...)
+    var result = {      // 这个是伪造数据，应删除（返回格式应与此一致）
+        'Data': [
+            {id:'1_1', name:'学生张三', department:'计算机科学与技术学院'},
+            {id:'1_2', name:'学生李四', department:'信电'}
+        ],
+        'TotalItem': 4
+    };
+    // 以上
+    var jsonn = {};
+    jsonn['PageTotal'] = parseInt((result['TotalItem']-1) / 20 + 1);
+    jsonn['Title'] = ['学号','姓名','学院'];
+    jsonn['Content'] = [];
+    for (var i=0; i<result['Data'].length; i++) {
+        jsonn['Content'].push({
+            '学号': result['Data'][i]['id'],
+            '姓名': result['Data'][i]['name'],
+            '学院': result['Data'][i]['department']
+        });
     }
-    return result;
+    return jsonn;
 }
 
+router.post('/getData', function (req, res, next) {
+    var ID = req.body['学号'];
+    // 以下是后端数据库的函数：查找学生
+    // 返回值：result包，包括该学生的所有信息
+    // result = addData(...)
+    // 以上
+    var jsonn = {};
+    jsonn['学号'] = result['id'];
+    jsonn['性别'] = result['ismale'] === true ? '男': '女';
+    jsonn['姓名'] = result['name'];
+    jsonn['学院'] = result['department'];
+    jsonn['学分'] = result['credit'];
+    res.json(jsonn);
+});
+
 router.post('/addData', function(req, res, next) {
-    var teacherID = req.body['学生学号'];
-    var teacherName = req.body['学生姓名'];
-    var teacherDepartment = req.body['学院'];
-    console.log(teacherID, teacherName, teacherDepartment);
-    res.json({'status':-1, 'errMsg':'其实没有错'});
+    var ID = req.body['学号'];
+    var name = req.body['姓名'];
+    var gender = req.body['性别'];
+    var department = req.body['学院'];
+    var credit = req.body['学分'];
+    // 以下是后端数据库的函数：添加学生
+    // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
+    // result = addData(...)
+    // 以上
+    var jsonn = {};
+    jsonn['status'] = result['status'];
+    jsonn['errMsg'] = result['errMsg'];
+    res.json(jsonn);
+});
+
+router.post('/modifyData', function(req, res, next) {
+    var ID = req.body['学号'];
+    var name = req.body['姓名'];
+    var gender = req.body['性别'];
+    var department = req.body['学院'];
+    var credit = req.body['学分'];
+    // 以下是后端数据库的函数：修改学生信息
+    // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
+    // result = modifyData(...)
+    // 以上
+    var jsonn = {};
+    jsonn['status'] = result['status'];
+    jsonn['errMsg'] = result['errMsg'];
+    res.json(jsonn);
+});
+
+router.post('/deleteData', function(req, res, next) {
+    var ID = req.body['学号'];
+    // 以下是后端数据库的函数：修改学生信息
+    // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
+    // result = modifyData(...)
+    // 以上
+    var jsonn = {};
+    jsonn['status'] = result['status'];
+    jsonn['errMsg'] = result['errMsg'];
+    res.json(jsonn);
 });
 
 module.exports = router;
