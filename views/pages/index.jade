@@ -53,7 +53,9 @@ block content
                                     //        label 记住密码
                                 .col-sm-3
                                     button(type="submit",class="btn btn-primary btn-sm btn-block",onclick="encryptpw()") 登录
+                                    script(src="js/md5.js").
                                     script.
                                         function encryptpw(){
                                             var psw = document.getElementById("psw");
+                                            psw.value = hex_md5(psw.value);
                                         }
