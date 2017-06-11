@@ -31,7 +31,8 @@ router.post('/signin', function (req, res, next) {
                     console.log(err)
                 }
                 if (isMatch) {
-                    // req.session.loginUser = name;
+                    req.session.loginUser = username;
+                    req.session.userType = "student";
                     console.log('matched');
                     return res.redirect('/student');
                 }else{

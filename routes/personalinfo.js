@@ -4,6 +4,14 @@
 var express = require('express');
 var router = express.Router();
 
+// router.use(function (req, res, next) {
+//     if (!!req.session.loginUser) {
+//         next();
+//     } else {
+//         res.redirect('/');
+//     }
+// });
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('personalinfo',{

@@ -28,15 +28,15 @@ module.exports = function(app) {
     // app.locals.publicKey = myPublicKeyString;
 
     //user session
-    app.use(function (req, res, next) {
-         next();
-    });
+    // app.use(function (req, res, next) {
+    //     next();
+    // });
 
     app.use('/', index);
     // app.use('/users', users);
     app.use('/login', login);
     app.use('/admin', admin);
-    app.use('/curriculum', curriculum)
+    app.use('/curriculum', curriculum);
     app.use('/student', student);
     app.use('/select', select);
     app.use('/teacher',teacher);

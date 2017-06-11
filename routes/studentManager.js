@@ -1,6 +1,18 @@
 var express = require('express');
 var router = express.Router();
 
+// router.use(function (req, res, next) {
+//     if (!!req.session.loginUser && !!req.session.userType) {
+//         if (req.session.userType === "admin") {
+//             next();
+//         } else {
+//             res.redirect('/');
+//         }
+//     } else {
+//         res.redirect('/');
+//     }
+// });
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     // 左侧固定参数

@@ -4,6 +4,18 @@
 var express = require('express');
 var router = express.Router();
 
+// router.use(function (req, res, next) {
+//     if (!!req.session.loginUser && !!req.session.userType) {
+//         if (req.session.userType === "teacher") {
+//             next();
+//         } else {
+//             res.redirect('/');
+//         }
+//     } else {
+//         res.redirect('/');
+//     }
+// });
+
 /* GET home page. */
 router.get('/applyforclass', function(req, res, next) {
     res.render('applyforclass',{
