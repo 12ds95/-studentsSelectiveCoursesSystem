@@ -12,25 +12,43 @@ block rightContent
         }
         function showAddModal() {
             var modalData = {
-                'Title': '公告信息添加表',
-                'ContentItem': ['学生学号', '学生姓名', '学院'],
+                'Title': '通知信息添加表',
+                'ContentItem': ['发布单位', '通知标题', '通知内容'],
                 'ContentData': ['', '', ''],
+                'ContentDisabled': ['', '', ''],
                 'SuccessMsg': '添加成功',
                 'ErrorMsg': '添加失败'
             };
             var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'noticeManager/tableData');
+            showModal(modalID, modalData, 'noticeManager/addData');
         }
         function showModifyModal(modifyData) {
-            var modalData = {
-                'Title': '公告信息修改表',
-                'ContentItem': modifyData['ModifyItem'],
-                'ContentData': modifyData['ModifyData'],
-                'SuccessMsg': '修改成功',
-                'ErrorMsg': '修改失败'
-            }
-            var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'noticeManager/tableData');
+            var str = $(this).attr('id');
+            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            var jsonn = {'通知编号': tableContent[itemNum]['通知编号']};
+            $.post('/teacherManager/getData', jsonn, function (data) {
+                var modalData = {
+                    'Title': '通知信息修改表',
+                    'ContentItem': ['通知编号', '发布单位', '通知标题', '通知内容'],
+                    'ContentData': [data['通知编号'], data['发布单位'], data['通知标题'], data['通知内容']],
+                    'ContentDisabled': ['readonly', '', '', ''],
+                    'SuccessMsg': '修改成功',
+                    'ErrorMsg': '修改失败'
+                }
+                var modalID = '#placeForModal';
+                showModal(modalID, modalData, 'noticeManager/modifyData');
+            });
+        }
+        function afterModalSubmitSuccess() {
+            refreshTable('noticeManager/tableData', 1);
+        }
+        function doDelete(tableContent) {
+            var str = $(this).attr('id');
+            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            var jsonn = {'通知编号': tableContent[itemNum]['通知编号']};
+            $.post('/noticeManager/getData', jsonn, function (data) {
+                refreshTable('noticeManager/tableData', 1);
+            });
         }
 
     - var filterNameDefault = filterNameData[0]

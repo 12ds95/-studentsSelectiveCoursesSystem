@@ -2,6 +2,18 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
+router.use(function (req, res, next) {
+    if (!!req.session.loginUser && !!req.session.userType) {
+        if (req.session.userType === "student") {
+            next();
+        } else {
+            res.redirect('/');
+        }
+    } else {
+        res.redirect('/');
+    }
+});
+
 router.get('/', function(req, res, next) {
     var leftColAttr = {
         '姓名':'蔡老板',
@@ -13,15 +25,15 @@ router.get('/', function(req, res, next) {
     };
     var rightColAttr = [{
             'imgURL':'images/select.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/select',
             '名称':'选课'
         },{
             'imgURL':'images/table.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/curriculum',
             '名称':'查看课表'
         },{
             'imgURL':'images/rechoose.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/reselect',
             '名称':'补选'
         }
     ];

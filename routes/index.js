@@ -2,12 +2,13 @@ var express = require('express');
 var User = require('../models/User');
 
 var router = express.Router();
+// var cryptico = require('../modules/cryptico');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
     res.render('index',{
-        title : 'Login'
+        title : '选课管理系统'
     });
     var uname = req.query.username;
     var passwd = req.query.password;
@@ -33,12 +34,38 @@ router.post('/', function (req, res) {
         console.log("This is a teacher!");
     }
 });
+// var passPhrase = "studentsSelectiveCourseSystem";
+// var bits = 1024;
+// var myRSAkey = cryptico.generateRSAKey(passPhrase, bits);
+var User = require('../models/User.js');
 router.post('/signin', function (req, res, next) {
     var username = req.body.user.name;
     var password = req.body.user.password;
     var code = parseInt(req.body.user.code);
+    // password = cryptico.decrypt(password.cipher, myRSAkey);
     if (req.session.checkcode === code) {
-
+        User.findOne({name: username},function(err,user){
+            if (err) {
+                console.log(err)
+            }
+            if (!user) {
+                return res.redirect('/')
+            }
+            user.comparePassword(password,function(err,isMatch){
+                if (err) {
+                    console.log(err)
+                }
+                if (isMatch) {
+                    req.session.loginUser = username;
+                    req.session.userType = "student";
+                    console.log('matched');
+                    return res.redirect('/student');
+                }else{
+                    console.log('Password is not matched');
+                    return res.redirect('/')
+                }
+            })
+        });
     }
 });
 

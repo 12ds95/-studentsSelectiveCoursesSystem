@@ -8,6 +8,17 @@ var User = require('../models/User.js');
 var PreCourse = require('../models/PreCourse');
 
 
+// router.use(function (req, res, next) {
+//     if (!!req.session.loginUser && !!req.session.userType) {
+//         if (req.session.userType === "admin") {
+//             next();
+//         } else {
+//             res.redirect('/');
+//         }
+//     } else {
+//         res.redirect('/');
+//     }
+// });
 
 //userlist
 router.get('/userlist',function(req,res){
@@ -42,5 +53,12 @@ router.get('/reviewApplyforclass',function(req,res){
         file1: './index.js'
     })
 });
-
+router.post('/admin/reviewClasses/apply', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1
+    };
+    console.log(data);
+    res.json(data);
+});
 module.exports = router;
