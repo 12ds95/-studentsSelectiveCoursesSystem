@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Department = require("../models/Department");
 var Teacher = require("../models/Teacher");
+var Course = require("../models/Course");
 var Schema = mongoose.Schema;
 var PrecourseSchema = new mongoose.Schema({
       name:{type:String, alias:'courseName'}
@@ -38,6 +39,22 @@ PrecourseSchema.statics = {
     saveOneCourse: function (item, cb) {
         item.save(function(err, res){
             cb(err);
+        });
+    }
+    ,
+    confirmOneCourse: function(time, cb){
+        var where;
+        for(where in time){break;}
+        var whereStr = {"data":where};
+        this.find(whereStr).toArray(function(err, result){
+            if(err){
+                console.log('Error in confirmOneCourse:'+err);
+                return ;
+            }
+            var newcourse = new Course({
+                //TODO 新建一个课程（随机一些数据）然后插入course中
+            })
+
         });
     }
 };

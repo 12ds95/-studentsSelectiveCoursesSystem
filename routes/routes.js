@@ -18,6 +18,7 @@ var noticeManager = require('./noticeManager');
 var captcha = require('./captcha');
 var byselection = require('./byselection');
 var reselect = require('./reselect');
+var applyforclass = require('./applyforclass');
 
 module.exports = function(app) {
 
@@ -36,7 +37,7 @@ module.exports = function(app) {
     app.use('/noticeManager', noticeManager);
     app.use('/captcha',captcha);
     app.use('/byselection',byselection);
-    // app.use('/applyforclass',applyforclass);
+    app.use('/applyforclass',applyforclass);
     app.use('/reselect',reselect);
 
     // catch 404 and forward to error handler
