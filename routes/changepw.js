@@ -21,6 +21,10 @@ router.get('/', function(req, res, next) {
 
 router.post('/pw/change', function(req, res, next) {
     console.log(req.body);
+    var oldpw = req.body.oldpw;
+    var newpw = req.body.newpw;
+    var confirmpw = req.body.confirmpw;
+    console.log(oldpw, newpw, confirmpw);
     var data={
         status: 1
     };
@@ -28,4 +32,14 @@ router.post('/pw/change', function(req, res, next) {
     res.json(data);
 });
 
+router.post('/personalinfo',function (req,res,next) {
+    res.render('personalinfo',{
+        title : 'Personalinfo',
+        studentID : '314010xxxx',
+        studentName : 'xxx',
+        address : '浙江大学玉泉校区',
+        email : 'cailaoda@zju.edu.cn',
+        phone : '178xxxxxxxx'
+    });
+});
 module.exports = router;
