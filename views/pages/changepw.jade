@@ -20,6 +20,7 @@ block script
                     $.post('/changepw/pw/change', data, function (data) {
                         if (data['status']) {
                             alert("修改成功");
+                            $.post('/changepw/personalinfo',1);
                         }
                         else
                             alert("修改失败");
