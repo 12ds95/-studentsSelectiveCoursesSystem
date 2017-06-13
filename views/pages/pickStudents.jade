@@ -71,12 +71,12 @@ block script
                 $(this).attr("class","list-group-item");
             });
         };
-        function sortByCreditsA(a,b){
-            return a.credits-b.credits;
-        };
-        function sortByCreditsD(a,b){
-            return b.credits-a.credits;
-        };
+        //- function sortByCreditsA(a,b){
+        //-     return a.credits-b.credits;
+        //- };
+        //- function sortByCreditsD(a,b){
+        //-     return b.credits-a.credits;
+        //- };
         function sortByIdA(a,b){
             return a.id-b.id;
         };
@@ -103,19 +103,19 @@ block script
                     }
 
                 }
-                else if(str=='按学分'){
-                    filter1.firstChild.nodeValue='按学分';
-                    if(aord=='升序'){
-                        filter2.firstChild.nodeValue='升序';
-                        studentsP.sort(sortByCreditsA);
-                        studentsR.sort(sortByCreditsA);
-                    }
-                    else if(aord='降序'){
-                        filter2.firstChild.nodeValue='降序';
-                        studentsP.sort(sortByCreditsD);
-                        studentsR.sort(sortByCreditsD);
-                    }
-                }
+                //- else if(str=='按学分'){
+                //-     filter1.firstChild.nodeValue='按学分';
+                //-     if(aord=='升序'){
+                //-         filter2.firstChild.nodeValue='升序';
+                //-         studentsP.sort(sortByCreditsA);
+                //-         studentsR.sort(sortByCreditsA);
+                //-     }
+                //-     else if(aord='降序'){
+                //-         filter2.firstChild.nodeValue='降序';
+                //-         studentsP.sort(sortByCreditsD);
+                //-         studentsR.sort(sortByCreditsD);
+                //-     }
+                //- }
                 refreshPending(studentsP);
                 refreshReady(studentsR);
                 rebind();
@@ -184,7 +184,7 @@ block content
                                 ul.dropdown-menu
                                     li
                                         a(href="javascript:void(0);",onclick="sort('按学号',null,'#{studentsP}','#{studentsR}')") 按学号
-                                    li
+                                    //- li
                                         a(href="javascript:void(0);",onclick="sort('按学分',null,'#{studentsP}','#{studentsR}')") 按学分
                                 .btn-group
                                     button(class="btn btn-default",id="filter2") 升序
