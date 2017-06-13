@@ -1,4 +1,5 @@
 var   mongoose = require('mongoose')
+	, Department = require('../models/Department')
 	;
 var TeacherSchema = new mongoose.Schema({
 	name:String,
@@ -28,7 +29,15 @@ TeacherSchema.statics = {
 					  	cb(err,res);
 					  });
 
-	}			
+	},
+	findById: function (tid, cb) {
+		return this
+			.find({id:tid})
+			.populate('_department')
+			.exec(function (err, res) {
+				cb(err,res);
+            });
+    }
 };
 
 
