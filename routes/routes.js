@@ -5,7 +5,7 @@ var index = require('./index');
 // var users = require('./users');
 var login = require('./login');
 var admin = require('./admin');
-var applyforclass = require('./applyforclass');
+// var applyforclass = require('./applyforclass');
 var curriculum = require('./curriculum');
 var student = require('./student');
 var select = require('./select');
@@ -18,19 +18,8 @@ var noticeManager = require('./noticeManager');
 var captcha = require('./captcha');
 var byselection = require('./byselection');
 var reselect = require('./reselect');
-// var cryptico = require('../modules/cryptico');
-// var passPhrase = "studentsSelectiveCourseSystem";
-// var bits = 1024;
-// var myRSAkey = cryptico.generateRSAKey(passPhrase, bits);
-// var myPublicKeyString = cryptico.publicKeyString(myRSAkey);
 
 module.exports = function(app) {
-    // app.locals.publicKey = myPublicKeyString;
-
-    //user session
-    // app.use(function (req, res, next) {
-    //     next();
-    // });
 
     app.use('/', index);
     // app.use('/users', users);
@@ -47,7 +36,7 @@ module.exports = function(app) {
     app.use('/noticeManager', noticeManager);
     app.use('/captcha',captcha);
     app.use('/byselection',byselection);
-    app.use('/applyforclass',applyforclass);
+    // app.use('/applyforclass',applyforclass);
     app.use('/reselect',reselect);
 
     // catch 404 and forward to error handler

@@ -25,15 +25,15 @@ router.get('/', function(req, res, next) {
     };
     var rightColAttr = [{
             'imgURL':'images/select.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/select',
             '名称':'选课'
         },{
             'imgURL':'images/table.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/curriculum',
             '名称':'查看课表'
         },{
             'imgURL':'images/rechoose.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/reselect',
             '名称':'补选'
         }
     ];

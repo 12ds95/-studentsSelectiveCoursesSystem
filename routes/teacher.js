@@ -19,7 +19,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/applyforclass', function(req, res, next) {
     res.render('applyforclass',{
-        title : 'Apply'
+        title : '申请开课'
     });
 });
 

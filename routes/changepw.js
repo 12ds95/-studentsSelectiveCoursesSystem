@@ -15,7 +15,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('changepw',{
-        title : "change password"
+        title : "修改密码"
     });
 });
 
