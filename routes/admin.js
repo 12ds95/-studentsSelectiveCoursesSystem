@@ -8,6 +8,17 @@ var User = require('../models/User.js');
 var PreCourse = require('../models/PreCourse');
 
 
+// router.use(function (req, res, next) {
+//     if (!!req.session.loginUser && !!req.session.userType) {
+//         if (req.session.userType === "admin") {
+//             next();
+//         } else {
+//             res.redirect('/');
+//         }
+//     } else {
+//         res.redirect('/');
+//     }
+// });
 
 //userlist
 router.get('/userlist',function(req,res){

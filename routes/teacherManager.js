@@ -1,8 +1,23 @@
 var express = require('express');
 var router = express.Router();
 var Teacher = require('../models/Teacher');
+<<<<<<< HEAD
 var Department = require('../models/Department');
 var assert = require('assert');
+=======
+
+// router.use(function (req, res, next) {
+//     if (!!req.session.loginUser && !!req.session.userType) {
+//         if (req.session.userType === "admin") {
+//             next();
+//         } else {
+//             res.redirect('/');
+//         }
+//     } else {
+//         res.redirect('/');
+//     }
+// });
+>>>>>>> se/test_branch
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

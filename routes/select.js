@@ -1,5 +1,18 @@
 var express = require('express');
 var router = express.Router();
+var Course = require('../models/Course')
+
+// router.use(function (req, res, next) {
+//     if (!!req.session.loginUser && !!req.session.userType) {
+//         if (req.session.userType === "student") {
+//             next();
+//         } else {
+//             res.redirect('/');
+//         }
+//     } else {
+//         res.redirect('/');
+//     }
+// });
 
 // router.use(function (req, res, next) {
 //     if (!!req.session.loginUser && !!req.session.userType) {
@@ -15,6 +28,9 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    Course.getAll(0, function(err, courselist){
+        res.render('select', courselist)
+    });
     // 筛选器固定参数
     var filterNameData = [
         '课程名称',

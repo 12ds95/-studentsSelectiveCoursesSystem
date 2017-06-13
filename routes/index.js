@@ -8,7 +8,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
 
     res.render('index',{
-        title : 'Login'
+        title : '选课管理系统'
     });
 
     // not available here
@@ -17,8 +17,22 @@ router.get('/', function(req, res, next) {
 
     
 
+<<<<<<< HEAD
 });
 
+=======
+router.post('/', function (req, res) {
+    var uname = req.body.username;
+    var passwd = req.body.password;
+    var usertype = User.getUserType(uname);
+
+    if (usertype == 2){
+        console.log("This is a student!");
+    }else if(usertype == 1){
+        console.log("This is a teacher!");
+    }
+});
+>>>>>>> se/test_branch
 // var passPhrase = "studentsSelectiveCourseSystem";
 // var bits = 1024;
 // var myRSAkey = cryptico.generateRSAKey(passPhrase, bits);
@@ -41,6 +55,7 @@ router.post('/signin', function (req, res, next) {
                     console.log(err)
                 }
                 if (isMatch) {
+<<<<<<< HEAD
                     console.log('Password matched!');
                     User.getUserType(uname,function (err,usertype) {
                         if (usertype == 2){
@@ -55,6 +70,12 @@ router.post('/signin', function (req, res, next) {
                             return res.redirect("/teacher");
                         }
                     });       
+=======
+                    req.session.loginUser = username;
+                    req.session.userType = "student";
+                    console.log('matched');
+                    return res.redirect('/student');
+>>>>>>> se/test_branch
                 }else{
                     console.log('Password is not matched');
                     return res.redirect('/')
