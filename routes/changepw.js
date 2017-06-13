@@ -15,11 +15,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('changepw',{
-<<<<<<< HEAD
         title : "change password"
-=======
-        title : "修改密码"
->>>>>>> se/test_branch
     });
 });
 
