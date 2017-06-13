@@ -51,7 +51,7 @@ department1.save(function(err, res){
             precoures1.save(function (err, res) {
                 if(err){console.log('Error in pre.save()\n', err);}
             });
-        })
+        });
         var teacher2 = new Teacher({
               name:"老师2"
             , ismale:true
@@ -60,7 +60,7 @@ department1.save(function(err, res){
             , _department:department2._id
             , phone_number:"123456789"
             , info:"yes"
-        })
+        });
         teacher2.save(function (err, res) {
             if(err) {console.log('Error in teacher2.save()\n',err);}
         })
