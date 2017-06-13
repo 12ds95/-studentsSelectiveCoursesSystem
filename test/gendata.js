@@ -173,7 +173,7 @@ time14.save(function(err,res){
                 , campus:"紫金港"
                 , semester:"春"
                 , _time:[time11.id, time12.id]
-                , _classroom:[room2._id, room2._id]
+                , _classroom:[room21._id, room21._id]
             });
         })
     });

@@ -34,5 +34,11 @@ PrecourseSchema.statics = {
                 cb(err, res);
             });
     }
+    ,
+    saveOneCourse: function (item, cb) {
+        item.save(function(err, res){
+            cb(err);
+        });
+    }
 };
 module.exports = PrecourseSchema;

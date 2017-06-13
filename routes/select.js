@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
-
+var Course = require('../models/Course')
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    Course.getAll(0, function(err, courselist){
+        res.render('select', courselist)
+    });
     // 筛选器固定参数
     var filterNameData = [
         '课程名称',

@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var Teacher = require('../models/Teacher');
+var Semester = require('../models/Semester');
 var Timeslot = require('../models/Timeslot');
 var Classroom = require('../models/Classroom');
 var Schema = mongoose.Schema;
@@ -51,8 +53,37 @@ CourseSchema.virtual('classroom').get(function(){
 });
 
 CourseSchema.pre('find',function(next){
-
 	next();
 });
+CourseSchema.statics = {
+	getAll: function(page, cb){
+		this.find({})
+			.populate({path:'_teacher'})
+			.populate({path:'_time'})
+			.populate({path:'_classroom'})
+			.populate({path:'_semester'})
+			.sort('id')
+			.exec(function(err, res){
+				if(res.length == 0 || res.length<(page-1)*20)
+					cb(err, res);
+				var begin = 0;
+				var count = 0, i;
+				var last = "";
+				for(i = 0; i < res.length; i++){
+                    if(count == 20*(page-1))begin = i;
+                    else if(count == 20 * page)break;
+					if(res[i].id != last.id){
+						count++;
+						last = res[i];
+					}
+
+				}
+				var result = new Array();
+				for(var count = begin; count < i; count++)
+					result[count-begin] = res[count];
+				cb(err,result);
+			})
+	}
+}
 
 module.exports = CourseSchema;

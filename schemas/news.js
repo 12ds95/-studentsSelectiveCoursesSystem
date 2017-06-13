@@ -33,6 +33,19 @@ NewsSchema.statics ={
 			.sort('updateAt')
 			.exec(cb)
 	}
+	,
+    getTwentyNews: function (from, to, cb) {
+        this.find({})
+            .sort('createAt')
+            .select('content title')
+            .exec(function(err, res){
+                var i, result;
+                if(res.length < from + 1)cb(result);
+                for(i=from;i<res.length&&i<=to;i++)
+                    result[i-from]=res[i];
+                cb(result);
+            });
+    }
 };
 
 
