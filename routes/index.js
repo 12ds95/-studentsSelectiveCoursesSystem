@@ -10,16 +10,12 @@ router.get('/', function(req, res, next) {
     res.render('index',{
         title : 'Login'
     });
-    var uname = req.query.username;
-    var passwd = req.query.password;
 
-    User.getUserType(uname,function (err,usertype) {
-        if (usertype == 2){
-            console.log("This is a student!");
-        }else if(usertype == 1){
-            console.log("This is a teacher!");
-        }
-    });
+    // not available here
+    // var uname = req.query.username;
+    // var passwd = req.query.password;
+
+    
 
 });
 
@@ -45,10 +41,20 @@ router.post('/signin', function (req, res, next) {
                     console.log(err)
                 }
                 if (isMatch) {
-                    req.session.loginUser = username;
-                    req.session.userType = "student";
-                    console.log('matched');
-                    return res.redirect('/student');
+                    console.log('Password matched!');
+                    User.getUserType(uname,function (err,usertype) {
+                        if (usertype == 2){
+                            console.log("This is a student!");
+                            req.session.loginUser = username;
+                            req.session.userType = "student";
+                            return res.redirect('/student');
+                        }else if(usertype == 1){
+                            console.log("This is a teacher!");
+                            req.session.loginUser = username;
+                            req.session.userType = "teacher";
+                            return res.redirect("/teacher");
+                        }
+                    });       
                 }else{
                     console.log('Password is not matched');
                     return res.redirect('/')

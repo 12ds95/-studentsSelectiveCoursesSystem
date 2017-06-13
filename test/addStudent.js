@@ -6,6 +6,8 @@ var Department = require('../models/Department');
 var Teacher = require('../models/Teacher');
 var PreCourse = require('../models/PreCourse');
 var Student = require('../models/Student');
+var User = require('../models/User');
+
 
 mongoose.connect('mongodb://localhost/test');
 mongoose.Promise = global.Promise;

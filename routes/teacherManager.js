@@ -105,7 +105,7 @@ router.post('/addData', function(req, res, next) {
         , phone_number:req.body['手机号码']
         , info : req.body['个人简介']
     });
-    teacher.save(function (err, res) {
+    teacher.save(function (err, save_res) {
         var status;
         var msg;
         if (err){ status = -1; msg = err;}
