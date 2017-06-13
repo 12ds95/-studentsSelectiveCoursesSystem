@@ -1,28 +1,65 @@
 //
    Created by iqich on 2017/5/30.
 extends ../layout
+block script
+    script(src="js/md5.js").
+    script(type="text/javascript").
+        $(document).ready(function () {
+            $("#confirm").click(function () {
+                $("#modal").modal("hide");
+                var oldpw = document.getElementById("oldpw");
+                var newpw = document.getElementById("newpw");
+                var confirmpw = document.getElementById("confirmpw");
+                if(newpw.value != confirmpw.value)
+                    alert("两次输入新密码不同");
+                else {
+                    oldpw.value = hex_md5(oldpw.value);
+                    newpw.value = hex_md5(newpw.value);
+                    confirmpw.value = hex_md5(confirmpw.value);
+                    var data = JSON.stringify($("#form").serializeObject());
+                    $.post('/changepw/pw/change', data, function (data) {
+                        if (data['status']) {
+                            alert("修改成功");
+                            $.post('/changepw/personalinfo',1);
+                        }
+                        else
+                            alert("修改失败");
+                    });
+                }
+            });
+        });
 block content
-    .container(style="padding-top:80px;")
+    .container
         .row
             .panel.panel-primary
                 .panel-heading
                     h3.panel-title 密码修改
                 .panel-body
-                    form.form-horizontal
+                    form.form-horizontal(id="form",method="post",enctype="multipart/form-data")
                         .form-group
                             label(for="oldpw",class="col-md-3 control-label") 旧密码：
                             .col-md-6
-                                input(type="text",class="form-control input-sm",placeholder="请输入旧密码")
+                                input(type="password",name="oldpw", id="oldpw" class="form-control input-sm",placeholder="请输入旧密码")
                         .form-group
                             label(for="newpw",class="col-md-3 control-label") 新密码：
                             .col-md-6
-                                input(type="text",class="form-control input-sm",placeholder="请输入新密码")
+                                input(type="password",name="newpw", id="newpw" , class="form-control input-sm",placeholder="请输入新密码")
                         .form-group
                             label(for="confirmpw",class="col-md-3 control-label") 确认密码：
                             .col-md-6
-                                input(type="text",class="form-control input-sm",placeholder="请确认新密码")
+                                input(type="password",name="confirmpw", id="confirmpw", class="form-control input-sm",placeholder="请确认新密码")
                         .form-group
                             .col-sm-2
                             .col-sm-1
-                                button(type="submit",class="btn btn-primary btn-sm btn-block") 确认修改
+                                button(type="button",class="btn btn-primary btn-sm btn-block",onclick="$('#modal').modal('show')") 确认修改
 
+    div(class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
+                    h4.modal-title 操作确认
+                .modal-body 确认修改密码？
+                .modal-footer
+                    button(type="button" class="btn btn-default" data-dismiss="modal") 取消
+                    button(id="confirm" type="button" class="btn btn-primary") 确认
