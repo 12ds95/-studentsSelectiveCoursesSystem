@@ -1,23 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Teacher = require('../models/Teacher');
-<<<<<<< HEAD
 var Department = require('../models/Department');
 var assert = require('assert');
-=======
-
-// router.use(function (req, res, next) {
-//     if (!!req.session.loginUser && !!req.session.userType) {
-//         if (req.session.userType === "admin") {
-//             next();
-//         } else {
-//             res.redirect('/');
-//         }
-//     } else {
-//         res.redirect('/');
-//     }
-// });
->>>>>>> se/test_branch
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -117,6 +102,7 @@ router.post('/addData', function(req, res, next) {
           name:req.body['姓名']
         , ismale:req.body['性别']
         , id:req.body['工号']
+        , uname:req.body['工号'] //默认使用工号作为用户名
         , phone_number:req.body['手机号码']
         , info : req.body['个人简介']
     });

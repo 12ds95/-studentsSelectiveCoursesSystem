@@ -1,5 +1,7 @@
 var   mongoose = require('mongoose')
 	, Department = require('../models/Department')
+	, User = require('../models/User')
+	, assert = require('assert')
 	;
 var TeacherSchema = new mongoose.Schema({
 	name:String,
@@ -52,6 +54,18 @@ TeacherSchema.statics = {
             });
     }
 };
+
+TeacherSchema.pre('save',function(next){
+	var _user = new User({
+		name:this.uname
+		, password:'123456' 	//default password
+	});
+	_user.save(function(err,res){
+		assert.equal(err,null);
+		console.log("A new user added!",res);
+		next();
+	})
+})
 
 
 module.exports = TeacherSchema;
