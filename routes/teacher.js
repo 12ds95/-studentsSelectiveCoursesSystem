@@ -30,93 +30,93 @@ router.get('/pickStudents', function(req, res, next) {
         studentsPending:[
         {
             id:'3140104444',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'52'
+            // credits:'52'
         },{
             id:'3140105555',
-            credits:'53'
+            // credits:'53'
         },{
             id:'3140105555',
-            credits:'54'
+            // credits:'54'
         },{
             id:'3140105555',
-            credits:'55'
+            // credits:'55'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105553',
-            credits:'56'
+            // credits:'56'
         }],
         studentsReady:[
         {
             id:'3140100000',
-            credits:'12'
+            // credits:'12'
         },{
             id:'3140105555',
-            credits:'23'
+            // credits:'23'
         },{
             id:'3140105555',
-            credits:'24'
+            // credits:'24'
         },{
             id:'3140105555',
-            credits:'103'
+            // credits:'103'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140105555',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3232222222',
-            credits:'56'
+            // credits:'56'
         }]
     });
 });
@@ -128,33 +128,33 @@ router.post('/teacher/pickStudents/select', function(req, res, next) {
         studentsPending:[
         {
             id:'222222222',
-            credits:'5'
+            // credits:'5'
         },{
             id:'3140102223',
-            credits:'52'
+            // credits:'52'
         },{
             id:'3140102224',
-            credits:'53'
+            // credits:'53'
         },{
             id:'3140102225',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140102226',
-            credits:'56'
+            // credits:'56'
         }],
         studentsReady:[
         {
             id:'3140100000',
-            credits:'12'
+            // credits:'12'
         },{
             id:'3140100005',
-            credits:'53'
+            // credits:'53'
         },{
             id:'3140100001',
-            credits:'52'
+            // credits:'52'
         },{
             id:'3232220002',
-            credits:'51'
+            // credits:'51'
         }]};
     console.log(data);
     res.json(data);
@@ -167,33 +167,33 @@ router.post('/teacher/pickStudents/delete', function(req, res, next) {
         studentsReady:[
         {
             id:'222222222',
-            credits:'5'
+            // credits:'5'
         },{
             id:'3140102223',
-            credits:'52'
+            // credits:'52'
         },{
             id:'3140102224',
-            credits:'53'
+            // credits:'53'
         },{
             id:'3140102225',
-            credits:'56'
+            // credits:'56'
         },{
             id:'3140102226',
-            credits:'56'
+            // credits:'56'
         }],
         studentsPending:[
         {
             id:'3140100000',
-            credits:'12'
+            // credits:'12'
         },{
             id:'3140100005',
-            credits:'53'
+            // credits:'53'
         },{
             id:'3140100001',
-            credits:'52'
+            // credits:'52'
         },{
             id:'3232220002',
-            credits:'51'
+            // credits:'51'
         }]};
     console.log(data);
     res.json(data);
