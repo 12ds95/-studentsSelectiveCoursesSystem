@@ -1,3 +1,6 @@
+# issue 1
+* 直接把department改成字符串，取消这个表
+
 # studentsSelectiveCoursesSystem
 
 In the working directory, use
@@ -35,13 +38,21 @@ to run mongoDB before you run this webapp
 * reselect 补选页面，尚未完成
 * select 选课页面 尚未实现
 * student 页面，显示学生的个人信息
-* studentManager 页面的数据库跑通
 * teacher 中pickStudent的功能需要从请求中过去数据
 * /teacher/pickStudents/select 补选申请，还没有设计完
 * /teacher/pickStudents/delete
-* teacherManager添加和删除教师的测试
-* teacherManager添加老师的时候，也应该在User中添加对应的用户
 * teacherManager显示老师的列表。需要从刘启明那里合并
 * 想知道User的路由是不是被弃用了
 
 ## 新增的功能
+* 经过检查，密码比对的功能是正常的
+* teacherManager添加老师的时候，也应该在User中添加对应的用户
+* studentManager 页面的数据库跑通
+* 把用到department的部分基本改成了字符串
+* 按页查找，可以使用getAPage()函数来进行操作
+
+## 需要调试的bug
+* schema/teacher.js 中，无法添加新的User - 会在 teacherManager中添加老师的时候体现出来 也就是teacherManager无法添加老师
+
+## 需要协作完成的
+* teacherManager删除和修改教师的测试 - 这里的跳转还没有做吗？

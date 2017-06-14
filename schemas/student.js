@@ -3,9 +3,11 @@ var Schema = mongoose.Schema;
 
 
 var Course = require('../models/Course');
-var Department = require('../models/Department');
 var Timeslot = require('../models/Timeslot')
-  , Classroom = require('../models/Classroom');
+  , Classroom = require('../models/Classroom')
+  , User = require('../models/User')
+  , assert = require('assert')
+  ; 
 
 var StudentSchema = new mongoose.Schema({
 	id : {
@@ -15,18 +17,15 @@ var StudentSchema = new mongoose.Schema({
 	name:String,
 	ismale:Boolean,
 	credit:Number,
-
-	_department:{type:Schema.Types.ObjectId, ref:'Department'},
+	// replace by String:department
+	// _department:{type:Schema.Types.ObjectId, ref:'Department'},
+	department:String,
 	_course_list:{type:Schema.Types.ObjectId, ref:'Course'},
 	uname:{
 		type: String,
 		unique: true
 	} //用于记录学生的用户名，内容唯一
 },{toJSON:{virtuals:true}});
-
-StudentSchema.virtual('department').get(function(){
-	return this._department.dept_name;
-});
 
 StudentSchema.statics = {
 	getSchedule: function(sid,cb){
@@ -41,28 +40,51 @@ StudentSchema.statics = {
 	,
 	getStudentList:function(cb){
 		return Student.find({})
-					  .populate({path:'_department',select:'-_id'})
 					  .sort('id')
-					  .select('id name _department')
+					  .select('id name')
 					  .exec(function(err,res){
 					  	cb(err,res);
 					  });
 	}
 	,
-	getTwentyStudent:function (from, to, cb) {
+	// 使用 getAPage 来代替
+	// getTwentyStudent:function (from, to, cb) {
+	// 	// TODO 
+	// 	this.find({})
+	// 		.sort('id')
+	// 		.select('id name')
+	// 		.exec(function(err, res){
+	// 			var i, result;
+	// 			if(res.length < from + 1)cb(result);
+	// 			for(i=from;i<res.length&&i<=to;i++)
+	// 				result[i-from]=res[i];
+	// 			cb(result);
+	// 		});
+	// },
+	getAPage:function(pageNum,pageSize,cb){
+		var skipNum = (pageNum - 1) * pageSize;
 		this.find({})
-			.populate({path:'_department'})
 			.sort('id')
-			.select('id name _department')
-			.exec(function(err, res){
-				var i, result;
-				if(res.length < from + 1)cb(result);
-				for(i=from;i<res.length&&i<=to;i++)
-					result[i-from]=res[i];
-				cb(result);
+			.skip(skipNum)
+			.limit(pageSize)
+			.exec(function(err,pageResult){
+				assert.equal(err,null);
+				cb(pageResult);
 			});
 	}
 };
 
+StudentSchema.pre(function(next){
+	var _user = new User({
+		name : this.uname
+		, password: '123456'
+		, user_type: 2
+	});
+	_user.save(function(err,res){
+		assert.equal(err,null);
+		console.log('Add a new student into user!');
+		next();
+	});
+});
 
 module.exports = StudentSchema;

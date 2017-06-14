@@ -41,35 +41,46 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/tableData', function(req, res, next) {
+    // TODO assume pageNum start from 1
     var pageNum = req.body['pageNum'];
-    var itemPerPage = 20;
-    var jsonn = getTeacherData((pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
-    res.json(jsonn);
+    var pageSize = 20;
+    getTeacherData(pageNum,pageSize,function(jsonn){
+        res.json(jsonn);
+    });
 });
-function getTeacherData(from, to) {
+function getTeacherData(pageNum,pageSize,cb) {
     // 以下是后端数据库的函数：读取20位教师信息（不到20则以实际为准），返回教师总数
     // 返回值：result包，包括TotalItem标签的全部教师总数，和Data标签的[from,to]区间的教师工号、姓名、学院信息
     // result = get20Data(...)
-    var result = {      // 这个是伪造数据，应删除（返回格式应与此一致）
-        'Data': [
-            {id:'1_1', name:'教师张三', department:'计算机科学与技术学院'},
-            {id:'1_2', name:'教师李四', department:'信电'}
-        ],
-        'TotalItem': 4
-    };
+    // 以下是前端伪造的数据
+    // var result = {      // 这个是伪造数据，应删除（返回格式应与此一致）
+    //     'Data': [
+    //         {id:'1_1', name:'教师张三', department:'计算机科学与技术学院'},
+    //         {id:'1_2', name:'教师李四', department:'信电'}
+    //     ],
+    //     'TotalItem': 4
+    // };
     // 以上
-    var jsonn = {};
-    jsonn['PageTotal'] = parseInt((result['TotalItem']-1) / 20 + 1);
-    jsonn['Title'] = ['工号','姓名','学院'];
-    jsonn['Content'] = [];
-    for (var i=0; i<result['Data'].length; i++) {
-        jsonn['Content'].push({
-            '工号': result['Data'][i]['id'],
-            '姓名': result['Data'][i]['name'],
-            '学院': result['Data'][i]['department']
+    Teacher.getAPage(pageNum,pageSize,function(teachers){
+        var result = {
+            'Data': teachers
+            , 'TotalItem': teachers.length
+        };
+        Teacher.getNumberofTeacher(function(totalNumber){
+            var jsonn = {};
+            jsonn['PageTotal'] = parseInt((totalNumber-1) / 20 + 1);
+            jsonn['Title'] = ['工号','姓名','学院'];
+            jsonn['Content'] = [];
+            for (var i=0; i<result['Data'].length; i++) {
+                jsonn['Content'].push({
+                    '工号': result['Data'][i]['id'],
+                    '姓名': result['Data'][i]['name'],
+                    '学院': result['Data'][i]['department']
+                });
+            }
+            cb(jsonn);
         });
-    }
-    return jsonn;
+    });    
 }
 
 router.post('/getData', function (req, res, next) {
@@ -105,6 +116,7 @@ router.post('/addData', function(req, res, next) {
         , uname:req.body['工号'] //默认使用工号作为用户名
         , phone_number:req.body['手机号码']
         , info : req.body['个人简介']
+        , department:department
     });
     teacher.save(function (err, save_res) {
         var status;
@@ -135,22 +147,22 @@ router.post('/modifyData', function(req, res, next) {
         teacher.ismale = (gender == '男');
         teacher.phone_number = phone;
         teacher.info = info;
-        Department.find({dept_name:department},function(err,new_dept){
-            // update the teacher's department
-            teacher._department = new_dept._id;
-            teacher.save(function(err,save_res){
-                assert.equal(err,null);
-                console.log('Teacher info update success!');
-                var status,errmsg;
-                if(err) { status = 1; errmsg = err;}
-                else { status = 0; errmsg = null;}
-                    var jsonn = {};
-                    jsonn['status'] = status;
-                    jsonn['errMsg'] = errmsg;
-                    // return until update finish
-                    res.json(jsonn);
-            });
+        // delete dept-find here
+        // update the teacher's department
+        teacher.department = department;
+        teacher.save(function(err,save_res){
+            assert.equal(err,null);
+            console.log('Teacher info update success!');
+            var status,errmsg;
+            if(err) { status = 1; errmsg = err;}
+            else { status = 0; errmsg = null;}
+                var jsonn = {};
+                jsonn['status'] = status;
+                jsonn['errMsg'] = errmsg;
+                // return until update finish
+                res.json(jsonn);
         });
+        
     });
 });
 
