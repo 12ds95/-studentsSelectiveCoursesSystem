@@ -18,9 +18,10 @@ var noticeManager = require('./noticeManager');
 var captcha = require('./captcha');
 var byselection = require('./byselection');
 var reselect = require('./reselect');
+var publicKeyPem = require('../modules/crypto').publicKeyPem;
 
 module.exports = function(app) {
-
+    app.locals.publicKey = publicKeyPem;
     app.use('/', index);
     // app.use('/users', users);
     app.use('/login', login);
