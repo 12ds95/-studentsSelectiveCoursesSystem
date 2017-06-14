@@ -66,7 +66,7 @@ function getTeacherData(pageNum,pageSize,cb) {
             'Data': teachers
             , 'TotalItem': teachers.length
         };
-        Teacher.getNumberofTeacher(function(totalNumber){
+        Teacher.getNumberofTeacher(pageSize,function(totalNumber){
             var jsonn = {};
             jsonn['PageTotal'] = parseInt((totalNumber-1) / 20 + 1);
             jsonn['Title'] = ['工号','姓名','学院'];
@@ -172,7 +172,7 @@ router.post('/deleteData', function(req, res, next) {
     // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
     // result = modifyData(...)
     // 以上
-    Teacher.deleteOne({id:ID},function(err){
+    Teacher.findOneAndRemove({id:ID},function(err){
         assert.equal(err,null);
         var jsonn;
         if (err){jsonn['status'] = 1; jsonn['errMsg'] = err ;}

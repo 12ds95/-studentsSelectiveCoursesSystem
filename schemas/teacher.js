@@ -60,11 +60,11 @@ TeacherSchema.statics = {
                 cb(result);
             });
     },
-	getNumberofTeacher:function(cb){
+	getNumberofTeacher:function(pageSize,cb){
 		var number;
 		this.find({},function(err,res){
 			assert.equal(err,null);
-			number = res.length;
+			number =Math.ceil(res.length / pageSize); // BUG 此处返回值总是1?
 			cb(number);
 		})
 	}

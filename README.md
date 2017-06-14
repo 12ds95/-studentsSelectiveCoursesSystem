@@ -22,7 +22,6 @@ to run mongoDB before you run this webapp
 
 ## 现在仍需要实现的功能：
 
-* department无法添加成功
 * admin/reviewapplyforclass中的内容由刘启明完成
 * applyforClass 也应该有刘启明完成
 * bySelection 也没有完成
@@ -31,8 +30,6 @@ to run mongoDB before you run this webapp
 * curriculum中显示课表的内容要与相应的学生挂钩
 * index中用户登录的时候，密码的匹配算法有问题。无法正常的登录
 * 获取用户类型的函数中需要添加管理员类型
-* index中无法获取新闻
-* noticeManager中全部的与News有关的操作
 * personalInfo 中提取个人信息，修改个人信息，
 * personalInfo 中修改密码的功能与changepw重合
 * reselect 补选页面，尚未完成
@@ -41,18 +38,30 @@ to run mongoDB before you run this webapp
 * teacher 中pickStudent的功能需要从请求中过去数据
 * /teacher/pickStudents/select 补选申请，还没有设计完
 * /teacher/pickStudents/delete
-* teacherManager显示老师的列表。需要从刘启明那里合并
 * 想知道User的路由是不是被弃用了
 
+## 正在进行的工作
+
+
 ## 新增的功能
+* noticeManager中全部的与News有关的操作
+* Notice 与 News 暂时当做同一个东西了，不知道是否可以？
+* 实现index中获取新闻
 * 经过检查，密码比对的功能是正常的
 * teacherManager添加老师的时候，也应该在User中添加对应的用户
 * studentManager 页面的数据库跑通
 * 把用到department的部分基本改成了字符串
-* 按页查找，可以使用getAPage()函数来进行操作
+* 重新实现了按页查找，可以使用getAPage(pageSize)函数来进行操作
+
+
 
 ## 需要调试的bug
 * schema/teacher.js 中，无法添加新的User - 会在 teacherManager中添加老师的时候体现出来 也就是teacherManager无法添加老师
 
+
+
 ## 需要协作完成的
 * teacherManager删除和修改教师的测试 - 这里的跳转还没有做吗？
+* 首页的新闻部分已经按照大葱的格式写了，但是还是无法获取到作者以及创建时间的信息。
+### 大葱
+* noticeManager中 /getData /deleteData 中的通知编号如何获取？ - 可以改成按照标题获取

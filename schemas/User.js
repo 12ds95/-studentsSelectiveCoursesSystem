@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var   bcrypt = require('bcrypt')
     , Student = require('../models/Student')
     , Teacher = require('../models/Teacher')
+    , assert = require('assert')
 ;
 
 var SALT_WORK_FACTOR = 10;
