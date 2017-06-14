@@ -59,6 +59,8 @@ router.get('/pickStudents', function(req, res, next) {
 
 router.post('/teacher/pickStudents/select', function(req, res, next) {
     // TODO finish the function to delete stu 
+    var selectedStu = req.body.studentsPending;
+    
     console.log(req.body);
     var data={
         status: 1,

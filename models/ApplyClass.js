@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-    , ApplyClassSchema = require('../schemas/apply_class')
+    , ApplyClassSchema = require('../schemas/applyclass')
     , ApplyClass = mongoose.model('ApplyClass',ApplyClassSchema)
     ;
 

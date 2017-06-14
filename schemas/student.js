@@ -5,7 +5,6 @@ var Schema = mongoose.Schema;
 var Course = require('../models/Course');
 var Timeslot = require('../models/Timeslot')
   , Classroom = require('../models/Classroom')
-  , User = require('../models/User')
   , assert = require('assert')
   ; 
 
@@ -21,6 +20,10 @@ var StudentSchema = new mongoose.Schema({
 	// _department:{type:Schema.Types.ObjectId, ref:'Department'},
 	department:String,
 	_course_list:{type:Schema.Types.ObjectId, ref:'Course'},
+	// 以下内容纯属为个人信息
+	address:String,
+	email:String,
+	phone:String,
 	uname:{
 		type: String,
 		unique: true
@@ -73,18 +76,26 @@ StudentSchema.statics = {
 			});
 	}
 };
+var User = require('../models/User');
+StudentSchema.pre('save',function(next){
+	User.findOne({name:this.uname},function(err,res){
+		if(res != null){ next(); } 
+		// User already exists do nothing
 
-StudentSchema.pre(function(next){
-	var _user = new User({
-		name : this.uname
-		, password: '123456'
-		, user_type: 2
-	});
-	_user.save(function(err,res){
-		assert.equal(err,null);
-		console.log('Add a new student into user!');
-		next();
-	});
+		else {
+			var _user = new User({
+				name : this.uname
+				, password: '123456'
+				, user_type: 2
+			});
+			_user.save(function(err,res){
+				assert.equal(err,null);
+				console.log('Add a new student into user!');
+				next();
+			});
+		}
+	})
+	
 });
 
 module.exports = StudentSchema;

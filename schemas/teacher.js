@@ -72,16 +72,21 @@ TeacherSchema.statics = {
 
 TeacherSchema.pre('save',function(next){
 	// 在添加老师之前，先添加一个用户
-	var _user = new User({
-		name:this.uname
-		, password:'123456' 	//default password
-		, user_type: 1  	// teacher type
+	User.findOne({name:this.uname},function(err,res){
+		if(res != null) { next(); }
+		else {
+			var _user = new User({
+				name:this.uname
+				, password:'123456' 	//default password
+				, user_type: 1  	// teacher type
+			});
+			_user.save(function(err,res){
+				assert.equal(err,null);
+				console.log("A new user added!",res);
+				next();
+			});
+		}
 	});
-	_user.save(function(err,res){
-		assert.equal(err,null);
-		console.log("A new user added!",res);
-		next();
-	})
 });
 
 TeacherSchema.pre('remove',function(next){

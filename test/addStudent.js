@@ -33,19 +33,6 @@ var stu3 = new Student({
     , credit:170
 });
 
-var user1 = new User({
-      name:'3140104200'
-    , password:'123456'
-});
-var user2 = new User({
-    name:"3140104201"
-    , password:'123456'
-});
-var user3 = new User({
-    name:'3140104203'
-    , password:'123456'
-});
-
 
 stu1.save(function (err, res) {
     stu2.save(function (err, res) {
@@ -61,13 +48,6 @@ stu1.save(function (err, res) {
     });
 });
 
-user1.save(function (err,res){
-    user2.save(function(err,res){
-        user3.save(function(err,res){
-            console.log("All stu saved!");
-        });
-    });
-});
 
 
 
