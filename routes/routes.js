@@ -19,6 +19,7 @@ var captcha = require('./captcha');
 var byselection = require('./byselection');
 var reselect = require('./reselect');
 var publicKeyPem = require('../modules/crypto').publicKeyPem;
+var inforeport = require('./inforeport');
 
 module.exports = function(app) {
     app.locals.publicKey = publicKeyPem;
@@ -39,6 +40,7 @@ module.exports = function(app) {
     app.use('/byselection',byselection);
     // app.use('/applyforclass',applyforclass);
     app.use('/reselect',reselect);
+    app.use('/inforeport',inforeport);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
