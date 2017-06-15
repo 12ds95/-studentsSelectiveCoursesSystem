@@ -16,7 +16,9 @@ var Student = require('../models/Student');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    Student.getSchedule(0,function(err,courselist){
+    var stuID = req.session.loginUser;
+
+    Student.getSchedule(stuID,function(err,courselist){
         console.log(courselist[0].toJSON());
         res.render('curriculum',{
             semester: '春',

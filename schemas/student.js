@@ -33,12 +33,19 @@ var StudentSchema = new mongoose.Schema({
 StudentSchema.statics = {
 	getSchedule: function(sid,cb){
 		// 由于暂时没有添加学生的信息，因此先把所有的课程显示出来
-		return Course.find({})
-					 .populate({path:'_time', select:' -_id'})
-					 .populate({path:'_classroom', select:' -_id'})
-					 .exec(function(err,res){
-					 	cb(err,res);
-					 });
+		// return Course.find({})
+		// 			 .populate({path:'_time', select:' -_id'})
+		// 			 .populate({path:'_classroom', select:' -_id'})
+		// 			 .exec(function(err,res){
+		// 			 	cb(err,res);
+		// 			 });
+		return this.findOne({id:sid})
+			.populate({path:'_course_list',select:'-_id'})
+			.populate({path:'_time', select:' -_id'})
+			.populate({path:'_classroom', select:' -_id'})
+			.exec(function(err,res){
+				cb(err,res._course_list);
+			});
 	}
 	,
 	getStudentList:function(cb){
@@ -78,13 +85,14 @@ StudentSchema.statics = {
 };
 var User = require('../models/User');
 StudentSchema.pre('save',function(next){
-	User.findOne({name:this.uname},function(err,res){
+	User.findOne({name:this.id},function(err,res){
 		if(res != null){ next(); } 
 		// User already exists do nothing
 
 		else {
 			var _user = new User({
-				name : this.uname
+				// 为什么这里的this是空的啊？
+				name : this.id
 				, password: '123456'
 				, user_type: 2
 			});
