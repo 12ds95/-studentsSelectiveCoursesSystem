@@ -72,4 +72,12 @@ router.post('/admin/reviewClasses/apply', function(req, res, next) {
     console.log(data);
     res.json(data);
 });
+router.post('/admin/reviewClasses/search', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1
+    };
+    console.log(data);
+    res.json(data);
+});
 module.exports = router;
