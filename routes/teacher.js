@@ -4,7 +4,6 @@
 var express = require('express');
 var router = express.Router();
 
-<<<<<<< Updated upstream
 // router.use(function (req, res, next) {
 //     if (!!req.session.loginUser && !!req.session.userType) {
 //         if (req.session.userType === "teacher") {
@@ -16,8 +15,6 @@ var router = express.Router();
 //         res.redirect('/');
 //     }
 // });
-=======
->>>>>>> Stashed changes
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

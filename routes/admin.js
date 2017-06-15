@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User.js');
 
-<<<<<<< Updated upstream
+
 // router.use(function (req, res, next) {
 //     if (!!req.session.loginUser && !!req.session.userType) {
 //         if (req.session.userType === "admin") {
@@ -18,7 +18,6 @@ var User = require('../models/User.js');
 //         res.redirect('/');
 //     }
 // });
-=======
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -73,7 +72,6 @@ router.get('/', function(req, res, next) {
     });
 });
 
->>>>>>> Stashed changes
 
 //userlist
 router.get('/userlist',function(req,res){

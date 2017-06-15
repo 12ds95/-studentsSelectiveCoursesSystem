@@ -34,18 +34,6 @@ router.get('/', function(req, res, next) {
     leftColAttr['学分'] = result['credit'];
     leftColAttr['院系'] = result['department'];
     var rightColAttr = [{
-<<<<<<< Updated upstream
-            'imgURL':'images/select.png',
-            'URL':'/select',
-            '名称':'选课'
-        },{
-            'imgURL':'images/table.png',
-            'URL':'/curriculum',
-            '名称':'查看课表'
-        },{
-            'imgURL':'images/rechoose.png',
-            'URL':'/reselect',
-=======
             'imgURL':'images/student_select.png',
             'URL':'http://www.baidu.com',
             '名称':'选课'
@@ -56,7 +44,6 @@ router.get('/', function(req, res, next) {
         },{
             'imgURL':'images/student_reselect.png',
             'URL':'http://www.baidu.com',
->>>>>>> Stashed changes
             '名称':'补选'
         }
     ];
