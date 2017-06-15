@@ -103,7 +103,20 @@ function getTeacherData(from, to) {     // 取[from,to]的数据
         pageTotal: 4
     }
 }
+{
+    [
+        {
+            type: 'id',
+            op:'gt',
+            value:'314'
+        },
+        {
+            type:'grade',
+            op:'eq',
 
+        }
+    ]
+}
 
 router.post('/submit', function(req, res, next) {
     var courseName = req.body['课程名称'];

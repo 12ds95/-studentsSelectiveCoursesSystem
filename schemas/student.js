@@ -24,6 +24,7 @@ var StudentSchema = new mongoose.Schema({
 	address:String,
 	email:String,
 	phone:String,
+	// photo
 	uname:{
 		type: String,
 		unique: true

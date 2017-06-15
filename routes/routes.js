@@ -16,7 +16,7 @@ var teacherManager = require('./teacherManager');
 var studentManager = require('./studentManager');
 var noticeManager = require('./noticeManager');
 var captcha = require('./captcha');
-var byselection = require('./byselection');
+// var byselection = require('./byselection');
 var reselect = require('./reselect');
 // var cryptico = require('../modules/cryptico');
 // var passPhrase = "studentsSelectiveCourseSystem";
@@ -46,7 +46,7 @@ module.exports = function(app) {
     app.use('/studentManager', studentManager);
     app.use('/noticeManager', noticeManager);
     app.use('/captcha',captcha);
-    app.use('/byselection',byselection);
+    // app.use('/byselection',byselection);
     app.use('/applyforclass',applyforclass);
     app.use('/reselect',reselect);
 
