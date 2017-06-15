@@ -46,7 +46,7 @@ block rightContent
             var str = $(this).attr('id');
             var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
             var jsonn = {'工号': tableContent[itemNum]['工号']};
-            $.post('/teacherManager/getData', jsonn, function (data) {
+            $.post('/teacherManager/deleteData', jsonn, function (data) {
                 refreshTable('teacherManager/tableData', 1);
             });
         }
