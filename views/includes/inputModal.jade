@@ -11,10 +11,12 @@ script.
             '           <div class="modal-body">' +
             '               <form role="form">';
         for (var i = 0; i < modalData['ContentItem'].length; i++) {
-            modalHTML += '       <div class="form-group">' +
-                '                   <label style="font-size:15px">' + modalData['ContentItem'][i] + '</label>' +
-                '                   <input id="ContentItem_' + i + '" class="form-control" type="text" ' + modalData['ContentDisabled'][i] + ' value="'+modalData['ContentData'][i]+'">' +
-                '               </div>';
+            if (modalData['ContentShow'][i] == true) {
+                modalHTML += '       <div class="form-group">' +
+                    '                   <label style="font-size:15px">' + modalData['ContentItem'][i] + '</label>' +
+                    '                   <input id="ContentItem_' + i + '" class="form-control" type="text" ' + modalData['ContentDisabled'][i] + ' value="' + modalData['ContentData'][i] + '">' +
+                    '               </div>';
+            }
         }
         modalHTML += '' +
             '               </form>' +

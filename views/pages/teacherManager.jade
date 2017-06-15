@@ -15,6 +15,7 @@ block rightContent
                 'Title': '教师信息添加表',
                 'ContentItem': ['工号', '姓名', '性别', '学院', '手机号码', '个人简介'],
                 'ContentData': ['', '', '', '', '', ''],
+                'ContentShow': [true, true, true, true, true, true],
                 'ContentDisabled': ['', '', '', '', '', ''],
                 'SuccessMsg': '添加成功',
                 'ErrorMsg': '添加失败'
@@ -22,15 +23,14 @@ block rightContent
             var modalID = '#placeForModal';
             showModal(modalID, modalData, 'teacherManager/addData');
         }
-        function showModifyModal(tableContent) {
-            var str = $(this).attr('id');
-            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+        function showModifyModal(itemNum, tableContent) {
             var jsonn = {'工号': tableContent[itemNum]['工号']};
             $.post('/teacherManager/getData', jsonn, function (data) {
                 var modalData = {
                     'Title': '教师信息修改表',
                     'ContentItem': ['工号', '姓名', '性别', '学院', '手机号码', '个人简介'],
                     'ContentData': [data['工号'], data['姓名'], data['性别'], data['学院'], data['手机号码'], data['个人简介']],
+                    'ContentShow': [true, true, true, true, true, true],
                     'ContentDisabled': ['readonly','','','','',''],
                     'SuccessMsg': '修改成功',
                     'ErrorMsg': '修改失败'
@@ -42,9 +42,7 @@ block rightContent
         function afterModalSubmitSuccess() {
             refreshTable('teacherManager/tableData', 1);
         }
-        function doDelete(tableContent) {
-            var str = $(this).attr('id');
-            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+        function doDelete(itemNum, tableContent) {
             var jsonn = {'工号': tableContent[itemNum]['工号']};
             $.post('/teacherManager/deleteData', jsonn, function (data) {
                 refreshTable('teacherManager/tableData', 1);

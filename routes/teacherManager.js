@@ -67,6 +67,7 @@ function getTeacherData(from, to) {
     var jsonn = {};
     jsonn['PageTotal'] = parseInt((result['TotalItem']-1) / 20 + 1);
     jsonn['Title'] = ['工号','姓名','学院'];
+    jsonn['IsShow'] = [true, true, true];
     jsonn['Content'] = [];
     for (var i=0; i<result['Data'].length; i++) {
         jsonn['Content'].push({

@@ -15,6 +15,7 @@ block rightContent
                 'Title': '学生信息添加表',
                 'ContentItem': ['学号', '姓名', '学院', '性别', '学分'],
                 'ContentData': ['', '', '', '', ''],
+                'ContentShow': [true, true, true, true, true],
                 'ContentDisabled': ['', '', '', '', ''],
                 'SuccessMsg': '添加成功',
                 'ErrorMsg': '添加失败'
@@ -22,15 +23,14 @@ block rightContent
             var modalID = '#placeForModal';
             showModal(modalID, modalData, 'studentManager/addData');
         }
-        function showModifyModal(modifyData) {
-            var str = $(this).attr('id');
-            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+        function showModifyModal(itemNum, tableContent) {
             var jsonn = {'学号': tableContent[itemNum]['学号']};
             $.post('/teacherManager/getData', jsonn, function (data) {
                 var modalData = {
                     'Title': '学生信息修改表',
                     'ContentItem': ['学号', '姓名', '性别', '学院', '学分'],
                     'ContentData': [data['学号'], data['姓名'], data['性别'], data['学院'], data['学分']],
+                    'ContentShow': [true, true, true, true, true],
                     'ContentDisabled': ['readonly','','','','',''],
                     'SuccessMsg': '修改成功',
                     'ErrorMsg': '修改失败'
@@ -42,11 +42,9 @@ block rightContent
         function afterModalSubmitSuccess() {
             refreshTable('studentManager/tableData', 1);
         }
-        function doDelete(tableContent) {
-            var str = $(this).attr('id');
-            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+        function doDelete(itemNum, tableContent) {
             var jsonn = {'学号': tableContent[itemNum]['学号']};
-            $.post('/studentManager/getData', jsonn, function (data) {
+            $.post('/studentManager/deleteData', jsonn, function (data) {
                 refreshTable('studentManager/tableData', 1);
             });
         }
