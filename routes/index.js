@@ -54,18 +54,18 @@ function getNews(from, to) {     // 取[from,to]的数据
     var data = [
         {
             title: 'FFF团活动日',
-            author: '计算机科学与技术学院',
-            date: '5月20日',
+            department: '计算机科学与技术学院',
+            createAt: '5月20日',
             content: '5.20呵呵呵呵'
         },
         {
             title: '单身节',
-            author: '计算机科学与技术学院',
-            date: '11月11日',
+            department: '计算机科学与技术学院',
+            createAt: '11月11日',
             content: '单身狗的节日'
         }
     ];
-    var head = ['title', 'author', 'date', 'content'];
+    var head = ['title', 'department', 'createAt', 'content'];
     var pageTotal = 4;
     var title =  ['公告标题','发布单位','发布时间'];
 
