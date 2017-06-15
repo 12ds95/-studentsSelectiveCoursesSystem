@@ -69,6 +69,7 @@ router.get('/applyforclass', function(req, res, next) {
 router.get('/pickStudents', function(req, res, next) {
     res.render('pickStudents',{
         course:'面向对象程序设计',
+        courseID:'0002',
         studentsPending:[
         {
             id:'3140104444',

@@ -4,12 +4,14 @@ block script
         $(document).ready(function(){
             $("tr").click(function(){
                 var send=$(this)[0].childNodes[7].firstChild.nodeValue;
-                $.post('admin/reviewClasses/apply', send, function (data) {
-                    if(data['status']==1){
-                    }
-                    else
-                        alert("error!");
-                });
+                //get  http://localhost:3000/admin/reviewApplyforclass?time=send
+                window.open('/admin/reviewApplyforclass?time='+send);
+                //- $.post('admin/reviewClasses/apply', send, function (data) {
+                //-     if(data['status']==1){
+                //-     }
+                //-     else
+                //-         alert("error!");
+                //- });
             });
         });
         function search(){
@@ -59,9 +61,3 @@ block content
                             //- each course in classList
                             //-     +panelCourse(course.courseName,course.userName,course.department,course.date)
                     
-
-
-                      
-
-
-
