@@ -105,6 +105,7 @@ router.get('/reviewClasses',function(req,res){
 });
 router.get('/reviewApplyforclass',function(req,res){
     res.render('reviewApplyforclass',{
+        _id:'0001',
         classname: '当代中国经济',
         Engclassname: 'economy',
         department: '经济学院',
@@ -128,6 +129,14 @@ router.post('/admin/reviewClasses/apply', function(req, res, next) {
     res.json(data);
 });
 router.post('/admin/reviewClasses/search', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1
+    };
+    console.log(data);
+    res.json(data);
+});
+router.post('/admin/reviewApplyforclass/pass', function(req, res, next) {
     console.log(req.body);
     var data={
         status: 1
