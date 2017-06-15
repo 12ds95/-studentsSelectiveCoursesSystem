@@ -71,7 +71,7 @@ router.post('/news', function(req, res, next) {
     News.getAPage(pageNum,pageSize,function(pageResult){
         var result;
         News.getNumberOfPages(pageSize,function(totalPages){
-            var head = ['title', 'author', 'date', 'content'];
+            var head = ['title', 'department', 'createAt', 'content'];
             var title =  ['公告标题','发布单位','发布时间'];
             result = {
                 'Title': title,
