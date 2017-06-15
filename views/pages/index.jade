@@ -56,7 +56,8 @@ block content
                                     p(hidden=true id='publicKeyPem') #{publicKey}
                                     script.
                                         function encryptpw() {
-                                            var js = $('\<script /\>');
+                                            //$("#encry").remove();
+                                            var js = $("\<script id = 'encry'/\>");
                                             js.attr('src', "/js/bundle.js");
                                             $('head').append(js);
                                         }

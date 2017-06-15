@@ -34,10 +34,12 @@ router.post('/signin', function (req, res, next) {
                     return res.redirect('/student');
                 }else{
                     console.log('Password is not matched');
-                    return res.redirect('/')
+                    return res.redirect('/');
                 }
             })
         });
+    } else {
+        return res.redirect('/');
     }
 });
 
