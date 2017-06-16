@@ -20,23 +20,24 @@ var News = require('../models/News')
 router.get('/', function(req, res, next) {
     // 左侧固定参数
     var leftTitle = '信息与动态';
-    var leftImage = 'images/people_default.png';
+    var leftImage = 'images/photo_admin.png';
     var leftText = {
         '工号': '2333',
         '院系': '妓院妓院妓院'
     };
     // 右侧筛选器固定参数
     var filterNameData = [
-        '课程名称',
-        '课程代码',
-        '教师名字',
-        '课程类别'
+        ['发布时间', 'createAt'],
+        ['发布单位', 'departement'],
+        ['通知标题', 'title']
     ];
     var filterOpData = [
-        '包含',
-        '不包含',
-        '等于',
-        '不等于'
+        ['等于', 'equal'],
+        ['不等于', 'not_equal'],
+        ['包含', 'include'],
+        ['不包含', 'not_include'],
+        ['大于', 'greater_than'],
+        ['小于', 'less_than']
     ];
     // 渲染
     res.render('noticeManager',{

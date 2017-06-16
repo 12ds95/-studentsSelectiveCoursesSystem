@@ -8,6 +8,7 @@ var User = require('../models/User.js');
 var PreCourse = require('../models/PreCourse');
 
 
+
 // router.use(function (req, res, next) {
 //     if (!!req.session.loginUser && !!req.session.userType) {
 //         if (req.session.userType === "admin") {
@@ -19,6 +20,60 @@ var PreCourse = require('../models/PreCourse');
 //         res.redirect('/');
 //     }
 // });
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+    // 以下是后端数据库的函数：查找教师
+    // 返回值：result包，包括该教师的所有信息
+    // result = getData(...)
+    var result = {
+        name: '张传华',
+        id: '3456',
+        ismale: true,
+        phone_number: '88123123',
+        department: '计算机学院'
+    };
+    // 以上为伪造数据，需要替换掉
+    var leftColAttr = {};
+    leftColAttr['姓名'] = result['name'];
+    leftColAttr['照片'] = "images/photo_admin.png"
+    leftColAttr['工号'] = result['id'];
+    leftColAttr['性别'] = result['ismale'] === true ? '男': '女';
+    leftColAttr['手机'] = result['phone_number'];
+    leftColAttr['院系'] = result['department'];
+    var rightColAttr = [{
+        'imgURL':'images/admin_studentManager.png',
+        'URL':'/studentManager',
+        '名称':'学生管理'
+    },{
+        'imgURL':'images/admin_teacherManager.png',
+        'URL':'/teacherManager',
+        '名称':'教师管理'
+    },{
+        'imgURL':'images/admin_noticeManager.png',
+            'URL':'/noticeManager',
+            '名称':'通知管理'
+    },{
+        'imgURL':'images/admin_reselectPermission.png',
+            'URL':'http://www.baidu.com',
+            '名称':'补选审核'
+    },{
+        'imgURL':'images/admin_coursePermission.png',
+        'URL':'http://www.baidu.com',
+        '名称':'开课审核'
+    },{
+        'imgURL':'images/admin_statistic.png',
+        'URL':'http://www.baidu.com',
+        '名称':'报表统计'
+    }
+    ];
+    res.render('mainPage',{
+        title: '管理员主页',
+        leftColAttr: leftColAttr,
+        rightColAttr: rightColAttr
+    });
+});
+
 
 //userlist
 router.get('/userlist',function(req,res){
@@ -39,6 +94,7 @@ router.get('/reviewClasses',function(req,res){
 });
 router.get('/reviewApplyforclass',function(req,res){
     res.render('reviewApplyforclass',{
+        _id:'0001',
         classname: '当代中国经济',
         Engclassname: 'economy',
         department: '经济学院',
@@ -54,6 +110,22 @@ router.get('/reviewApplyforclass',function(req,res){
     })
 });
 router.post('/admin/reviewClasses/apply', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1
+    };
+    console.log(data);
+    res.json(data);
+});
+router.post('/admin/reviewClasses/search', function(req, res, next) {
+    console.log(req.body);
+    var data={
+        status: 1
+    };
+    console.log(data);
+    res.json(data);
+});
+router.post('/admin/reviewApplyforclass/pass', function(req, res, next) {
     console.log(req.body);
     var data={
         status: 1

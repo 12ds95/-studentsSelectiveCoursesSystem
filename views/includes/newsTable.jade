@@ -10,7 +10,7 @@ script.
             activePage = pageNum;
             paintTable(data['Title'], data['Head'], data['Content']);
             paintPage(data['pageTotal']);
-            initTable(URL, data['Title'], data['Content']);
+            initTable(URL, data['Title'], data['Content'], data['Head']);
             initPage(URL);    // 给刚绘制的分页添加属性
         });
     }
@@ -56,7 +56,7 @@ script.
     }
 
     // 给表格按钮(添加/删除/修改)赋予属性
-    function initTable(URL, tableTitle, tableContent) {
+    function initTable(URL, tableTitle, tableContent, tableHead) {
         $('.showContent').click(function () {
             var str = $(this).attr('id');
             var idx = parseInt(str.substring(str.indexOf('_') + 1, str.length));
