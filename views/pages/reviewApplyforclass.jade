@@ -1,4 +1,18 @@
 extends ../layout
+block script
+    script(type="text/javascript").
+        $(document).ready(function(){
+            $("#btn-pass").click(function(){
+                var send=$("#_id")[0].textContent;
+                $.post('admin/reviewApplyforclass/pass', send, function (data) {
+                    if(data['status']==1){
+                        alert("OK!");
+                    }
+                    else
+                        alert("error!");
+                });
+            });
+        });
 
 block content
     .container
@@ -10,6 +24,7 @@ block content
                     .row
                         label(for="classname",class="col-sm-offset-1 col-md-2 control-label") 课程名称：
                         p #{classname}
+                        p.hide(id="_id") #{_id}
                     .row
                         label(for="Engclassname",class="col-sm-offset-1 col-md-2 control-label") 课程英文名称：
                         p #{Engclassname}
@@ -42,4 +57,4 @@ block content
                         p #{classinfo}
                     .btn-group.btn-group-sm(style="float:right")
                         button(type="submit",class="btn btn-default") 驳回申请
-                        button(type="submit",class="btn btn-primary") 通过申请
+                        button(type="submit",class="btn btn-primary",id="btn-pass") 通过申请

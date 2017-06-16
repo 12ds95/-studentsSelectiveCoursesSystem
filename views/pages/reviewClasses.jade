@@ -4,31 +4,45 @@ block script
         $(document).ready(function(){
             $("tr").click(function(){
                 var send=$(this)[0].childNodes[7].firstChild.nodeValue;
-                $.post('admin/reviewClasses/apply', send, function (data) {
-                    if(data['status']==1){
-                    }
-                    else
-                        alert("error!");
-                });
+                //get  http://localhost:3000/admin/reviewApplyforclass?time=send
+                window.open('/admin/reviewApplyforclass?time='+send);
+                //- $.post('admin/reviewClasses/apply', send, function (data) {
+                //-     if(data['status']==1){
+                //-     }
+                //-     else
+                //-         alert("error!");
+                //- });
             });
         });
+        function search(){
+            var keywords=$("#keywords")[0].value;
+            $.post('admin/reviewClasses/search',keywords,function(data){
+                if(data['status']==1){
+
+                }
+                else
+                    alert("error!");
+            });
+        };
 block content
     .container
         .row
             center
                 .input-group.col-md-4
-                    input(type="text" class="form-control")
+                    input(type="text",class="form-control",id="keywords")
                     span.input-group-btn
-                        button.btn.btn-default(type="button") 搜索
+                        button.btn.btn-default(type="button",onclick="search()") 搜索
             div(style="padding-top:20px")
                 .panel.panel-primary
+                    .panel-heading
+                        .panel-title 开课审核
                     table.table.table-hover
                         thead
                             tr
-                                td 课程名称
-                                td 申请人
-                                td 学院
-                                td 申请时间
+                                th 课程名称
+                                th 申请人
+                                th 学院
+                                th 申请时间
                         tbody
                             each course in classList
                                 tr(onclick="ret()")
@@ -47,9 +61,3 @@ block content
                             //- each course in classList
                             //-     +panelCourse(course.courseName,course.userName,course.department,course.date)
                     
-
-
-                      
-
-
-

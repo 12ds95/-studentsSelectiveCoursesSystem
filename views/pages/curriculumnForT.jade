@@ -1,0 +1,453 @@
+extends ../layout
+
+block script
+    script(type="text/javascript").
+        $(document).ready(function(){
+            $("button[name='pick']").click(function(){
+                var send=$(this).parent().parent()[0].childNodes[3].innerText;
+                //get  http://localhost:3000/admin/reviewApplyforclass?time=send
+                window.open('/teacher/pickStudents?course_ID='+send);
+                //- $.post('admin/reviewClasses/apply', send, function (data) {
+                //-     if(data['status']==1){
+                //-     }
+                //-     else
+                //-         alert("error!");
+                //- });
+            });
+        });
+        function changeSemester(str,courseList){
+            //清空
+            delAll();
+            //- 选择框显示
+            var x=document.getElementById("semester");
+            x.firstChild.data=str;
+            //- 动态绘制表格
+            var tb=document.getElementById("schedule");
+            var courses=JSON.parse(courseList);
+            for(var item in courses){
+                if(courses[item].semester.indexOf(str)==-1)
+                    continue;
+                var time=courses[item].time;
+                var classroom=courses[item].classroom;
+                var strs=new Array();
+                var strs_classroom=new Array();
+                strs=time.split(" ");
+                strs_classroom=classroom.split(" ");
+                for(var i=0;i<strs.length;i++){
+                    if(strs[i].indexOf("周一")!=-1)
+                        col=1;
+                    else if(strs[i].indexOf("周二")!=-1)
+                        col=2;
+                    else if(strs[i].indexOf("周三")!=-1)
+                        col=3;
+                    else if(strs[i].indexOf("周四")!=-1)
+                        col=4;
+                    else if(strs[i].indexOf("周五")!=-1)
+                        col=5;
+                    else if(strs[i].indexOf("周六")!=-1)
+                        col=6;
+                    else if(strs[i].indexOf("周日")!=-1)
+                        col=7;
+                    if(strs[i].indexOf("双周")!=-1)
+                        flag=2;
+                    else if(strs[i].indexOf("单周")!=-1)
+                        flag=1;
+                    else
+                        flag=0;
+                    var reg = /[1-9][0-9]*/g;
+                    var numList = strs[i].match(reg);
+                    if(numList[0]>0 && numList[0]<=5)
+                        row=parseInt(numList[0])+parseInt(1);
+                    else if(numList[0]>5 && numList[0]<=10)
+                        row=parseInt(numList[0])+parseInt(2);
+                    else if(numList[0]>10 && numList[0]<=13)
+                        row=parseInt(numList[0])+parseInt(3);
+                    coll=2*(parseInt(col)-parseInt(1))+1;
+                    if(row==2 || row==8 || row==14)
+                        coll=coll+1;
+                    if(flag==2)
+                        coll=coll+1;
+                    var cell=tb.rows[row].cells[coll];
+                    if(flag==0)
+                        cell.colSpan="2";
+                    if(flag==1 || flag==2)
+                        cell.colSpan="1";
+                    cell.rowSpan=numList.length;
+                    cell.innerHTML='<a href=\'#\'>'+courses[item].name+'</a><br>'+strs[i]+'<br>'+strs_classroom[i];
+                    for(var j=0;j<numList.length;j++){
+                        if(j==0)
+                            tb.rows[row].deleteCell(coll+1);
+                        else{
+                            tb.rows[row+j].deleteCell(coll);
+                            tb.rows[row+j].deleteCell(coll+1);
+                        }
+                    }
+                    
+                    
+                    
+                }
+            }
+            
+        };
+        function delAll() {
+            var tab=document.getElementById("schedule");
+            for(var r=tab.rows.length-1;r>=0;r--) {
+                tab.deleteRow(r);
+            }
+            var i=0;
+            var j=0;
+            //第一行
+            var thead=document.getElementById("thead");
+            var tr=document.createElement("tr");
+            thead.appendChild(tr);
+            var th=document.createElement("th");
+            th.colSpan="2";
+            th.innerHTML='时间/日期';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.colSpan="2";
+            th.innerHTML='周一';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.colSpan="2";
+            th.innerHTML='周二';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.colSpan="2";
+            th.innerHTML='周三';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.colSpan="2";
+            th.innerHTML='周四';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.colSpan="2";
+            th.innerHTML='周五';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.colSpan="2";
+            th.innerHTML='周六';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.colSpan="2";
+            th.innerHTML='周日';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            //第二行
+            var tbody=document.getElementById("tbody");
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            td=document.createElement("td");
+            tr.appendChild(td);
+            td=document.createElement("td");
+            tr.appendChild(td);
+            for(i=0;i<7;i++){
+                td=document.createElement("td");
+                td.innerHTML='单周';
+                tr.appendChild(td);
+                td=document.createElement("td");
+                td.innerHTML='双周';
+                tr.appendChild(td);
+            }
+            //第三行
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.rowSpan="5";
+            th.innerHTML='上午';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.innerHTML='第1节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //第四行
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第2节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //第五行
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第3节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //6
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第4节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //7
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第5节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //8
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.colSpan="16";
+            tr.appendChild(th);
+            //9
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.rowSpan="5";
+            th.innerHTML='下午';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.innerHTML='第6节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //10
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第7节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //11
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第8节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //12
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第9节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //13
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第10节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //14
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.colSpan="16"
+            tr.appendChild(th);
+            //15
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.rowSpan="3";
+            th.innerHTML='晚上';
+            tr.appendChild(th);
+            th=document.createElement("th");
+            th.innerHTML='第11节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //16
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第12节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+            //17
+            tr=document.createElement("tr");
+            tbody.appendChild(tr);
+            th=document.createElement("th");
+            th.innerHTML='第13节';
+            tr.appendChild(th);
+            for(i=0;i<14;i++){
+                td=document.createElement("td");
+                tr.appendChild(td);
+            }
+        };
+        
+
+block content
+    .container
+        .row
+            - var courses=JSON.stringify(courseList);
+            ul.nav.nav-tabs
+                li.active
+                    a(href="#list" data-toggle="tab") 列表模式
+
+                li
+                    a(href="#table" data-toggle="tab" onclick="changeSemester('春','#{courses}')") 表格模式
+            .tab-content
+                div(class="tab-pane fade in active" id="list")
+                    div(style="padding-top:20px")
+                        .panel.panel-primary
+                            .panel-heading
+                                .panel-title 课程列表
+                            table.table.table-hover
+                                thead
+                                    tr
+                                        th 课程代码
+                                        th 课程名称
+                                        th 课程类别
+                                        th 学分
+                                        th 上课时间
+                                        th 上课地点
+                                        th 学期
+                                        th 补选审核
+                                tbody
+                                    each course in courseList
+                                        tr
+                                            td #{course.id}
+                                            td.hide #{course._id}
+                                            td
+                                                a(href="#") #{course.name}
+                                            td #{course.type}
+                                            td #{course.credit}
+                                            - var str=course.time;
+                                            - strs=str.split(" ");
+                                            td #{strs[0]}<br>#{strs[1]}
+                                            - var classroom=course.classroom;
+                                            - classrooms=classroom.split(" ");
+                                            td #{classrooms[0]}<br>#{classrooms[1]}
+                                            td #{course.semester}
+                                            td
+                                                button.btn.btn-primary(name="pick") 补选审核
+                div(class="tab-pane fade" id="table")
+                    div(style="padding-top:20px")
+                        .btn-group
+                            button(class="btn btn-default",id="semester") 春
+                            button(data-toggle="dropdown",class="btn btn-default dropdown-toggle")
+                                span.caret
+                            ul.dropdown-menu
+                                li
+                                    a(href="javascript:void(0);",onclick="changeSemester('春','#{courses}')") 春
+                                li
+                                    a(href="javascript:void(0);",onclick="changeSemester('夏','#{courses}')") 夏
+                                li
+                                    a(href="javascript:void(0);",onclick="changeSemester('秋','#{courses}')") 秋
+                                li
+                                    a(href="javascript:void(0);",onclick="changeSemester('冬','#{courses}')") 冬
+                    div(style="padding-top:20px",id="tableToAppend")
+                        table.table.table-bordered(id="schedule")
+                            thead(id="thead")
+                                tr
+                                    th(colspan="2") 时间\日期
+                                    th(colspan="2") 周一
+                                    th(colspan="2") 周二
+                                    th(colspan="2") 周三
+                                    th(colspan="2") 周四
+                                    th(colspan="2") 周五
+                                    th(colspan="2") 周六
+                                    th(colspan="2") 周日
+                            tbody(id="tbody")
+                                tr
+                                    td 
+                                    td 
+                                    -for(var i=0;i<7;i++)
+                                        td 单周
+                                        td 双周
+                                tr
+                                    th(rowspan="5") 上午
+                                    th 第1节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                tr
+                                    th 第2节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                   
+                                tr
+                                    th 第3节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                    
+                                tr
+                                    th 第4节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                    
+                                tr
+                                    th 第5节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                tr
+                                    th(colspan="16")
+                                tr
+                                    th(rowspan="5") 下午
+                                    th 第6节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                tr
+                                    th 第7节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                tr
+                                    th 第8节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                tr
+                                    th 第9节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                tr
+                                    th 第10节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                tr
+                                    th(colspan="16")
+                                tr
+                                    th(rowspan="3") 晚上
+                                    th 第11节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                tr
+                                    th 第12节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                                tr
+                                    th 第13节
+                                    -for(var i=0;i<14;i++)
+                                        td
+                    
+
+
+            

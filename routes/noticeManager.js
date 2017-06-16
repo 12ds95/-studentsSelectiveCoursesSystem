@@ -58,18 +58,20 @@ function getNoticeData(from, to) {
     // result = get20Data(...)
     var result = {      // 这个是伪造数据，应删除（返回格式应与此一致）
         'Data': [
-            {createAt:'2017-03-30', department:'本科生院', title:'标题1'},
-            {createAt:'2017-03-23', department:'学工部', title:'标题2'}
+            {id:'123', createAt:'2017-03-30', department:'本科生院', title:'标题1'},
+            {id:'234', createAt:'2017-03-23', department:'学工部', title:'标题2'}
         ],
         'TotalItem': 2
     };
     // 以上
     var jsonn = {};
     jsonn['PageTotal'] = parseInt((result['TotalItem']-1) / 20 + 1);
-    jsonn['Title'] = ['发布时间','发布单位','通知标题'];
+    jsonn['Title'] = ['通知编号','发布时间','发布单位','通知标题'];
+    jsonn['IsShow'] = [false, true, true, true];
     jsonn['Content'] = [];
     for (var i=0; i<result['Data'].length; i++) {
         jsonn['Content'].push({
+            '通知编号': result['Data'][i]['id'],
             '发布时间': result['Data'][i]['createAt'],
             '发布单位': result['Data'][i]['department'],
             '通知标题': result['Data'][i]['title']
