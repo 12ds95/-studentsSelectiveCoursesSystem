@@ -24,7 +24,8 @@ to run mongoDB before you run this webapp
 * 学生的credit还没有计算
 * admin/reviewapplyforclass中的内容由刘启明完成
 * applyforClass 也应该有刘启明完成
-* 获取用户类型的函数中需要添加管理员类型
+
+
 * reselect 补选页面，尚未完成
 * select 选课页面 尚未实现
 * teacher 中pickStudent的功能需要从请求中获取数据
@@ -33,12 +34,13 @@ to run mongoDB before you run this webapp
 ## 正在进行的工作
 
 ## 新增的功能
+* 获取用户类型的函数中需要添加管理员类型 - 可以返回0，表示管理员
+
+### Previous Commit
 * 实现了changepw/personalinfo中的功能 - 可能有bug
 * curriculum中显示课表的内容要与相应的学生挂钩
 * /teacher/pickStudents/delete 功能实现
 * bySelection 弃用 - 删除
-
-### Previous Commit
 * 弃用了User路由
 * student 页面，显示学生的个人信息
 * personalInfo 中提取个人信息，修改个人信息，
