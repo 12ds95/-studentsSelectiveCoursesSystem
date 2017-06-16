@@ -17,23 +17,24 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     // 左侧固定参数
     var leftTitle = '信息与动态';
-    var leftImage = 'images/people_default.png';
+    var leftImage = 'images/photo_teacher.png';
     var leftText = {
         '工号': '2333',
         '院系': '妓院妓院妓院'
     };
     // 右侧筛选器固定参数
     var filterNameData = [
-        '课程名称',
-        '课程代码',
-        '教师名字',
-        '课程类别'
+        ['工号', 'id'],
+        ['姓名', 'name'],
+        ['学院', 'department']
     ];
     var filterOpData = [
-        '包含',
-        '不包含',
-        '等于',
-        '不等于'
+        ['等于', 'equal'],
+        ['不等于', 'not_equal'],
+        ['包含', 'include'],
+        ['不包含', 'not_include'],
+        ['大于', 'greater_than'],
+        ['小于', 'less_than']
     ];
     // 渲染
     res.render('teacherManager',{
@@ -48,12 +49,14 @@ router.get('/', function(req, res, next) {
 
 router.post('/tableData', function(req, res, next) {
     var pageNum = req.body['pageNum'];
+    var query = req.body['query'];
     var itemPerPage = 20;
-    var jsonn = getTeacherData((pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
+    var jsonn = getTeacherData(query, (pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
     res.json(jsonn);
 });
-function getTeacherData(from, to) {
-    // 以下是后端数据库的函数：读取20位教师信息（不到20则以实际为准），返回教师总数
+function getTeacherData(query, from, to) {
+    console.log(query);
+    // 以下是后端数据库的函数：根据query（如果为null则读取全部），读取20位教师信息（不到20则以实际为准），返回教师总数
     // 返回值：result包，包括TotalItem标签的全部教师总数，和Data标签的[from,to]区间的教师工号、姓名、学院信息
     // result = get20Data(...)
     var result = {      // 这个是伪造数据，应删除（返回格式应与此一致）

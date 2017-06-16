@@ -35,15 +35,15 @@ router.get('/', function(req, res, next) {
     leftColAttr['院系'] = result['department'];
     var rightColAttr = [{
             'imgURL':'images/student_select.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/select',
             '名称':'选课'
         },{
             'imgURL':'images/student_table.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/curriculum',
             '名称':'查看课表'
         },{
             'imgURL':'images/student_reselect.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/reselect',
             '名称':'补选'
         }
     ];

@@ -6,8 +6,8 @@ script.
     var refreshURL;
 
     // 刷新表格
-    function refreshTable(refreshURL0, pageNum) {
-        $.post(refreshURL0, {'pageNum': pageNum}, function (data) {
+    function refreshTable(refreshURL0, pageNum, query) {
+        $.post(refreshURL0, {'pageNum': pageNum, 'query':query}, function (data) {
             activePage = pageNum;
             refreshURL = refreshURL0;
             paintTable(data['Title'], data['Content'], data['IsShow']);

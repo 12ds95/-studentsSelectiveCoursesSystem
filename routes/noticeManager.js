@@ -17,23 +17,24 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     // 左侧固定参数
     var leftTitle = '信息与动态';
-    var leftImage = 'images/people_default.png';
+    var leftImage = 'images/photo_admin.png';
     var leftText = {
         '工号': '2333',
         '院系': '妓院妓院妓院'
     };
     // 右侧筛选器固定参数
     var filterNameData = [
-        '课程名称',
-        '课程代码',
-        '教师名字',
-        '课程类别'
+        ['发布时间', 'createAt'],
+        ['发布单位', 'departement'],
+        ['通知标题', 'title']
     ];
     var filterOpData = [
-        '包含',
-        '不包含',
-        '等于',
-        '不等于'
+        ['等于', 'equal'],
+        ['不等于', 'not_equal'],
+        ['包含', 'include'],
+        ['不包含', 'not_include'],
+        ['大于', 'greater_than'],
+        ['小于', 'less_than']
     ];
     // 渲染
     res.render('noticeManager',{
@@ -48,12 +49,14 @@ router.get('/', function(req, res, next) {
 
 router.post('/tableData', function(req, res, next) {
     var pageNum = req.body['pageNum'];
+    var query = req.body['query'];
     var itemPerPage = 20;
-    var result = getNoticeData((pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
+    var result = getNoticeData(query, (pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
     res.json(result);
 });
-function getNoticeData(from, to) {
-    // 以下是后端数据库的函数：读取20条通知信息（不到20则以实际为准），返回通知总数
+function getNoticeData(query, from, to) {
+    console.log(query);
+    // 以下是后端数据库的函数：根据query（如果为null则读取全部），读取20条通知信息（不到20则以实际为准），返回通知总数
     // 返回值：result包，包括TotalItem标签的全部通知总数，和Data标签的[from,to]区间的通知发布时间、发布单位、公告标题
     // result = get20Data(...)
     var result = {      // 这个是伪造数据，应删除（返回格式应与此一致）

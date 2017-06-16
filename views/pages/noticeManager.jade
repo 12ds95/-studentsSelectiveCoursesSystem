@@ -4,10 +4,12 @@ block leftAddition
 
 block rightContent
     script.
-        function init(filterNameDefault, filterOpDefault) {
+        function init(filterName, filterOp) {
             $(document).ready(function () {
-                initSelector(filterNameDefault, filterOpDefault);
-                refreshTable('noticeManager/tableData',1)
+                filterName = JSON.parse(filterName);
+                filterOp = JSON.parse(filterOp);
+                initSelector(filterName, filterOp);
+                refreshTable('noticeManager/tableData', 1, null)
             })
         }
         function showAddModal() {
@@ -40,18 +42,22 @@ block rightContent
             });
         }
         function afterModalSubmitSuccess() {
-            refreshTable('noticeManager/tableData', 1);
+            refreshTable('noticeManager/tableData', 1, null);
         }
         function doDelete(itemNum, tableContent) {
             var jsonn = {'通知编号': tableContent[itemNum]['通知编号']};
             $.post('/noticeManager/deleteData', jsonn, function (data) {
-                refreshTable('noticeManager/tableData', 1);
+                refreshTable('noticeManager/tableData', 1, null);
             });
         }
 
-    - var filterNameDefault = filterNameData[0]
-    - var filterOpDefault = filterOpData[0];
-    body(onload = "init('#{filterNameDefault}', '#{filterOpDefault}')")
+        function afterSearchCond(condQuery) {
+            refreshTable('noticeManager/tableData', 1, condQuery);
+        }
+
+    - var filterName = JSON.stringify(filterNameData);
+    - var filterOp = JSON.stringify(filterOpData);
+    body(onload = "init('#{filterName}', '#{filterOp}')")
 
     // 筛选器
     .row(style='margin-top:10px; margin-bottom:10px')

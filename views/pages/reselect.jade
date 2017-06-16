@@ -3,9 +3,11 @@ extends ../layout_main
 block content
 
     script.
-        function init(filterNameDefault, filterOpDefault) {
-            initSelector(filterNameDefault, filterOpDefault);
-            refreshCourse('reselect/courseData', 1, '补选');
+        function init(filterName, filterOp) {
+            filterName = JSON.parse(filterName);
+            filterOp = JSON.parse(filterOp);
+            initSelector(filterName, filterOp);
+            refreshCourse('reselect/courseData', 1, '补选', null);
         }
 
         function initCourseButton(courseItemList) {
@@ -27,6 +29,7 @@ block content
                         '',
                         ''
                     ],
+                    'ContentShow': [true, true, true, true, true, true],
                     'ContentDisabled': ['readonly', 'readonly', 'readonly', 'readonly', '', ''],
                     'SuccessMsg': '补选提交成功',
                     'ErrorMsg': '补选提交失败'
@@ -38,9 +41,13 @@ block content
             
         }
 
-    - var filterNameDefault = filterNameData[0]
-    - var filterOpDefault = filterOpData[0];
-    body(onload="init('#{filterNameDefault}','#{filterOpDefault}')")
+        function afterSearchCond(condQuery) {
+            refreshCourse('reselect/courseData', 1, '补选', condQuery);
+        }
+
+    - var filterName = JSON.stringify(filterNameData);
+    - var filterOp = JSON.stringify(filterOpData);
+    body(onload="init('#{filterName}','#{filterOp}')")
 
     // 筛选部分
     .row(style="margin-top:10px; margin-bottom:10px")
