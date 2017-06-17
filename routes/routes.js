@@ -23,6 +23,8 @@ var inforeport = require('./inforeport');
 
 module.exports = function(app) {
     app.locals.publicKey = publicKeyPem;
+    app.locals.logStatus=false;
+
     app.use('/', index);
     // app.use('/users', users);
     app.use('/login', login);
