@@ -25,6 +25,15 @@ module.exports = function(app) {
     app.locals.publicKey = publicKeyPem;
     app.locals.logStatus=false;
 
+    app.use(function(req, res, next){
+        if (!!req.session.loginUser) {
+            app.locals.logStatus=true;
+        } else {
+            app.locals.logStatus=false;
+        }
+        next();
+    });
+
     app.use('/', index);
     // app.use('/users', users);
     app.use('/login', login);

@@ -28,7 +28,7 @@ router.get('/', function(req, res, next) {
     // 以上为伪造数据，需要替换掉
     var leftColAttr = {};
     leftColAttr['姓名'] = result['name'];
-    leftColAttr['照片'] = "images/photo_student.png"
+    leftColAttr['照片'] = "images/photo_student.png";
     leftColAttr['学号'] = result['id'];
     leftColAttr['性别'] = result['ismale'] === true ? '男': '女';
     leftColAttr['学分'] = result['credit'];
