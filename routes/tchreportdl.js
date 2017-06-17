@@ -8,19 +8,21 @@ var nodeExcel = require('excel-export');
 router.get('/', function(req, res, next) {
     var data=[
         [
-            '3140102449',
-            'Qi',
+            '3140102656',
+            'cai',
             true,
-            25.5,
+            '17816899099',
             '计算机',
-            'iqicheng'
+            'iqicheng',
+            'cailaoda'
         ],[
             '3140102448',
             'zhou',
             false,
-            30,
+            '17837492482',
             '软件',
-            'ke'
+            'ke',
+            '蔡老大'
         ]];
     var conf = {};
     conf.name = 'studentinfo';
@@ -37,8 +39,8 @@ router.get('/', function(req, res, next) {
             type: 'bool'
         },
         {
-            caption: 'credit',
-            type: 'number'
+            caption: 'phonenumber',
+            type: 'string'
         },
         {
             caption: 'department',
@@ -47,13 +49,17 @@ router.get('/', function(req, res, next) {
         {
             caption: 'uname',
             type: 'string'
+        },
+        {
+            caption: 'info',
+            type: 'string'
         }];
 
     conf.rows = data;
     var result = nodeExcel.execute(conf);
     //console.log(result);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-    res.setHeader("Content-Disposition", "attachment; filename= stureport.xlsx");
+    res.setHeader("Content-Disposition", "attachment; filename= tchreport.xlsx");
     // //res.setHeader('Content-Type', 'text/plain');
     res.end(result, 'binary');
 });
