@@ -1,3 +1,11 @@
+script.
+    function f(){
+        $("input[name='user[name]']").focus();
+    };
+    function logout(){
+        
+    };
+
 .navbar.navbar-inverse.navbar-fixed-top
     .container
         .navbar-header
@@ -6,16 +14,16 @@
             .nav.navbar-nav.navbar-right
                 li.dropdown
                     if logStatus
-                        a(href="#",class="dropdown-toggle",data-toggle="dropdown",id="status") #{userName}
+                        a(href="#",class="dropdown-toggle",data-toggle="dropdown",id="status") #{uID}
                     else
                         a(href="#",class="dropdown-toggle",data-toggle="dropdown",id="status") 未登录
                     ul.dropdown-menu
                         if logStatus
                             li
-                                a(id="logout") 退出
+                                a(onclick="logout()") 退出
                         else
                             li
-                                a(id="login") 登录
+                                a(onclick="f()") 登录
 
 
 //- #signupModal.modal.fade
