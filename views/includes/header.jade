@@ -3,7 +3,9 @@ script.
         $("input[name='user[name]']").focus();
     };
     function logout(){
-        
+        $.get("/signout", function(result){
+            //- alert("已退出");
+        });
     };
 
 .navbar.navbar-inverse.navbar-fixed-top
