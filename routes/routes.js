@@ -23,13 +23,15 @@ var inforeport = require('./inforeport');
 
 module.exports = function(app) {
     app.locals.publicKey = publicKeyPem;
-    app.locals.logStatus=false;
-
+    app.locals.logStatus = false;
+    app.locals.uID = "0000000000";
     app.use(function(req, res, next){
         if (!!req.session.loginUser) {
             app.locals.logStatus=true;
+            app.locals.uID = req.session.loginUser;
         } else {
             app.locals.logStatus=false;
+            app.locals.uID = "0000000000";
         }
         next();
     });
