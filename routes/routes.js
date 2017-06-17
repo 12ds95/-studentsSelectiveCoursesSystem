@@ -20,6 +20,7 @@ var byselection = require('./byselection');
 var reselect = require('./reselect');
 var publicKeyPem = require('../modules/crypto').publicKeyPem;
 var inforeport = require('./inforeport');
+var stureportdl = require('./stureportdl');
 
 module.exports = function(app) {
     app.locals.publicKey = publicKeyPem;
@@ -43,6 +44,7 @@ module.exports = function(app) {
     // app.use('/applyforclass',applyforclass);
     app.use('/reselect',reselect);
     app.use('/inforeport',inforeport);
+    app.use('/stureportdl',stureportdl);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
