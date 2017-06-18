@@ -20,6 +20,14 @@ router.get('/', function(req, res, next) {
 
 });
 
+router.get('/signout', function(req, res) {
+    delete req.session.loginUser;
+    delete req.session.userType;
+    req.session.loginUser = null;
+    req.session.userType = null;
+    res.redirect('/');
+});
+
 
 var User = require('../models/User.js');
 router.post('/signin', function (req, res, next) {
