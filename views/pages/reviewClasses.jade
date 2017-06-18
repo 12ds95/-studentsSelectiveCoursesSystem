@@ -4,12 +4,13 @@ block script
         $(document).ready(function(){
             $("tr").click(function(){
                 var send=$(this)[0].childNodes[7].firstChild.nodeValue;
-                $.post('admin/reviewClasses/apply', send, function (data) {
-                    if(data['status']==1){
-                    }
-                    else
-                        alert("error!");
-                });
+                window.open('/admin/reviewApplyforclass?time=' + send);
+                //$.post('admin/reviewClasses/apply', send, function (data) {
+                //    if(data['status']==1){
+                //    }
+                //    else
+                //        alert("error!");
+                //});
             });
         });
 block content

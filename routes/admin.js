@@ -29,15 +29,36 @@ router.get('/userlist',function(req,res){
         res.render('userlist',{
             title: "用户列表",
             users: users
-        })
+        });
     });
 });
 router.get('/reviewClasses',function(req,res){
+    //re?time=""
+
     PreCourse.getAll(0, function(err, courselist){
         res.render('reviewClasses', {classList:courselist});
-    })
+    });
 });
 router.get('/reviewApplyforclass',function(req,res){
+    var temp = req.query['time'];
+    PreCourse.findOneCourse(temp, function(list){
+        var tmp = list;
+        res.render('reviewApplyforclass',{
+            classname: list.classname,
+            Engclassname: list.Engclassname,
+            department: list.department,
+            classhours: list.classhours,
+            credit: list.credit,
+            classtype: list.classtype,
+            preparation: list.preparation,
+            capacity: list.capacity,
+            objectstudent: list.objectstudent,
+            campus: list.campus,
+            classinfo: list.classinfo,
+            _id: list._id
+        })
+    });
+    /*
     res.render('reviewApplyforclass',{
         classname: '当代中国经济',
         Engclassname: 'economy',
@@ -52,13 +73,27 @@ router.get('/reviewApplyforclass',function(req,res){
         classinfo: 'classinfo classinfo classinfo',
         file1: './index.js'
     })
+    */
 });
+router.post('/admin/reviewApplyforclass/pass', function(req, res, next) {
+    console.log(req.body);
+    var tmp;
+    for(tmp in req.body) break;
+    PreCourse.confirmOneCourse(tmp, function(res1){
+        if(res1 == 0) console.log("Confirm Fail!");
+        if(res1 == 1) PreCourse.deleteOneCourse(tmp, function (res2) {
+            var data = {status : res2};
+            console.log(data);
+            res.json(data);
+        });
+    });
+});
+/*
 router.post('/admin/reviewClasses/apply', function(req, res, next) {
     console.log(req.body);
-    var data={
-        status: 1
-    };
+    var data= PreCourse.confirmOneCourse(req.body, function());
     console.log(data);
     res.json(data);
 });
+*/
 module.exports = router;

@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 var Department = require("../models/Department");
 var Teacher = require("../models/Teacher");
 var Course = require("../models/Course");
+var Timeslot = require("../models/Timeslot");
+var Classroom = require("../models/Classroom");
 var Schema = mongoose.Schema;
+global.courseID = 100000;
+
 var PrecourseSchema = new mongoose.Schema({
       name:{type:String, alias:'courseName'}
     , ename:String
@@ -16,14 +20,17 @@ var PrecourseSchema = new mongoose.Schema({
     , what_student:String
     , campus:{type:String, enum:['紫金港','玉泉','西溪','华家池','之江','舟山','海宁']}
     , info:String
-    , date:Date
+    , date:String
 },{toJSON:{virtuals:true},toObject:{virtuals:true}});
 
 PrecourseSchema.virtual('userName').get(function(){
     return  this._teacher.name;
 });
 PrecourseSchema.pre('save', function(next){
-    this.date = Date.now();
+    var nowdate = new Date();
+    var tmp1 = nowdate.toLocaleDateString();
+    var tmp2 = nowdate.toLocaleTimeString();
+    this.date = tmp1 + ' ' + tmp2;
     next();
 });
 
@@ -42,19 +49,96 @@ PrecourseSchema.statics = {
         });
     }
     ,
-    confirmOneCourse: function(time, cb){
-        var where;
-        for(where in time){break;}
-        var whereStr = {"data":where};
-        this.find(whereStr).toArray(function(err, result){
+    findOneCourse: function(time, cb){
+        var whereStr = {'date':time};
+        this.find(whereStr, function(err, result){
             if(err){
-                console.log('Error in confirmOneCourse:'+err);
+                console.log('Error in findOneCourse:'+err);
                 return ;
             }
-            var newcourse = new Course({
-                //TODO 新建一个课程（随机一些数据）然后插入course中
-            })
-
+            var list = {
+                  'classname':result[0].name
+                , 'Engclassname':result[0].ename
+                , 'department' : result[0].department
+                , 'classhours' : result[0].time_one_week
+                , 'credit' : result[0].credit
+                , 'classtype' : result[0].course_type
+                , 'preparation' : result[0].prestudy
+                , 'capacity' : result[0].capacity
+                , 'objectstudent' : result[0].what_student
+                , 'campus' : result[0].campus
+                , 'classinfo' : result[0].info
+                , '_id' : result[0].date
+            };
+            cb(list);
+        });
+    }
+    ,
+    deleteOneCourse: function(_id, cb){
+        var whereStr = {'date':_id};
+        this.remove(whereStr, function(err){
+            if(err){
+                console.log('Error in deleteOneCourse:'+ err);
+                cb(0);
+            }
+            else cb(1);
+        })
+    }
+    ,
+    confirmOneCourse: function(_id, cb) {
+        var whereStr = {'date': _id};
+        this.find(whereStr, function (err, preCourseInfo) {
+            if (err) { console.log('Error in confirmOneCourse:' + err); }
+            var count = Math.floor(preCourseInfo[0].time_one_week) + 1;
+            var timeIndex = new Array();
+            var has_arr = new Array();
+            var temp = '';
+            for (var i = 0; i < count; i++) {
+                do {
+                    temp = Math.round(Math.random() * 56);
+                } while (has_arr[temp] !== undefined)
+                has_arr[temp] = 'has';
+                timeIndex[i] = temp;
+            }
+            timeIndex.sort(function (a, b) {
+                return a - b
+            });//升序排列
+            var roomIndex = Math.round(Math.random() * 100);
+            Timeslot.findByIndex(timeIndex, function (timeRes) {
+                Classroom.findByNumberAndCampus(roomIndex, preCourseInfo[0].campus, function (roomRes) {
+                        var newCourse = new Course({
+                            id: global.courseID
+                            , name: preCourseInfo[0].name
+                            , credit: preCourseInfo[0].credit
+                            , courese_info: preCourseInfo[0].info
+                            , course_type: preCourseInfo[0].course_type
+                            //, _teacher:
+                            , semester: '春夏'
+                            , capacity: preCourseInfo[0].capacity
+                            , campus: preCourseInfo[0].campus
+                            //, exam:
+                            //, _stulist:
+                            //, english:preCourseInfo.ename
+                            //, department:preCourseInfo.department
+                            //, hour:preCourseInfo.time_one_week
+                            //, prerequistite:preCourseInfo.prestudy
+                            //, syllabus:preCourseInfo.course_info
+                        });
+                        for (var i = 0; i < timeRes.length; i++) {
+                            newCourse._time[i] = timeRes[i]._id;
+                            newCourse._classroom[i] = roomRes._id;
+                        }
+                        global.courseID = global.courseID + 1;
+                        newCourse.save(function (err) {
+                            if (err) {
+                                console.log("Error in newCourse.save:" + err);
+                                cb(0);
+                            }
+                            else cb(1);
+                        });
+                    }
+                );
+            });
         });
     }
 };

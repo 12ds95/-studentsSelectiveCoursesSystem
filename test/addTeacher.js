@@ -34,23 +34,6 @@ department1.save(function(err, res){
         });
         teacher1.save(function (err, res) {
             if(err) {console.log('Error in teacher1.save()\n',err);}
-            var precoures1 = new PreCourse({
-                  name:"测试"
-                , ename:"test"
-                , department:"testd"
-                , time_one_week:"test"
-                , credit:2.0
-                , course_type:"test"
-                , prestudy:""
-                , _teacher:teacher1._id
-                , capacity:100
-                , what_student:"test"
-                , campus:"玉泉"
-                , info:"test"
-            });
-            precoures1.save(function (err, res) {
-                if(err){console.log('Error in pre.save()\n', err);}
-            });
         });
         var teacher2 = new Teacher({
               name:"老师2"
