@@ -28,10 +28,10 @@ router.get('/', function(req, res, next) {
     // result = getData(...)
     var userID = req.session.loginUser;
     var userType = req.session.userType;
-    if(userType != "admin"){
-        // 不知道如何处理
-        res.redirect("/");
-    }
+    // if(userType != "admin"){
+    //     // 不知道如何处理
+    //     res.redirect("/");
+    // }
     var result = {
         name: 'Edm',
         id: 'na1121na',

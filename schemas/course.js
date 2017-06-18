@@ -95,6 +95,8 @@ CourseSchema.statics = {
 			.find({_teacher:tid})
 			// .populate('_stulist')
 			.exec(function(err,res){
+                console.log("CourseSchema fetchStu");
+                console.log(res);
 				if (res != null){
 					res.populate('_stulist');
                     cb(err,res);

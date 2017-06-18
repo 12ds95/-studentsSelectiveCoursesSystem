@@ -16,6 +16,8 @@ ApplyClassSchema.statics = {
         return this.find({tid:tid,cid:cid})
             .sort('sid')
             .exec(function (err, res) {
+                console.log("ApplyClassSchema fetchStu");
+                console.log(res);
                 cb(err,res);
             });
     }

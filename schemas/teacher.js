@@ -31,6 +31,7 @@ var TeacherSchema = new mongoose.Schema({
 
 TeacherSchema.statics = {
 	getTeacherList: function(cb){
+        console.log("TeacherSchema getTeacherList");
 		return this.find({})
 					 // .populate({path:'_department',select:'-_id'})
 					  .sort('id')
@@ -40,6 +41,8 @@ TeacherSchema.statics = {
 
 	},
 	findById: function (tid, cb) {
+        console.log("TeacherSchema findById");
+        console.log(tid);
 		return this
 			.find({id:tid})
 			.exec(function (err, res) {
@@ -48,6 +51,8 @@ TeacherSchema.statics = {
 	},
 	// pageNum start from 1
     getAPage: function (pageNum,pageSize, cb) {
+		console.log("TeacherSchema getAPage");
+		console.log(pageNum,pageSize);
 		var skipNum = (pageNum-1)*pageSize;
 
         this.find({})
@@ -62,6 +67,8 @@ TeacherSchema.statics = {
             });
     },
 	getNumberofTeacher:function(pageSize,cb){
+        console.log("TeacherSchema getNumberofTeacher");
+        console.log(pageSize);
 		var number;
 		this.find({},function(err,res){
 			assert.equal(err,null);
@@ -71,7 +78,11 @@ TeacherSchema.statics = {
 	},
 	// 获取一个老师的全部课表
 	getSchedule:function(tid,cb){
+        console.log("TeacherSchema getSchedule");
+        console.log(tid);
 		this.findOne({id:tid},function(err,teacher){
+            console.log("TeacherSchema getSchedule findOne");
+            console.log(teacher);
 			assert.equal(err,null);
 			Course.find({_teacher:teacher._id})
 				.populate('_classroom _teacher')
@@ -94,7 +105,7 @@ TeacherSchema.pre('save',function(next){
 				, user_type: 1  	// teacher type
 			});
 			_user.save(function(err,res){
-				assert.equal(err,null);
+				//assert.equal(err,null);
 				console.log("A new user added!",res);
 				next();
 			});

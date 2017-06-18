@@ -36,26 +36,38 @@ PrecourseSchema.pre('save', function(next){
 
 PrecourseSchema.statics = {
     getAll: function (sid, cb) {
+        console.log("PrecourseSchema getAll");
+        console.log(sid);
         return this.find({})
             .populate({path:'_teacher'})
             .exec(function (err, res) {
+                console.log("PrecourseSchema getAll");
+                console.log(res);
                 cb(err, res);
             });
     }
     ,
     saveOneCourse: function (item, cb) {
+        console.log("PrecourseSchema saveOneCourse");
+        console.log(item);
         item.save(function(err, res){
+            console.log("PrecourseSchema saveOneCourse");
+            console.log(res);
             cb(err);
         });
     }
     ,
     findOneCourse: function(time, cb){
+        console.log("PrecourseSchema findOneCourse");
+        console.log(time);
         var whereStr = {'date':time};
         this.find(whereStr, function(err, result){
             if(err){
                 console.log('Error in findOneCourse:'+err);
                 return ;
             }
+            console.log("PrecourseSchema findOneCourse");
+            console.log(result);
             var list = {
                   'classname':result[0].name
                 , 'Engclassname':result[0].ename
@@ -75,8 +87,12 @@ PrecourseSchema.statics = {
     }
     ,
     deleteOneCourse: function(_id, cb){
+        console.log("PrecourseSchema deleteOneCourse");
+        console.log(_id);
         var whereStr = {'date':_id};
         this.remove(whereStr, function(err){
+            console.log("PrecourseSchema deleteOneCourse");
+            console.log(whereStr);
             if(err){
                 console.log('Error in deleteOneCourse:'+ err);
                 cb(0);
@@ -86,8 +102,12 @@ PrecourseSchema.statics = {
     }
     ,
     confirmOneCourse: function(_id, cb) {
+        console.log("PrecourseSchema confirmOneCourse");
+        console.log(_id);
         var whereStr = {'date': _id};
         this.find(whereStr, function (err, preCourseInfo) {
+            console.log("PrecourseSchema deleteOneCourse");
+            console.log(whereStr);
             if (err) { console.log('Error in confirmOneCourse:' + err); }
             var count = Math.floor(preCourseInfo[0].time_one_week) + 1;
             var timeIndex = new Array();

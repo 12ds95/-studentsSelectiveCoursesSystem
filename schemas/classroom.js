@@ -14,6 +14,8 @@ ClassroomSchema.statics = {
     findByNumberAndCampus: function(number, campus, cb){
 		this.find({'campus':campus})
 			.exec(function(err,res){
+                console.log("ClassroomSchema findByNumberAndCampus");
+                console.log(res);
 				if(err){console.log('Error in Classroom findByNumber');}
 				var result = res[number];
 				cb(result);

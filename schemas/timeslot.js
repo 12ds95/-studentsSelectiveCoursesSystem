@@ -20,8 +20,11 @@ var TimeslotSchema = new Schema({
 
 TimeslotSchema.statics = {
 	findByIndex: function(index, cb){
+        console.log("findByIndex");
 		this.find({})
 			.exec(function(err, res){
+                console.log("find exec");
+                console.log(res);
 				if(err){console.log('Error in Timeslot findByIndex:' + err)}
 				var result = new Array();
 				for(var i = 0; i < index.length; i++){

@@ -44,6 +44,8 @@ NewsSchema.statics ={
 			.limit(pageSize)
             //.select('content title')
             .exec(function(err, pageResult){
+                console.log("NewsSchema getAPage");
+                console.log(pageResult);
 				assert.equal(err,null);
 				cb(pageResult);
             });
@@ -51,6 +53,8 @@ NewsSchema.statics ={
 	getNumberOfPages:function(pageSize,cb){
 		var number;
 		this.find({},function(err,result){
+            console.log("NewsSchema getNumberOfPages");
+            console.log(result);
 			assert.equal(err,null);
 			number = Math.ceil(result.length / pageSize);
 			cb(number);

@@ -33,6 +33,8 @@ var StudentSchema = new mongoose.Schema({
 
 StudentSchema.statics = {
 	getSchedule: function(sid,cb){
+        console.log("StudentSchema getSchedule");
+        console.log(sid);
 		// 由于暂时没有添加学生的信息，因此先把所有的课程显示出来
 		// return Course.find({})
 		// 			 .populate({path:'_time', select:' -_id'})
@@ -79,6 +81,8 @@ StudentSchema.statics = {
 			.skip(skipNum)
 			.limit(pageSize)
 			.exec(function(err,pageResult){
+                console.log("StudentSchema getAPage");
+                console.log(pageResult);
 				assert.equal(err,null);
 				cb(pageResult);
 			});
@@ -93,6 +97,8 @@ StudentSchema.pre('save',function(next){
 		// User already exists do nothing
 
 		else {
+            console.log("StudentSchema findOne");
+            console.log(res);
 			var _user = new User({
 				// 为什么这里的this是空的啊？
 				name : curID
