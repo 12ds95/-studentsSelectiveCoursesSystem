@@ -49,13 +49,15 @@ block content
                             .form-group
                                 .col-sm-offset-3.col-sm-5
                                     //.checkbox
-                                    //        input(type="checkbox")
+                                    //        input(type="checkbox" )
                                     //        label 记住密码
                                 .col-sm-3
                                     button(type="submit",class="btn btn-primary btn-sm btn-block",onclick="encryptpw()") 登录
-                                    script(src="js/md5.js").
+                                    p(hidden=true id='publicKeyPem') #{publicKey}
                                     script.
-                                        function encryptpw(){
-                                            var psw = document.getElementById("psw");
-                                            psw.value = hex_md5(psw.value);
+                                        function encryptpw() {
+                                            //$("#encry").remove();
+                                            var js = $("\<script id = 'encry'/\>");
+                                            js.attr('src', "/js/bundle.js");
+                                            $('head').append(js);
                                         }

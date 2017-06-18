@@ -55,23 +55,6 @@ CourseSchema.virtual('classroom').get(function(){
 	return resString;
 });
 
-CourseSchema.statics = {
-	fetchStu:function (cid,tid,cb) {
-		return this.find({cid:cid})
-			.populate('_teacher')
-			.find({_teacher:tid})
-			// .populate('_stulist')
-			.exec(function(err,res){
-				if (res != null){
-					res.populate('_stulist');
-                    cb(err,res);
-				}else {
-					cb("Can't find such list",null);
-				}
-			});
-    }
-};
-
 
 CourseSchema.pre('find',function(next){
 	next();
@@ -105,6 +88,21 @@ CourseSchema.statics = {
 				cb(err,result);
 			})
 	}
-};
+	,
+	fetchStu:function (cid,tid,cb) {
+		return this.find({cid:cid})
+			.populate('_teacher')
+			.find({_teacher:tid})
+			// .populate('_stulist')
+			.exec(function(err,res){
+				if (res != null){
+					res.populate('_stulist');
+                    cb(err,res);
+				}else {
+					cb("Can't find such list",null);
+				}
+			});
+    }
+}
 
 module.exports = CourseSchema;

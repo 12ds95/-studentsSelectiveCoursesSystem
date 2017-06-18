@@ -6,11 +6,11 @@ script.
     var refreshURL;
 
     // 刷新表格
-    function refreshTable(refreshURL0, pageNum) {
-        $.post(refreshURL0, {'pageNum': pageNum}, function (data) {
+    function refreshTable(refreshURL0, pageNum, query) {
+        $.post(refreshURL0, {'pageNum': pageNum, 'query':query}, function (data) {
             activePage = pageNum;
             refreshURL = refreshURL0;
-            paintTable(data['Title'], data['Content']);
+            paintTable(data['Title'], data['Content'], data['IsShow']);
             initTable(data['Title'], data['Content']);
             paintPage(data['PageTotal']);
             initPage();    // 给刚绘制的分页添加属性
@@ -18,11 +18,13 @@ script.
     }
 
     // 给定表头, 表格内容, 绘制表格
-    function paintTable(tableTitle, tableContent) {
+    function paintTable(tableTitle, tableContent, tableIsShow) {
         // 表格标题
         var tableTitleHTML = '';
         for (var i = 0; i < tableTitle.length; i++) {
-            tableTitleHTML += '<th style="text-align:center">' + tableTitle[i] + '</th>';
+            if (tableIsShow[i] == true) {
+                tableTitleHTML += '<th style="text-align:center">' + tableTitle[i] + '</th>';
+            }
         }
         tableTitleHTML += '' +
             '<th style="text-align:center">' +
@@ -32,8 +34,11 @@ script.
         var tableContentHTML = '';
         for (var i = 0; i < tableContent.length; i++) {
             tableContentHTML += '<tr>';
-            for (var j = 0; j < tableTitle.length; j++)
-                tableContentHTML += '<th style="text-align:center">' + tableContent[i][tableTitle[j]] + '</th>';
+            for (var j = 0; j < tableTitle.length; j++) {
+                if (tableIsShow[j] == true) {
+                    tableContentHTML += '<th style="text-align:center">' + tableContent[i][tableTitle[j]] + '</th>';
+                }
+            }
             tableContentHTML += '' +
                 '<th style="text-align:center">' +
                 '   <p>' +
@@ -53,10 +58,14 @@ script.
             showAddModal();
         });
         $('.modifyTableItem').click(function () {
-            showModifyModal(tableContent);
+            var str = $(this).attr('id');
+            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            showModifyModal(itemNum, tableContent);
         });
         $('.deleteTableItem').click(function () {
-            doDelete(tableContent);
+            var str = $(this).attr('id');
+            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            doDelete(itemNum, tableContent);
         })
     }
 

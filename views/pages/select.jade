@@ -3,19 +3,41 @@ extends ../layout_main
 block content
 
     script.
-        function init(filterNameDefault, filterOpDefault) {
-            initSelector(filterNameDefault, filterOpDefault);
-            refreshCourse('select/courseData', 1, '选课');
+        function init(filterName, filterOp) {
+            filterName = JSON.parse(filterName);
+            filterOp = JSON.parse(filterOp);
+            initSelector(filterName, filterOp);
+            refreshCourse('select/courseData', 1, '选课', null);
         }
 
         function initCourseButton(courseItemList) {
-            alert('123');
+            $('.courseButton').click(function () {
+                var str = $(this).attr('id');
+                var numStr = str.substring(str.indexOf('_') + 1, str.length);
+                var num1 = parseInt(numStr.substring(0, numStr.indexOf('_')));
+                var num2 = parseInt(numStr.substring(numStr.indexOf('_') + 1, numStr.length));
+
+                var jsonn = {};
+                jsonn['courseId'] = courseItemList[num1]['courseDetail'][num2]['courseId'];
+                $.post('select/submit', jsonn, function (data) {
+                    var status = data['status'];
+                    if (status === -1) {
+                        alert('选课失败，原因：' + data['errMsg']);
+                    } else {
+                        alert('选课成功！');
+                    }
+                })
+            });
+        }
+
+        function afterSearchCond(condQuery) {
+            refreshCourse('select/courseData', 1, '选课', condQuery);
         }
 
 
-    - var filterNameDefault = filterNameData[0]
-    - var filterOpDefault = filterOpData[0];
-    body(onload="init('#{filterNameDefault}','#{filterOpDefault}')")
+    - var filterName = JSON.stringify(filterNameData);
+    - var filterOp = JSON.stringify(filterOpData);
+    body(onload="init('#{filterName}','#{filterOp}')")
 
     // 筛选部分
     .row(style="margin-top:10px; margin-bottom:10px")

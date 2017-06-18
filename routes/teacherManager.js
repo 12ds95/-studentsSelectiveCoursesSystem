@@ -4,18 +4,6 @@ var Teacher = require('../models/Teacher');
 var Department = require('../models/Department');
 var assert = require('assert');
 
-// router.use(function (req, res, next) {
-//     if (!!req.session.loginUser && !!req.session.userType) {
-//         if (req.session.userType === "admin") {
-//             next();
-//         } else {
-//             res.redirect('/');
-//         }
-//     } else {
-//         res.redirect('/');
-//     }
-// });
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
     // 左侧固定参数
@@ -23,23 +11,24 @@ router.get('/', function(req, res, next) {
         console.log(res);
     });
     var leftTitle = '信息与动态';
-    var leftImage = 'images/people_default.png';
+    var leftImage = 'images/photo_teacher.png';
     var leftText = {
         '工号': '2333',
         '院系': '妓院妓院妓院'
     };
     // 右侧筛选器固定参数
     var filterNameData = [
-        '课程名称',
-        '课程代码',
-        '教师名字',
-        '课程类别'
+        ['工号', 'id'],
+        ['姓名', 'name'],
+        ['学院', 'department']
     ];
     var filterOpData = [
-        '包含',
-        '不包含',
-        '等于',
-        '不等于'
+        ['等于', 'equal'],
+        ['不等于', 'not_equal'],
+        ['包含', 'include'],
+        ['不包含', 'not_include'],
+        ['大于', 'greater_than'],
+        ['小于', 'less_than']
     ];
     // 渲染
     res.render('teacherManager',{
@@ -53,35 +42,46 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/tableData', function(req, res, next) {
+    // TODO assume pageNum start from 1
     var pageNum = req.body['pageNum'];
-    var itemPerPage = 20;
-    var jsonn = getTeacherData((pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
-    res.json(jsonn);
+    var pageSize = 20;
+    getTeacherData(pageNum,pageSize,function(jsonn){
+        res.json(jsonn);
+    });
 });
-function getTeacherData(from, to) {
+function getTeacherData(pageNum,pageSize,cb) {
     // 以下是后端数据库的函数：读取20位教师信息（不到20则以实际为准），返回教师总数
     // 返回值：result包，包括TotalItem标签的全部教师总数，和Data标签的[from,to]区间的教师工号、姓名、学院信息
     // result = get20Data(...)
-    var result = {      // 这个是伪造数据，应删除（返回格式应与此一致）
-        'Data': [
-            {id:'1_1', name:'教师张三', department:'计算机科学与技术学院'},
-            {id:'1_2', name:'教师李四', department:'信电'}
-        ],
-        'TotalItem': 4
-    };
+    // 以下是前端伪造的数据
+    // var result = {      // 这个是伪造数据，应删除（返回格式应与此一致）
+    //     'Data': [
+    //         {id:'1_1', name:'教师张三', department:'计算机科学与技术学院'},
+    //         {id:'1_2', name:'教师李四', department:'信电'}
+    //     ],
+    //     'TotalItem': 4
+    // };
     // 以上
-    var jsonn = {};
-    jsonn['PageTotal'] = parseInt((result['TotalItem']-1) / 20 + 1);
-    jsonn['Title'] = ['工号','姓名','学院'];
-    jsonn['Content'] = [];
-    for (var i=0; i<result['Data'].length; i++) {
-        jsonn['Content'].push({
-            '工号': result['Data'][i]['id'],
-            '姓名': result['Data'][i]['name'],
-            '学院': result['Data'][i]['department']
+    Teacher.getAPage(pageNum,pageSize,function(teachers){
+        var result = {
+            'Data': teachers
+            , 'TotalItem': teachers.length
+        };
+        Teacher.getNumberofTeacher(pageSize,function(totalNumber){
+            var jsonn = {};
+            jsonn['PageTotal'] = parseInt((totalNumber-1) / 20 + 1);
+            jsonn['Title'] = ['工号','姓名','学院'];
+            jsonn['Content'] = [];
+            for (var i=0; i<result['Data'].length; i++) {
+                jsonn['Content'].push({
+                    '工号': result['Data'][i]['id'],
+                    '姓名': result['Data'][i]['name'],
+                    '学院': result['Data'][i]['department']
+                });
+            }
+            cb(jsonn);
         });
-    }
-    return jsonn;
+    });    
 }
 
 router.post('/getData', function (req, res, next) {
@@ -114,8 +114,10 @@ router.post('/addData', function(req, res, next) {
           name:req.body['姓名']
         , ismale:req.body['性别']
         , id:req.body['工号']
+        , uname:req.body['工号'] //默认使用工号作为用户名
         , phone_number:req.body['手机号码']
         , info : req.body['个人简介']
+        , department:department
     });
     teacher.save(function (err, save_res) {
         var status;
@@ -146,22 +148,22 @@ router.post('/modifyData', function(req, res, next) {
         teacher.ismale = (gender == '男');
         teacher.phone_number = phone;
         teacher.info = info;
-        Department.find({dept_name:department},function(err,new_dept){
-            // update the teacher's department
-            teacher._department = new_dept._id;
-            teacher.save(function(err,save_res){
-                assert.equal(err,null);
-                console.log('Teacher info update success!');
-                var status,errmsg;
-                if(err) { status = 1; errmsg = err;}
-                else { status = 0; errmsg = null;}
-                    var jsonn = {};
-                    jsonn['status'] = status;
-                    jsonn['errMsg'] = errmsg;
-                    // return until update finish
-                    res.json(jsonn);
-            });
+        // delete dept-find here
+        // update the teacher's department
+        teacher.department = department;
+        teacher.save(function(err,save_res){
+            assert.equal(err,null);
+            console.log('Teacher info update success!');
+            var status,errmsg;
+            if(err) { status = 1; errmsg = err;}
+            else { status = 0; errmsg = null;}
+                var jsonn = {};
+                jsonn['status'] = status;
+                jsonn['errMsg'] = errmsg;
+                // return until update finish
+                res.json(jsonn);
         });
+        
     });
 });
 
@@ -171,7 +173,7 @@ router.post('/deleteData', function(req, res, next) {
     // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
     // result = modifyData(...)
     // 以上
-    Teacher.deleteOne({id:ID},function(err){
+    Teacher.findOneAndRemove({id:ID},function(err){
         assert.equal(err,null);
         var jsonn;
         if (err){jsonn['status'] = 1; jsonn['errMsg'] = err ;}
