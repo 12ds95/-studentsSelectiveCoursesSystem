@@ -1,0 +1,113 @@
+User.findOne({name: "Edm"},function(err,user){
+    if(err){
+        console.log("User.findOne error"+err);
+    }else{
+        console.log("User.findOne: Edm");
+        console.log(user);
+    }
+});
+
+结果：
+User.findOne: Edm
+{ _id: 5942997e40fb3b1408a2bd81,
+  password: '$2a$10$YHktOmo7IQT8REL17wwblu28dbOJiNRxqBz5TABgSWehCxi9qSPqW',
+  user_type: 2,
+  __v: 0,
+  name: 'Edm' }
+结果正确
+
+User.findOne({name: "Anthony"},function(err,user){
+    if(err){
+        console.log("User.findOne error"+err);
+    }else{
+        console.log("User.findOne: Anthony");
+        console.log(user);
+    }
+});
+结果：
+User.findOne: Anthony
+null
+结果正确
+
+
+User.getUserType("Edm",function (err,usertype) {
+    if(err){
+        console.log("User.getUserType error"+err);
+    }else{
+        console.log("User.getUserType: Edm");
+        console.log(usertype);
+    }
+});
+
+结果：
+User.getUserType: Edm
+2
+结果正确
+
+
+User.getUserType("Anthony",function (err,usertype) {
+    if(err){
+        console.log("User.getUserType error"+err);
+    }else{
+        console.log("User.getUserType: Anthony");
+        console.log(usertype);
+    }
+});
+结果：
+TypeError: Cannot read property 'user_type' of null
+结果错误：User.getUserType中没有处理搜索无结果时回调函数的正确调用
+
+由于News里面还没插数据，所以下面的测试结果会有点奇怪：
+
+News.getAPage(0,20,function(pageResult){
+    console.log("News.getAPage 0 20");
+    console.log(pageResult);
+});
+结果：
+无输出
+结果错误：没有考虑0这一边界值
+
+News.getAPage(1,20,function(pageResult){
+    console.log("News.getAPage 1 20");
+    console.log(pageResult);
+});
+结果：
+News.getAPage 1 20
+[]
+结果正确
+
+News.getAPage(1,200,function(pageResult){
+    console.log("News.getAPage 1 200");
+    console.log(pageResult);
+});
+结果：
+News.getAPage 1 200
+[]
+结果正确
+
+News.getAPage(100,20,function(pageResult){
+    console.log("News.getAPage 100 20");
+    console.log(pageResult);
+});
+结果：
+News.getAPage 100 20
+[]
+结果正确
+
+
+News.getNumberOfPages(20,function(totalPages){
+    console.log("News.getNumberOfPages 20");
+    console.log(totalPages);
+});
+结果：
+events.js:163
+      throw er; // Unhandled 'error' event
+      ^
+AssertionError: { MongoError: Skip value must be non-negative, but received: -20
+    at Function.MongoError.create (E:\GitProject\studentsSelect == null
+    at E:\GitProject\studentsSelectiveCoursesSystem\schemas\news.js:49:12
+    at E:\GitProject\studentsSelectiveCoursesSystem\node_modules\mongoose\lib\query.js:2764:9
+    at newTickHandler (E:\GitProject\studentsSelectiveCoursesSystem\node_modules\mpromise\lib\promise.js:234:18)
+    at _combinedTickCallback (internal/process/next_tick.js:73:7)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+结果报错

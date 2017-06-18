@@ -1,0 +1,12 @@
+需要测试的模块
+admin
+changepw
+curriculum:查看课表
+index
+noticeManager
+studentManager
+teacherManager
+reselect:补选
+select:选课
+teacher
+
