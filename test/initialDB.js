@@ -4,9 +4,79 @@
 var mongoose = require('mongoose');
 var Timeslot = require('../models/Timeslot');
 var Classroom = require('../models/Classroom');
+var Student = require('../models/Student');
+var Teacher = require('../models/Teacher');
+var User = require('../models/User');
+
 mongoose.connect('mongodb://localhost/test');
 mongoose.Promise = global.Promise;
 
+var stu1 = new Student({
+    id:'3140104200'
+    , uname:'3140104200'
+    , name:'Edm'
+    , ismale:true
+    , credit:160
+    , department:'计算机科学与技术'
+});
+var stu2 = new Student({
+    id:'3140104201'
+    , name:'hello'
+    , uname:'3140104201'
+    , ismale:false
+    , credit:150
+    , department:'计算机科学与技术'
+});
+
+var stu3 = new Student({
+    id:'3140104203'
+    , name:'word'
+    , uname:'3140104203'
+    , credit:170
+    , department:'软件工程'
+});
+
+stu1.save(function (err, res) {
+    stu2.save(function (err, res) {
+        stu3.save(function (err, res) {
+            console.log("Save student successfully!");
+            mongoose.disconnect();
+        });
+    });
+});
+var teacher1 = new Teacher({
+    name:"老师1"
+    , ismale:true
+    , uname:'teacher1'
+    , id:'12224521'
+    , department:"计算机学院"
+    , phone_number:"123456"
+    , info:"no"
+});
+teacher1.save(function (err, res) {
+    if(err) {console.log('Error in teacher1.save()\n',err);}
+});
+var teacher2 = new Teacher({
+    name:"老师2"
+    , ismale:true
+    , uname:'teacher2'
+    , id:"teacher2"
+    , department:"新店学院"
+    , phone_number:"123456789"
+    , info:"yes"
+});
+teacher2.save(function (err, res) {
+    if(err) {console.log('Error in teacher2.save()\n',err);}
+});
+var admin = new User({
+    name: 'na1121na'
+    , password: 'qweasd'
+    , user_type: 0
+});
+admin.save(function (err, res) {
+    if(err) {console.log('Error in admin.save()\n',err);}
+});
+//下面的没有 BUG 不需要修改
 var time11 = new Timeslot({day:"周一",time:"第1,2节"});
 var time12 = new Timeslot({day:"周一",time:"第3,4节"});
 var time13 = new Timeslot({day:"周一",time:"第5节"});
@@ -1522,5 +1592,4 @@ var room6418= new Classroom({building:"海宁五号楼",room_number:18,capcity:2
 room6418.save(function(err,res){if(err){console.log('Error in room6418.save()\n',err);}});
 var room6419= new Classroom({building:"海宁五号楼",room_number:19,capcity:200,campus:"海宁"});
 room6419.save(function(err,res){if(err){console.log('Error in room6419.save()\n',err);}});
-
 
