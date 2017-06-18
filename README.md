@@ -22,6 +22,7 @@ to run mongoDB before you run this webapp
 
 ## 现在仍需要实现的功能：
 * 学生的credit还没有计算
+* 访问到不属于自己的路由的时候，该如何处理
 * teacher 中查看课表的时候，还不能选择学期
 * 选课中的筛选功能
 * teacher 中pickStudent的功能需要从请求中获取数据
@@ -56,13 +57,15 @@ to run mongoDB before you run this webapp
 * index中用户登录的时候，密码的匹配算法有问题。无法正常的登录
 
 ## 需要调试的bug
-* 还没有处理一个学生选两次课的问题
-
+* 管理员点击首页直接退到了登录界面
+* 手动输入路由/admin 无法加载图片
+* 教师管理 无法添加教师
+* 公共信息原理 无法添加课程？
 ### 之前的bug
 * schema/teacher.js 中，无法添加新的User - 会在 teacherManager中添加老师的时候体现出来 也就是teacherManager无法添加老师
 * schema/student.js 中，无法添加新的User，导致无法添加新的学生
 * schema/student.js 中 pre('save')中不知道为什么this是空的
-
+* 还没有处理一个学生选两次课的问题
 
 ## 需要协作完成的
 * teacherManager删除和修改教师的测试 - 需要从master合并

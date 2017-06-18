@@ -9,7 +9,7 @@ var stu1 = new Student({
     , name:'Edm'
     , ismale:true
     , credit:160
-
+    , department:'计算机科学与技术'
 });
 
 var stu2 = new Student({
@@ -18,6 +18,7 @@ var stu2 = new Student({
     , uname:'3140104201'
     , ismale:false
     , credit:150
+    , department:'计算机科学与技术'
 });
 
 var stu3 = new Student({
@@ -25,19 +26,15 @@ var stu3 = new Student({
     , name:'word'
     , uname:'3140104203'
     , credit:170
+    , department:'软件工程'
 });
 
 
 stu1.save(function (err, res) {
     stu2.save(function (err, res) {
         stu3.save(function (err, res) {
-            // Course.findOne({id:'230202030'},function (err, res) {
-            //     if (err) {console.log('Error occurs');}
-            //     res._stulist.push(stu1._id,stu2._id,stu3._id);
-            //     res.save(function (err, res) {
-            //         console.log('done!\n',res);
-            //     });
-            // });
+            console.log("Save student successfully!");
+            mongoose.disconnect();
         });
     });
 });

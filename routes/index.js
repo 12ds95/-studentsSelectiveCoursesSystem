@@ -59,6 +59,11 @@ router.post('/signin', function (req, res, next) {
                             req.session.loginUser = username;
                             req.session.userType = "teacher";
                             return res.redirect("/teacher");
+                        }else if(usertype == 0){
+                            console.log("This is an admin!");
+                            req.session.loginUser = username;
+                            req.session.userType = "admin";
+                            return res.redirect("/admin");
                         }
                     });       
                 }else{

@@ -26,9 +26,15 @@ router.get('/', function(req, res, next) {
     // 以下是后端数据库的函数：查找教师
     // 返回值：result包，包括该教师的所有信息
     // result = getData(...)
+    var userID = req.session.loginUser;
+    var userType = req.session.userType;
+    if(userType != "admin"){
+        // 不知道如何处理
+        res.redirect("/");
+    }
     var result = {
-        name: '张传华',
-        id: '3456',
+        name: 'Edm',
+        id: 'na1121na',
         ismale: true,
         phone_number: '88123123',
         department: '计算机学院'
