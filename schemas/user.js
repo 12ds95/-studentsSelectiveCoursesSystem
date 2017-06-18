@@ -12,7 +12,6 @@ var UserSchema = new mongoose.Schema({
         type:String
     },
     password:{
-        unique:false,
         type:String
     },
     // 0 - admin, 1 - teacher, 2 - student

@@ -11,23 +11,24 @@ router.get('/', function(req, res, next) {
         console.log(res);
     });
     var leftTitle = '信息与动态';
-    var leftImage = 'images/people_default.png';
+    var leftImage = 'images/photo_teacher.png';
     var leftText = {
         '工号': '2333',
         '院系': '妓院妓院妓院'
     };
     // 右侧筛选器固定参数
     var filterNameData = [
-        '课程名称',
-        '课程代码',
-        '教师名字',
-        '课程类别'
+        ['工号', 'id'],
+        ['姓名', 'name'],
+        ['学院', 'department']
     ];
     var filterOpData = [
-        '包含',
-        '不包含',
-        '等于',
-        '不等于'
+        ['等于', 'equal'],
+        ['不等于', 'not_equal'],
+        ['包含', 'include'],
+        ['不包含', 'not_include'],
+        ['大于', 'greater_than'],
+        ['小于', 'less_than']
     ];
     // 渲染
     res.render('teacherManager',{

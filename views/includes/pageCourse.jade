@@ -16,7 +16,9 @@ script.
         {name: 'courseCredit', width: '1', type: 'string'},
         {name: 'courseTime', width: '1', type: 'string_s'},
         {name: 'courseSemester', width: '1', type: 'string'},
-        {name: 'coursePlace', width: '1', type: 'string_s'}
+        {name: 'courseCampus', width: '1', type: 'string_s'},
+        {name: 'coursePlace', width: '1', type: 'string_s'},
+        {name: 'courseCapacity', width: '1', type: 'string_s'}
     ];
     const courseDetailAttr = [
         {name: 'courseCode', text: '课程代码：'},
@@ -24,8 +26,6 @@ script.
         {name: 'courseDepartment', text: '开课学院：'},
         {name: 'courseCredit', text: '学分：'},
         {name: 'courseHour', text: '周学时：'},
-        {name: 'courseWeight', text: '权重系数：'},
-        {name: 'courseBelong', text: '课程归属：'},
         {name: 'coursePrerequisite', text: '预修要求：'},
         {name: 'courseDescription', text: '课程简介：'},
         {name: 'courseSyllabus', text: '教学大纲：'}
@@ -34,8 +34,8 @@ script.
     var activePage = 1;
     var type;
 
-    function refreshCourse(URL, pageNum, type0) {
-        $.post(URL, {'pageNum': pageNum}, function (data) {
+    function refreshCourse(URL, pageNum, type0, query) {
+        $.post(URL, {'pageNum': pageNum, 'query': query}, function (data) {
             activePage = pageNum;
             type = type0;
             drawCoursePanelHeading();
@@ -216,6 +216,7 @@ script.
             else $(this).text('展开');
         });
 
+        // 选课
         initCourseButton(courseItemList);
     }
 

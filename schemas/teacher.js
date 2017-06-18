@@ -2,6 +2,7 @@ var   mongoose = require('mongoose')
 	, Department = require('../models/Department')
 	, User = require('../models/User')
 	, assert = require('assert')
+	, Course = require('../models/Course')
 	;
 // var test = new User({
 // 	name :'testUser'
@@ -67,6 +68,18 @@ TeacherSchema.statics = {
 			number =Math.ceil(res.length / pageSize); // BUG 此处返回值总是1?
 			cb(number);
 		})
+	},
+	// 获取一个老师的全部课表
+	getSchedule:function(tid,cb){
+		this.findOne({id:tid},function(err,teacher){
+			assert.equal(err,null);
+			Course.find({_teacher:teacher._id})
+				.populate('_classroom _teacher')
+				.exec(function(err,courseList){
+					assert.equal(err,null);
+					cb(courseList);
+				});
+		});
 	}
 };
 

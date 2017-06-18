@@ -18,6 +18,20 @@ var TimeslotSchema = new Schema({
 	// }
 });
 
+TimeslotSchema.statics = {
+	findByIndex: function(index, cb){
+		this.find({})
+			.exec(function(err, res){
+				if(err){console.log('Error in Timeslot findByIndex:' + err)}
+				var result = new Array();
+				for(var i = 0; i < index.length; i++){
+					result[i] = res[index[i]];
+				}
+				cb(result);
+			});
+	}
+};
+
 // Time slot 用于把一天划分为多个时间段
 // 每门课程占据一个或者多个slot
 

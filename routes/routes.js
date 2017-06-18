@@ -16,21 +16,28 @@ var teacherManager = require('./teacherManager');
 var studentManager = require('./studentManager');
 var noticeManager = require('./noticeManager');
 var captcha = require('./captcha');
-var byselection = require('./byselection');
+// var byselection = require('./byselection');
 var reselect = require('./reselect');
-// var cryptico = require('../modules/cryptico');
-// var passPhrase = "studentsSelectiveCourseSystem";
-// var bits = 1024;
-// var myRSAkey = cryptico.generateRSAKey(passPhrase, bits);
-// var myPublicKeyString = cryptico.publicKeyString(myRSAkey);
+var publicKeyPem = require('../modules/crypto').publicKeyPem;
+var inforeport = require('./inforeport');
+var stureportdl = require('./stureportdl');
+var tchreport = require('./tchreport');
+var tchreportdl = require('./tchreportdl');
 
 module.exports = function(app) {
-    // app.locals.publicKey = myPublicKeyString;
-
-    //user session
-    // app.use(function (req, res, next) {
-    //     next();
-    // });
+    app.locals.publicKey = publicKeyPem;
+    app.locals.logStatus = false;
+    app.locals.uID = "0000000000";
+    app.use(function(req, res, next){
+        if (!!req.session.loginUser) {
+            app.locals.logStatus=true;
+            app.locals.uID = req.session.loginUser;
+        } else {
+            app.locals.logStatus=false;
+            app.locals.uID = "0000000000";
+        }
+        next();
+    });
 
     app.use('/', index);
     // app.use('/users', users);
@@ -46,9 +53,13 @@ module.exports = function(app) {
     app.use('/studentManager', studentManager);
     app.use('/noticeManager', noticeManager);
     app.use('/captcha',captcha);
-    app.use('/byselection',byselection);
+    // app.use('/byselection',byselection);
     app.use('/applyforclass',applyforclass);
     app.use('/reselect',reselect);
+    app.use('/inforeport',inforeport);
+    app.use('/stureportdl',stureportdl);
+    app.use('/tchreport',tchreport);
+    app.use('/tchreportdl',tchreportdl);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

@@ -30,8 +30,9 @@ block script
                 {
                     sList.push($(this)[0].innerText);
                 });
+                var course_ID=$("#course_ID")[0].textContent;
                 console.log(sList);
-                $.post('teacher/pickStudents/select', {'id':sList}, function (data) {
+                $.post('teacher/pickStudents/select', {'course_ID':course_ID,'id':sList}, function (data) {
                     if(data['status']==1){
                         refreshPending(data['studentsPending']);
                         refreshReady(data['studentsReady']);
@@ -52,8 +53,9 @@ block script
                 {
                     sList.push($(this)[0].innerText);
                 });
+                var course_ID=$("#course_ID")[0].textContent;
                 console.log(sList);
-                $.post('teacher/pickStudents/delete', {'id':sList}, function (data) {
+                $.post('teacher/pickStudents/delete', {'course_ID':course_ID,'id':sList}, function (data) {
                     if(data['status']==1){
                         refreshPending(data['studentsPending']);
                         refreshReady(data['studentsReady']);
@@ -175,6 +177,7 @@ block content
                 .panel.panel-primary
                     .panel-heading
                         h3.panel-title(id="courseName") #{course}
+                        h3.panel-title.hide(id="course_ID") #{course_ID}
                     .panel-body
                         center
                             .btn-group

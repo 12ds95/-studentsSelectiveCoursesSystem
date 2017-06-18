@@ -24,6 +24,7 @@ var StudentSchema = new mongoose.Schema({
 	address:String,
 	email:String,
 	phone:String,
+	// photo
 	uname:{
 		type: String,
 		unique: true
@@ -83,16 +84,18 @@ StudentSchema.statics = {
 			});
 	}
 };
-var User = require('../models/User');
+
 StudentSchema.pre('save',function(next){
-	User.findOne({name:this.id},function(err,res){
+	var curID = this.id;
+	var User = require('../models/User');
+	User.findOne({name:curID},function(err,res){
 		if(res != null){ next(); } 
 		// User already exists do nothing
 
 		else {
 			var _user = new User({
 				// 为什么这里的this是空的啊？
-				name : this.id
+				name : curID
 				, password: '123456'
 				, user_type: 2
 			});

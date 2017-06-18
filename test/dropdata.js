@@ -4,10 +4,10 @@ var Timeslot = require('../models/Timeslot');
 var Course = require('../models/Course');
 var Classroom = require('../models/Classroom');
 var mongoose = require('mongoose');
-var Teacher = require('../models/Teacher')
-var PreCourse = require('../models/PreCourse')
-var Department = require('../models/Department')
-mongoose.connect('mongodb://localhost/test')
+var Teacher = require('../models/Teacher');
+var PreCourse = require('../models/PreCourse');
+var Department = require('../models/Department');
+mongoose.connect('mongodb://localhost/test');
 mongoose.Promise = global.Promise;
 
 Timeslot.collection.drop(function(err,res){
