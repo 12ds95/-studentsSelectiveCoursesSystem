@@ -19,8 +19,8 @@ var CourseSchema = new mongoose.Schema({
 	, _time:[{type:Schema.Types.ObjectId,ref:'Timeslot'}]
 	// 上课地点
 	, _classroom:[{type:Schema.Types.ObjectId, ref:'Classroom'}]
-	// 学期 - 是一个学期的数组：
-	, _semester:{type:Schema.Types.ObjectId,ref:'Semester'}
+    // 学期 - 是一个学期的数组：
+    , _semester:{type:Schema.Types.ObjectId,ref:'Semester'}
 	// 也许直接表示会简单一些
 	, semester:{type: String }
 	, capacity: Number
@@ -87,7 +87,8 @@ CourseSchema.statics = {
 					result[count-begin] = res[count];
 				cb(err,result);
 			})
-	},
+	}
+	,
 	fetchStu:function (cid,tid,cb) {
 		return this.find({cid:cid})
 			.populate('_teacher')
