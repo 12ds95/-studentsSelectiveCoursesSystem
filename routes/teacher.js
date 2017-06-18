@@ -104,52 +104,60 @@ router.get('/pickStudents', function(req, res, next) {
 });
 
 router.get('/curriculumn', function(req, res, next) {
-    res.render('curriculumnForT',{
-        title: '个人课表-老师',
-        semester: '春',
-        courseList:[
-            {
-                _id:'00001',
-                id: '211C0010',
-                name: '面向对象程序设计',
-                type: '大类中的工程技术类',
-                credit: '2.5',
-                time: '周二第9,10节 周二第11,12节{双周}',
-                classroom: '紫金港东1A-303(多) 紫金港机房',
-                semester: '夏'
-            },
-            {
-                _id:'00002',
-                id: '211G0210',
-                name: 'C程序设计',
-                type: '通识中的计算机类',
-                credit: '3.0',
-                time: '周三第7,8节 周五第1,2节',
-                classroom: '紫金港东1A-305(多) 紫金港机房',
-                semester: '春夏'
-            },
-            {
-                _id:'00003',
-                id: '211G0210',
-                name: '计算机图形学',
-                type: '通识中的计算机类',
-                credit: '3.0',
-                time: '周一第3,4节 周四第11,12节{双周}',
-                classroom: '玉泉曹光彪西-304 玉泉曹光彪二期-103(多)',
-                semester: '春夏'
-            },
-            {
-                _id:'00004',
-                id: '211G0210',
-                name: '数字视音频处理',
-                type: '通识中的计算机类',
-                credit: '3.0',
-                time: '周六第11,12节{单周} 周五第3,3节{双周}',
-                classroom: '玉泉曹光彪西-304 玉泉曹光彪二期-103(多)',
-                semester: '春夏'
-            }
-        ]
-    });
+    var tid = req.session.loginUser;
+    Teacher.getSchedule(tid,function(courseList){
+        res.render('curriculumnForT',{
+            title: '个人课表-老师',
+            semester: '春',
+            courseList:courseList
+        });
+    })
+    // res.render('curriculumnForT',{
+    //     title: '个人课表-老师',
+    //     semester: '春',
+    //     courseList:[
+    //         {
+    //             _id:'00001',
+    //             id: '211C0010',
+    //             name: '面向对象程序设计',
+    //             type: '大类中的工程技术类',
+    //             credit: '2.5',
+    //             time: '周二第9,10节 周二第11,12节{双周}',
+    //             classroom: '紫金港东1A-303(多) 紫金港机房',
+    //             semester: '夏'
+    //         },
+    //         {
+    //             _id:'00002',
+    //             id: '211G0210',
+    //             name: 'C程序设计',
+    //             type: '通识中的计算机类',
+    //             credit: '3.0',
+    //             time: '周三第7,8节 周五第1,2节',
+    //             classroom: '紫金港东1A-305(多) 紫金港机房',
+    //             semester: '春夏'
+    //         },
+    //         {
+    //             _id:'00003',
+    //             id: '211G0210',
+    //             name: '计算机图形学',
+    //             type: '通识中的计算机类',
+    //             credit: '3.0',
+    //             time: '周一第3,4节 周四第11,12节{双周}',
+    //             classroom: '玉泉曹光彪西-304 玉泉曹光彪二期-103(多)',
+    //             semester: '春夏'
+    //         },
+    //         {
+    //             _id:'00004',
+    //             id: '211G0210',
+    //             name: '数字视音频处理',
+    //             type: '通识中的计算机类',
+    //             credit: '3.0',
+    //             time: '周六第11,12节{单周} 周五第3,3节{双周}',
+    //             classroom: '玉泉曹光彪西-304 玉泉曹光彪二期-103(多)',
+    //             semester: '春夏'
+    //         }
+    //     ]
+    // });
 });
 router.post('/teacher/pickStudents/select', function(req, res, next) {
 
@@ -188,41 +196,6 @@ router.post('/teacher/pickStudents/select', function(req, res, next) {
             });
         });
     });
-    // var data={
-    //     status: 1,
-    //     studentsPending:[
-    //     {
-    //         id:'222222222',
-    //         // credits:'5'
-    //     },{
-    //         id:'3140102223',
-    //         // credits:'52'
-    //     },{
-    //         id:'3140102224',
-    //         // credits:'53'
-    //     },{
-    //         id:'3140102225',
-    //         // credits:'56'
-    //     },{
-    //         id:'3140102226',
-    //         // credits:'56'
-    //     }],
-    //     studentsReady:[
-    //     {
-    //         id:'3140100000',
-    //         // credits:'12'
-    //     },{
-    //         id:'3140100005',
-    //         // credits:'53'
-    //     },{
-    //         id:'3140100001',
-    //         // credits:'52'
-    //     },{
-    //         id:'3232220002',
-    //         // credits:'51'
-    //     }]};
-    // console.log(data);
-    // res.json(data);
 });
 
 function saveNextStu(stuList,curIndex,curCourse,next) {

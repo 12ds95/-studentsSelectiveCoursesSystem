@@ -1,6 +1,11 @@
 var express = require('express');
-var router = express.Router();
-
+var router = express.Router()
+    , Teacher = require('../models/Teacher')
+    , Course = require('../models/Course')
+    , Student = require('../models/Student')
+    , assert = require('assert')
+    , ApplyClass = require('../models/ApplyClass')
+    ;
 // router.use(function (req, res, next) {
 //     if (!!req.session.loginUser && !!req.session.userType) {
 //         if (req.session.userType === "student") {
@@ -54,120 +59,87 @@ function getCourseData(query, from, to) {     // 取[from,to]的数据
     // 以下是后端数据库的函数：根据query条件（如果query为null则无查询全部），读取20条课程信息（不到20则以实际为准），返回课程总数
     // 返回值：result包，包括TotalItem标签的全部学生总数，和Data标签的[from,to]区间的学生学号、姓名、学院信息
     // result = get20Data(...)
-    result = {
-        Data: [{
-            'id': from,
-            'name': 'Hello World',
-            'web': 'http://www.baidu.com/',
-            'course_type': 'CS',
-            'credit': '12.0',
-            'semester': '春夏秋冬',
-            'english': 'English Name',
-            'department': 'Course Department',
-            'hour': '3.0-2.0',
-            'prerequisite': '无',
-            'course_info': '不存在的',
-            'syllabus': '无',
-            'teacher': '程序媛',
-            'time': '周二',
-            'campus': '紫金港',
-            'classroom': '三本大学',
-            'capacity': 30,
-            '_id': '12345'
-        }, {
-            'id': from,
-            'name': 'Hello World',
-            'web': 'http://www.baidu.com/',
-            'course_type': 'CS',
-            'credit': '12.0',
-            'semester': '春夏秋冬',
-            'english': 'English Name',
-            'department': 'Course Department',
-            'hour': '3.0-2.0',
-            'prerequisite': '无',
-            'course_info': '不存在的',
-            'syllabus': '无',
-            'teacher': '程序猿',
-            'time': '周一',
-            'campus': '玉泉',
-            'classroom': '世界一流大学',
-            'capacity': 60,
-            '_id': '23456'
-        }],
-        TotalItem: 1
-    };
+
     // 以上为伪造数据，需替换
+    Course.getAll(Math.ceil(from/20),function(err,courseList){
+        result = {
+            Data: courseList
+            , TotalItem: courseList.length
+        }
+        var course = [];
+        var courseItem = {};
+        var courseDetail = [];
+        var courseDetailItem = {};
+        var id = '';
 
-    var course = [];
-    var courseItem = {};
-    var courseDetail = [];
-    var courseDetailItem = {};
-    var id = '';
-
-    for (var i=0; i<result['Data'].length; i++) {
-        var c = result['Data'][i];
-        courseDetailItem = {};
-        if (c['id'] !== id) {
-            if (i !== 0) {
-                courseItem['courseDetail'] = courseDetail;
-                course.push(courseItem);
-                courseItem = {};
-                courseDetail = [];
+        for (var i=0; i<result['Data'].length; i++) {
+            var c = result['Data'][i];
+            courseDetailItem = {};
+            if (c['id'] !== id) {
+                if (i !== 0) {
+                    courseItem['courseDetail'] = courseDetail;
+                    course.push(courseItem);
+                    courseItem = {};
+                    courseDetail = [];
+                }
+                courseItem['courseCode'] = c['id'];
+                courseItem['courseName'] = c['name'];
+                courseItem['courseWeb'] = c['web'];
+                courseItem['courseType'] = c['course_type'];
+                courseItem['courseCredit'] = c['credit'];
+                courseItem['courseSemester'] = c['semester'];
+                courseItem['courseEnglish'] = c['english'];
+                courseItem['courseDepartment'] = c['department'];
+                courseItem['courseHour'] = c['hour'];
+                courseItem['coursePrerequisite'] = c['prerequisite'];
+                courseItem['courseDescription'] = c['course_info'];
+                courseItem['courseSyllabus'] = c['syllabus'];
+                id = c['id'];
             }
-            courseItem['courseCode'] = c['id'];
-            courseItem['courseName'] = c['name'];
-            courseItem['courseWeb'] = c['web'];
-            courseItem['courseType'] = c['course_type'];
-            courseItem['courseCredit'] = c['credit'];
-            courseItem['courseSemester'] = c['semester'];
-            courseItem['courseEnglish'] = c['english'];
-            courseItem['courseDepartment'] = c['department'];
-            courseItem['courseHour'] = c['hour'];
-            courseItem['coursePrerequisite'] = c['prerequisite'];
-            courseItem['courseDescription'] = c['course_info'];
-            courseItem['courseSyllabus'] = c['syllabus'];
-            id = c['id'];
+            courseDetailItem['courseId'] = c['_id'];
+            courseDetailItem['courseTeacher'] = c['teacher'];
+            courseDetailItem['courseTime'] = c['time'];
+            courseDetailItem['coursePlace'] = c['classroom'];
+            courseDetailItem['courseCapacity'] = c['capacity'];
+            courseDetailItem['courseCampus'] = c['campus'];
+            courseDetail.push(courseDetailItem);
         }
-        courseDetailItem['courseId'] = c['_id'];
-        courseDetailItem['courseTeacher'] = c['teacher'];
-        courseDetailItem['courseTime'] = c['time'];
-        courseDetailItem['coursePlace'] = c['classroom'];
-        courseDetailItem['courseCapacity'] = c['capacity'];
-        courseDetailItem['courseCampus'] = c['campus'];
-        courseDetail.push(courseDetailItem);
-    }
-    courseItem['courseDetail'] = courseDetail;
-    course.push(courseItem);
+        courseItem['courseDetail'] = courseDetail;
+        course.push(courseItem);
 
-    var jsonn = {};
-    jsonn['Content'] = course;
-    jsonn['pageTotal'] = parseInt((result['TotalItem']-1) / 20 + 1);
+        var jsonn = {};
+        jsonn['Content'] = course;
+        jsonn['pageTotal'] = parseInt((result['TotalItem']-1) / 20 + 1);
 
-    return jsonn;
-}
-{
-    [
-        {
-            type: 'id',
-            op:'gt',
-            value:'314'
-        },
-        {
-            type:'grade',
-            op:'eq',
-
-        }
-    ]
+        return jsonn;
+    })
+    
 }
 
 router.post('/submit', function(req, res, next) {
+    var stuID = req.session.loginUser;
     var courseName = req.body['课程名称'];
     var courseTime = req.body['上课时间'];
     var coursePlace = req.body['上课地点'];
     var phoneNum = req.body['手机号码'];
     var reselectReason = req.body['补选理由'];
-    console.log(courseName, courseTime, coursePlace, phoneNum, reselectReason);
-    res.json({'status':0, 'errMsg':'其实没有错'});
+    // 可以给我一个课程id吗
+    Course.findOne({name:courseName})
+        .populate('_teacher')
+        .exec(function(err,course){
+            var applyclass = new ApplyClass({
+                sid:stuID
+                , tid:course._teacher.id
+                , cid:course.id
+                , reason: reselectReason
+            });
+            applyclass.save(function(err){
+                if (err) { res.json({'status':-1,'errMsg':err}); }
+                else {
+                    res.json({'status':0,'errMsg':'成功'});
+                }
+            })
+        });
 });
 
 module.exports = router;

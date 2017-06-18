@@ -22,12 +22,8 @@ to run mongoDB before you run this webapp
 
 ## 现在仍需要实现的功能：
 * 学生的credit还没有计算
-* admin/reviewapplyforclass中的内容由刘启明完成
-* applyforClass 也应该有刘启明完成
-
-
-* reselect 补选页面，尚未完成
-* select 选课页面 尚未实现
+* teacher 中查看课表的时候，还不能选择学期
+* 选课中的筛选功能
 * teacher 中pickStudent的功能需要从请求中获取数据
 * reviewclass 中的搜索功能
 
@@ -35,6 +31,11 @@ to run mongoDB before you run this webapp
 
 ## 新增的功能
 * 获取用户类型的函数中需要添加管理员类型 - 可以返回0，表示管理员
+* teacher 中查看一个老师的所有课表
+* select 选课页面 尚未实现
+* admin/reviewapplyforclass中的内容完成
+* applyforClass 完成
+* reselect 补选页面
 
 ### Previous Commit
 * 实现了changepw/personalinfo中的功能 - 可能有bug
@@ -65,3 +66,4 @@ to run mongoDB before you run this webapp
 
 ## 需要协作完成的
 * teacherManager删除和修改教师的测试 - 需要从master合并
+* reselect/submit 界面中，返回一个课程id吧
