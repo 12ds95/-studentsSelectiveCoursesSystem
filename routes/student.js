@@ -17,15 +17,15 @@ router.use(function (req, res, next) {
 router.get('/', function(req, res, next) {
     var stuID = req.session.loginUser;
     Student.findOne({id:stuID},function(err,leftColAttr){
-        // 下面的json格式不符合要求
-        // var leftColAttr = {
-        //     '姓名':'蔡老板',
-        //     '照片':'images/people_default.png',
-        //     '学号':'3140102333',
-        //     '院系':'妓院',
-        //     '专业':'程序猿',
-        //     '行政班':'码农一班'
-        // };
+        //下面的json格式不符合要求
+        var leftColAttr = {
+            '姓名':'蔡老板',
+            '照片':'images/people_default.png',
+            '学号':'3140102333',
+            '院系':'妓院',
+            '专业':'程序猿',
+            '行政班':'码农一班'
+        };
         var rightColAttr = [
             {
                 'imgURL':'images/select.png',

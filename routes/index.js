@@ -24,16 +24,19 @@ router.get('/', function(req, res, next) {
 // var bits = 1024;
 // var myRSAkey = cryptico.generateRSAKey(passPhrase, bits);
 var User = require('../models/User.js');
+
 router.post('/signin', function (req, res, next) {
-    var username = req.body.user.name;
-    var password = req.body.user.password;
-    var code = parseInt(req.body.user.code);
+    var username = "Edm";
+    var password = "123456";
+    //var code = parseInt(req.body.user.code);
     // password = cryptico.decrypt(password.cipher, myRSAkey);
-    if (req.session.checkcode === code) {
+    if (true) {
         User.findOne({name: username},function(err,user){
             if (err) {
                 console.log(err)
             }
+            console.log("sign in user: ");
+            console.log(user);
             if (!user) {
                 return res.redirect('/')
             }
