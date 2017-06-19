@@ -72,6 +72,7 @@ function getTeacherData(pageNum,pageSize,cb) {
             jsonn['PageTotal'] = parseInt((totalNumber-1) / 20 + 1);
             jsonn['Title'] = ['工号','姓名','学院'];
             jsonn['Content'] = [];
+            jsonn['IsShow'] = [true, true, true];
             for (var i=0; i<result['Data'].length; i++) {
                 jsonn['Content'].push({
                     '工号': result['Data'][i]['id'],
@@ -89,7 +90,7 @@ router.post('/getData', function (req, res, next) {
     // 以下是后端数据库的函数：查找教师
     // 返回值：result包，包括该教师的所有信息
     // result = addData(...)
-    Teacher.findById(ID,function (err, result) {
+    Teacher.findOne({id:ID},function (err, result) {
         var jsonn = {};
         jsonn['工号'] = result['id'];
         jsonn['性别'] = result['ismale'] === true ? '男': '女';
@@ -173,12 +174,14 @@ router.post('/deleteData', function(req, res, next) {
     // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
     // result = modifyData(...)
     // 以上
-    Teacher.findOneAndRemove({id:ID},function(err){
+    Teacher.findOne({id:ID},function(err,teacher){
         assert.equal(err,null);
-        var jsonn;
-        if (err){jsonn['status'] = 1; jsonn['errMsg'] = err ;}
-        else { jsonn['status'] = 0;jsonn['errMsg'] = null;}
-        res.json(jsonn);
+        teacher.remove(function(err,remove_res){
+            var jsonn = {};
+            if (err){jsonn['status'] = 1; jsonn['errMsg'] = err ;}
+            else { jsonn['status'] = 0;jsonn['errMsg'] = null;}
+            res.json(jsonn);
+        });
     });
 });
 

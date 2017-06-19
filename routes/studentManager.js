@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Student = require('../models/Student')
+    , assert = require('assert')
+    ;
 // router.use(function (req, res, next) {
 //     if (!!req.session.loginUser && !!req.session.userType) {
 //         if (req.session.userType === "admin") {
@@ -78,13 +80,17 @@ router.post('/getData', function (req, res, next) {
     // 返回值：result包，包括该学生的所有信息
     // result = addData(...)
     // 以上
-    var jsonn = {};
-    jsonn['学号'] = result['id'];
-    jsonn['性别'] = result['ismale'] === true ? '男': '女';
-    jsonn['姓名'] = result['name'];
-    jsonn['学院'] = result['department'];
-    jsonn['学分'] = result['credit'];
-    res.json(jsonn);
+    console.log('In getData');
+    Student.findOne({id:ID},function(err,student){
+        var jsonn = {};
+        jsonn['学号'] = student.id;
+        jsonn['性别'] = student.ismale === true ? '男': '女';
+        jsonn['姓名'] = student.name;
+        jsonn['学院'] = student.department;
+        jsonn['学分'] = student.credit;
+        res.json(jsonn);
+    })
+    
 });
 
 router.post('/addData', function(req, res, next) {
@@ -97,10 +103,28 @@ router.post('/addData', function(req, res, next) {
     // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
     // result = addData(...)
     // 以上
-    var jsonn = {};
-    jsonn['status'] = result['status'];
-    jsonn['errMsg'] = result['errMsg'];
-    res.json(jsonn);
+    var student = new Student({
+        id:ID
+        , name:name
+        , ismale:gender === '男' ? 1:0 
+        , credit:credit
+        , department: department
+    });
+
+    student.save(function(err,save_res){
+        if (err) {
+            res.json({
+                status: -1
+                , errMsg : "Can't save student"
+            });
+        }
+        else {
+            res.json({
+                status : 0
+                , errMsg : "Save successfully"
+            });
+        }
+    });
 });
 
 router.post('/modifyData', function(req, res, next) {
@@ -113,10 +137,26 @@ router.post('/modifyData', function(req, res, next) {
     // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
     // result = modifyData(...)
     // 以上
-    var jsonn = {};
-    jsonn['status'] = result['status'];
-    jsonn['errMsg'] = result['errMsg'];
-    res.json(jsonn);
+    Student.findOne({id:ID},function(err,student){
+        student.name = name;
+        student.gender = gender;
+        student.department = department;
+        student.credit = credit;
+        student.save(function(err,save_res){
+            if (err) {
+                res.json({
+                    status: -1
+                    , errMsg : "Can't modify student"
+                });
+            }
+            else {
+                res.json({
+                    status : 0
+                    , errMsg : "Modify successfully"
+                });
+            }
+        })
+    })
 });
 
 router.post('/deleteData', function(req, res, next) {
@@ -125,10 +165,23 @@ router.post('/deleteData', function(req, res, next) {
     // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
     // result = modifyData(...)
     // 以上
-    var jsonn = {};
-    jsonn['status'] = result['status'];
-    jsonn['errMsg'] = result['errMsg'];
-    res.json(jsonn);
+
+    Student.findOne({id:ID},function(err,user){
+	    user.remove(function(err,remove_res){
+            if (err) {
+                res.json({
+                    status: -1
+                    , errMsg : "Can't delete student"
+                });
+            }
+            else {
+                res.json({
+                    status : 0
+                    , errMsg : "Delete successfully"
+                });
+            }
+        })
+    })
 });
 
 module.exports = router;

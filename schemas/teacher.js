@@ -116,7 +116,9 @@ TeacherSchema.pre('save',function(next){
 });
 
 TeacherSchema.pre('remove',function(next){
-	User.remove({name:this.uname},function(err,res){
+	var userID = this.uname; 
+	var User = require('../models/User');
+	User.remove({name:userID},function(err,res){
 		assert.equal(err,null);
 		next();
 	})

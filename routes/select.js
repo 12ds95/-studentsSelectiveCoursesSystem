@@ -143,15 +143,22 @@ router.post('/submit', function(req, res, next) {
                 if(_id === student._course_list[i]) {
                     status = -1;
                     errMsg = "已选该课程";
+                    var jsonn = {};
+                    jsonn['status'] = status;
+                    jsonn['errMsg'] = errMsg;
+                    res.json(jsonn);
                     break;
                 }
             }
-
+            // 可以开始选课
+            Course.findOne({_id:_id},function(err,course){
+                student._course_list.push(course._id);
+                res.json({
+                    status: 0
+                    , errMsg:'Success!'
+                });
+            })
         }
-        var jsonn = {};
-        jsonn['status'] = status;
-        jsonn['errMsg'] = errMsg;
-        res.json(jsonn);
     });    
 });
 
