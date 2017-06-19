@@ -20,7 +20,9 @@ var TeacherSchema = new mongoose.Schema({
 	// _department:{type:mongoose.Schema.Types.ObjectId, ref:'Department'},
 	department:{type:String},
 	phone_number: String,
-	info: String
+	info: String,
+	address: String,
+	email: String
 },{toJSON:{virtuals:true}});
 
 // TeacherSchema.virtual('department').get(function(){
@@ -73,12 +75,21 @@ TeacherSchema.statics = {
 	getSchedule:function(tid,cb){
 		this.findOne({id:tid},function(err,teacher){
 			assert.equal(err,null);
+			var Course = require('../models/Course');
 			Course.find({_teacher:teacher._id})
-				.populate('_classroom _teacher')
+				.populate('_classroom _teacher _time')
 				.exec(function(err,courseList){
 					assert.equal(err,null);
 					cb(courseList);
 				});
+		});
+	}
+	,
+	findByUname: function(uname, cb){
+		whereStr = {'uname':uname};
+		this.find(whereStr, function(err, teacher){
+			if(err){console.log("teacher find Uname error!");}
+			cb(teacher[0]);
 		});
 	}
 };
@@ -87,7 +98,6 @@ TeacherSchema.pre('save',function(next){
 	// 在添加老师之前，先添加一个用户
 	var uname = this.uname;
 	var User = require('../models/User');
-
 	User.findOne({name:this.uname},function(err,res){
 		if(res != null) { next(); }
 		else {

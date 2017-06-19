@@ -54,7 +54,7 @@ module.exports = function(app) {
     app.use('/noticeManager', noticeManager);
     app.use('/captcha',captcha);
     // app.use('/byselection',byselection);
-    app.use('/applyforclass',applyforclass);
+    //app.use('/applyforclass',applyforclass);
     app.use('/reselect',reselect);
     app.use('/inforeport',inforeport);
     app.use('/stureportdl',stureportdl);

@@ -4,7 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var Student = require('../models/Student');
-
+var Teacher = require('../models/Teacher');
 // router.use(function (req, res, next) {
 //     if (!!req.session.loginUser) {
 //         next();
@@ -16,37 +16,77 @@ var Student = require('../models/Student');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var userID = req.session.loginUser;
-    Student.findOne({id:userID},function(err,student){
-        res.render('personalinfo',{
-        title : 'Personalinfo',
-        studentID : userID,
-        studentName : student.name,
-        address : student.address,
-        email : student.email,
-        phone : student.phone
-    });
-    })
+    if(req.session.userType === 'Student'){
+        Student.findOne({id:userID},function(err,student){
+            res.render('personalinfo',{
+                title : 'Personalinfo',
+                studentID : userID,
+                studentName : student.name,
+                address : student.address,
+                email : student.email,
+                phone : student.phone
+            });
+        })
+    }
+    else {
+        Teacher.findByUname(userID, function(teacher){
+            res.render('personalinfo',{
+                title : 'Personalinfo',
+                studentID : userID,
+                studentName : teacher.name,
+                address : teacher.address,
+                email : teacher.email,
+                phone : teacher.phone
+            });
+        })
+    }
+
     
 });
 
 router.post('/changeinfo', function(req, res, next) {
     console.log(req.body);
+    var temp;
+    for(temp in req.body)break;
+    temp = JSON.parse(temp);
     var userID = req.session.loginUser;
-    var address = req.body.address;
-    var email = req.body.email;
-    var phone = req.body.phone;
-
-    Student.findOne({id:userID},function(err,student){
-        student.address = address;
-        student.email = email;
-        student.phone = phone;
-        student.save(function(err,statusCode){
-            var data;
-            if(err) { data = {status : -1}; }
-            else { data = {status:1}; }
-            res.json(data);
+    var address = temp.address;
+    var email = temp.email;
+    var phone = temp.phone;
+    if(req.session.userType === 'Student') {
+        Student.findOne({id: userID}, function (err, student) {
+            student.address = address;
+            student.email = email;
+            student.phone = phone;
+            student.save(function (err, statusCode) {
+                var data;
+                if (err) {
+                    data = {status: -1};
+                }
+                else {
+                    data = {status: 1};
+                }
+                res.json(data);
+            });
         });
-    });
+    }
+    else {
+        Teacher.findByUname(userID, function(teacher){
+            teacher.address = address;
+            teacher.email = email;
+            teacher.phone_number = phone;
+            teacher.save(function (err, statusCode) {
+                var data;
+                if (err) {
+                    data = {status: -1};
+                }
+                else {
+                    data = {status: 1};
+                }
+                res.json(data);
+            });
+        })
+    }
 });
 
 router.get('/changepw', function (req,res,next) {

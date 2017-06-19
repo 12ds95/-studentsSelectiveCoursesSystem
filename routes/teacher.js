@@ -42,43 +42,39 @@ router.get('/', function(req, res, next) {
     // 以下是后端数据库的函数：查找教师
     // 返回值：result包，包括该教师的所有信息
     // result = getData(...)
-    var result = {
-        name: '邓水光',
-        id: '1234',
-        ismale: true,
-        phone_number: '88110110',
-        department: '计算机学院'
-    };
-    // 以上为伪造数据，需要替换掉
-    var leftColAttr = {};
-    leftColAttr['姓名'] = result['name'];
-    leftColAttr['照片'] = "images/photo_teacher.png"
-    leftColAttr['工号'] = result['id'];
-    leftColAttr['性别'] = result['ismale'] === true ? '男': '女';
-    leftColAttr['手机'] = result['phone_number'];
-    leftColAttr['院系'] = result['department'];
-    var rightColAttr = [{
-        'imgURL':'images/teacher_openCourse.png',
-        'URL':'/applyforclass',
-        '名称':'申请开课'
-    },{
-        'imgURL':'images/teacher_reselectPermission.png',
-        'URL':'http://www.baidu.com',
-        '名称':'补选审核'
-    },{
-        'imgURL':'images/teacher_table.png',
-        'URL':'http://www.baidu.com',
-        '名称':'查看课表'
-    }
-    ];
-    res.render('mainPage',{
-        title: '教师主页',
-        leftColAttr: leftColAttr,
-        rightColAttr: rightColAttr
+    var uname = req.session.loginUser;
+    Teacher.findByUname(uname, function(teacher){
+       var result = {
+             name: teacher.name
+           , id:teacher.id
+           , ismale:teacher.ismale
+           , phone_number:teacher.phone_number
+           , department:teacher.department
+       };
+       var leftColAttr = {};
+       leftColAttr['姓名'] = result['name'];
+       leftColAttr['照片'] = "images/photo_teacher.png"
+       leftColAttr['工号'] = result['id'];
+       leftColAttr['性别'] = result['ismale'] === true ? '男': '女';
+       leftColAttr['手机'] = result['phone_number'];
+       leftColAttr['院系'] = result['department'];
+       var rightColAttr = [{
+           'imgURL':'images/teacher_openCourse.png',
+           'URL':'/teacher/applyforclass',
+           '名称':'申请开课'
+       },{
+           'imgURL':'images/teacher_table.png',
+           'URL':'/teacher/curriculumn',
+           '名称':'查看课表'
+       }
+       ];
+       res.render('mainPage',{
+           title: '教师主页',
+           leftColAttr: leftColAttr,
+           rightColAttr: rightColAttr
+       });
     });
 });
-
-
 
 router.get('/applyforclass', function(req, res, next) {
     res.render('applyforclass',{
@@ -86,21 +82,22 @@ router.get('/applyforclass', function(req, res, next) {
     });
 });
 
-
 router.get('/pickStudents', function(req, res, next) {
     // 需要变成从请求中获取
-    var tid = 'teacher1';
-    var cid = '230202030';
-
+    var tid = req.session.loginUser;
+    var cid = req.query['course_ID'];
     ApplyClass.fetchStu(tid,cid,function (err, stuPending) {
+       //if(err)
         Course.fetchStu(cid,tid,function (err, stuReady) {
-            res.render('pickStudents',{
-                course:'面向对象程序设计',
-                studentsPending:stuPending,
-                studentsReady:stuReady
+            Course.findOne({'_id':cid}, function(err, cou){
+                res.render('pickStudents',{
+                    course:cou.name,
+                    studentsPending:stuPending,
+                    studentsReady:stuReady
+                });
             });
-        })
-    })
+        });
+    });
 });
 
 router.get('/curriculumn', function(req, res, next) {
