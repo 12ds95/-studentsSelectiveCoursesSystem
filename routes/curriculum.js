@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
     var stuID = req.session.loginUser;
 
     Student.getSchedule(stuID,function(err,courselist){
-        console.log(courselist.toJSON());
+        //console.log(courselist.toJSON());
         res.render('curriculum',{
             semester: '春',
             courseList: courselist

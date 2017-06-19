@@ -33,17 +33,11 @@ var StudentSchema = new mongoose.Schema({
 
 StudentSchema.statics = {
 	getSchedule: function(sid,cb){
-		// 由于暂时没有添加学生的信息，因此先把所有的课程显示出来
-		// return Course.find({})
-		// 			 .populate({path:'_time', select:' -_id'})
-		// 			 .populate({path:'_classroom', select:' -_id'})
-		// 			 .exec(function(err,res){
-		// 			 	cb(err,res);
-		// 			 });
-		return this.findOne({id:sid})
-			.populate({path:'_course_list',select:'-_id'})
-			.populate({path:'_time', select:' -_id'})
-			.populate({path:'_classroom', select:' -_id'})
+		this.findOne({id:sid})
+			.populate({path:'_course_list',select:'-_id'
+			,populate:{path:'_time _classroom'}})
+			//.populate({path:'_time', select:' -_id'})
+			//.populate({path:'_classroom', select:' -_id'})
 			.exec(function(err,res){
 				cb(err,res._course_list);
 			});
@@ -58,20 +52,6 @@ StudentSchema.statics = {
 					  });
 	}
 	,
-	// 使用 getAPage 来代替
-	// getTwentyStudent:function (from, to, cb) {
-	// 	// TODO 
-	// 	this.find({})
-	// 		.sort('id')
-	// 		.select('id name')
-	// 		.exec(function(err, res){
-	// 			var i, result;
-	// 			if(res.length < from + 1)cb(result);
-	// 			for(i=from;i<res.length&&i<=to;i++)
-	// 				result[i-from]=res[i];
-	// 			cb(result);
-	// 		});
-	// },
 	getAPage:function(pageNum,pageSize,cb){
 		var skipNum = (pageNum - 1) * pageSize;
 		this.find({})

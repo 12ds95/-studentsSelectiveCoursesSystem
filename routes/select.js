@@ -127,7 +127,7 @@ function getCourseData(query, from, to, cb) {     // 取[from,to]的数据
 }
 
 router.post('/submit', function(req, res, next) {
-    var _id = req.body['courseID'];
+    var _id = req.body['courseId'];
     var sid = req.session.loginUser;
 
     // 以下是后端数据库的函数：选课
@@ -153,10 +153,12 @@ router.post('/submit', function(req, res, next) {
             // 可以开始选课
             Course.findOne({_id:_id},function(err,course){
                 student._course_list.push(course._id);
-                res.json({
-                    status: 0
-                    , errMsg:'Success!'
-                });
+                student.save(function(err, saveRes){
+                    res.json({
+                        status: 0
+                        , errMsg:'Success!'
+                    });
+                })
             })
         }
     });    

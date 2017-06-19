@@ -76,7 +76,7 @@ TeacherSchema.statics = {
 		this.findOne({id:tid},function(err,teacher){
 			assert.equal(err,null);
 			var Course = require('../models/Course');
-			Course.find({_teacher:teacher._id})
+			Course.find({'_teacher':teacher._id})
 				.populate('_classroom _teacher _time')
 				.exec(function(err,courseList){
 					assert.equal(err,null);
