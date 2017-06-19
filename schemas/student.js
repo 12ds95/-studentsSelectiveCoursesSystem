@@ -88,13 +88,13 @@ StudentSchema.statics = {
 StudentSchema.pre('save',function(next){
 	var curID = this.id;
 	var User = require('../models/User');
+	this.uname = this.id;
 	User.findOne({name:curID},function(err,res){
 		if(res != null){ next(); } 
 		// User already exists do nothing
 
 		else {
 			var _user = new User({
-				// 为什么这里的this是空的啊？
 				name : curID
 				, password: '123456'
 				, user_type: 2
@@ -106,7 +106,14 @@ StudentSchema.pre('save',function(next){
 			});
 		}
 	})
-	
 });
+
+StudentSchema.pre('remove',function(next){
+	var curID = this.id;
+	var User = require('../models/User');
+	User.remove({name:curID},function(err,res){
+		next();
+	})
+})
 
 module.exports = StudentSchema;

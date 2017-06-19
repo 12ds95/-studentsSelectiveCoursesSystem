@@ -31,14 +31,18 @@ to run mongoDB before you run this webapp
 ## 正在进行的工作
 
 ## 新增的功能
+* 管理员 - 完成了学生管理的测试
+* 管理员 - 完成了教师管理的测试
+* 管理员 - 完成了通知管理的测试
+
+
+### Previous Commit
 * 获取用户类型的函数中需要添加管理员类型 - 可以返回0，表示管理员
 * teacher 中查看一个老师的所有课表
 * select 选课页面 尚未实现
 * admin/reviewapplyforclass中的内容完成
 * applyforClass 完成
 * reselect 补选页面
-
-### Previous Commit
 * 实现了changepw/personalinfo中的功能 - 可能有bug
 * curriculum中显示课表的内容要与相应的学生挂钩
 * /teacher/pickStudents/delete 功能实现

@@ -61,10 +61,12 @@ router.post('/tableData', function(req, res, next) {
             }
             var jsonn = {};
             jsonn['PageTotal'] = totalPages;
-            jsonn['Title'] = ['发布时间','发布单位','通知标题'];
+            jsonn['Title'] = ['通知编号', '发布时间','发布单位','通知标题'];
             jsonn['Content'] = [];
+            jsonn['IsShow'] = [false,true, true, true];
             for (var i=0; i<result['Data'].length; i++) {
                 jsonn['Content'].push({
+                    '通知编号': result['Data'][i]['_id'],
                     '发布时间': result['Data'][i]['createAt'],
                     '发布单位': result['Data'][i]['department'],
                     '通知标题': result['Data'][i]['title']
@@ -106,12 +108,12 @@ router.post('/tableData', function(req, res, next) {
 
 router.post('/getData', function (req, res, next) {
     // change the following ID to title
-    var title = req.body['通知编号'];
+    var new_id = req.body['通知编号'];
     // 以下是后端数据库的函数：查找通知
     // 返回值：result包，包括该通知的所有信息
     // result = addData(...)
     // 以上
-    News.findOne({title:title},function(err,news){
+    News.findOne({_id:new_id},function(err,news){
         assert.equal(null,err);
         var jsonn = {};
         jsonn['通知编号'] = news._id;
@@ -155,7 +157,7 @@ router.post('/modifyData', function(req, res, next) {
     // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
     // result = modifyData(...)
     // 以上
-    News.findOne({id:ID},function(err,news){
+    News.findOne({_id:id},function(err,news){
         news.title = title;
         news.department = department;
         news.content = content;
@@ -176,14 +178,14 @@ router.post('/modifyData', function(req, res, next) {
 });
 
 router.post('/deleteData', function(req, res, next) {
-    var title = req.body['通知编号'];
+    var id = req.body['通知编号'];
     // 以下是后端数据库的函数：删除通知
     // 返回值：result包，包括是否成功status（成功：0，失败：-1）、错误原因errMsg
     // result = modifyData(...)
     // 以上
-    News.findOneAndRemove({title:title},function(err){
+    News.findOneAndRemove({_id:id},function(err){
         assert.equal(err,null);
-        var jsonn;
+        var jsonn = {};
         if (err){jsonn['status'] = 1; jsonn['errMsg'] = err ;}
         else { jsonn['status'] = 0;jsonn['errMsg'] = null;}
         res.json(jsonn);
