@@ -59,7 +59,7 @@ router.get('/', function(req, res, next) {
     leftColAttr['院系'] = result['department'];
     var rightColAttr = [{
         'imgURL':'images/teacher_openCourse.png',
-        'URL':'http://www.baidu.com',
+        'URL':'/applyforclass',
         '名称':'申请开课'
     },{
         'imgURL':'images/teacher_reselectPermission.png',
@@ -258,7 +258,8 @@ router.post('/teacher/pickStudents/delete', function(req, res, next) {
 
 router.post('/applyforclass/upload', function(req, res, next) {
     console.log(req.body);
-    Teacher.findOne(null,function(err, res2){
+    whereStr = {'uname':req.session.loginUser};
+    Teacher.findOne(whereStr,function(err, res2){
         var jsonstr;
         for(var a in req.body){
             jsonstr = a;

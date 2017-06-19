@@ -27,28 +27,13 @@ var stu2 = new Student({
     , credit:150
     , department:'计算机科学与技术'
 });
-
-var stu3 = new Student({
-    id:'3140104203'
-    , name:'word'
-    , uname:'3140104203'
-    , credit:170
-    , department:'软件工程'
-});
-
-stu1.save(function (err, res) {
-    stu2.save(function (err, res) {
-        stu3.save(function (err, res) {
-            console.log("Save student successfully!");
-            mongoose.disconnect();
-        });
-    });
-});
+stu1.save(function (err, res) {});
+stu2.save(function (err, res) {});
 var teacher1 = new Teacher({
-    name:"老师1"
+    name:'老师1'
     , ismale:true
     , uname:'teacher1'
-    , id:'12224521'
+    , id:'teacher1'
     , department:"计算机学院"
     , phone_number:"123456"
     , info:"no"
@@ -57,7 +42,7 @@ teacher1.save(function (err, res) {
     if(err) {console.log('Error in teacher1.save()\n',err);}
 });
 var teacher2 = new Teacher({
-    name:"老师2"
+    name:'老师2'
     , ismale:true
     , uname:'teacher2'
     , id:"teacher2"

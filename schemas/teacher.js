@@ -85,11 +85,12 @@ TeacherSchema.statics = {
 
 TeacherSchema.pre('save',function(next){
 	// 在添加老师之前，先添加一个用户
+	var uname = this.uname;
 	User.findOne({name:this.uname},function(err,res){
 		if(res != null) { next(); }
 		else {
 			var _user = new User({
-				name:this.uname
+				name:uname
 				, password:'123456' 	//default password
 				, user_type: 1  	// teacher type
 			});

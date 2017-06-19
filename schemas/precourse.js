@@ -69,6 +69,7 @@ PrecourseSchema.statics = {
                 , 'campus' : result[0].campus
                 , 'classinfo' : result[0].info
                 , '_id' : result[0].date
+                , '_teacher' : result[0]._teacher
             };
             cb(list);
         });
@@ -112,7 +113,7 @@ PrecourseSchema.statics = {
                             , credit: preCourseInfo[0].credit
                             , courese_info: preCourseInfo[0].info
                             , course_type: preCourseInfo[0].course_type
-                            //, _teacher:
+                            , _teacher: preCourseInfo[0]._teacher
                             , semester: '春夏'
                             , capacity: preCourseInfo[0].capacity
                             , campus: preCourseInfo[0].campus
