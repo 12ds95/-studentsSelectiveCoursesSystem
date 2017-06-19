@@ -5,7 +5,7 @@ script.
     function logout(){
         $.get("/signout", function(result){
             alert("已登出");
-            window.location.reload(true);
+            window.location.assign('/');
         });
     };
 
