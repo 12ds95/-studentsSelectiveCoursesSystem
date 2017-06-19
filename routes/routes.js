@@ -19,10 +19,6 @@ var captcha = require('./captcha');
 var byselection = require('./byselection');
 var reselect = require('./reselect');
 var publicKeyPem = require('../modules/crypto').publicKeyPem;
-var inforeport = require('./inforeport');
-var stureportdl = require('./stureportdl');
-var tchreport = require('./tchreport');
-var tchreportdl = require('./tchreportdl');
 
 module.exports = function(app) {
     app.locals.publicKey = publicKeyPem;
@@ -56,10 +52,6 @@ module.exports = function(app) {
     app.use('/byselection',byselection);
     // app.use('/applyforclass',applyforclass);
     app.use('/reselect',reselect);
-    app.use('/inforeport',inforeport);
-    app.use('/stureportdl',stureportdl);
-    app.use('/tchreport',tchreport);
-    app.use('/tchreportdl',tchreportdl);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
