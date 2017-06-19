@@ -90,17 +90,12 @@ CourseSchema.statics = {
 	}
 	,
 	fetchStu:function (cid,tid,cb) {
-		return this.find({cid:cid})
+		this.find({cid:cid})
 			.populate('_teacher')
-			.find({_teacher:tid})
-			// .populate('_stulist')
+			.find({'_teacher.uname':tid})
+			.populate('_stulist')
 			.exec(function(err,res){
-				if (res != null){
-					res.populate('_stulist');
-                    cb(err,res);
-				}else {
-					cb("Can't find such list",null);
-				}
+				cb(err, res);
 			});
     }
 }

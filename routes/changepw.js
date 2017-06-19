@@ -26,10 +26,13 @@ router.get('/', function(req, res, next) {
 router.post('/pw/change', function(req, res, next) {
     // 0 表示修改密码失败， 1 表示修改成功
     console.log(req.body);
-    var userID = req.body.loginUser;
-    var oldpw = req.body.oldpw;
-    var newpw = req.body.newpw;
-    var confirmpw = req.body.confirmpw;
+    var userID = req.session.loginUser;
+    var temp;
+    for(temp in req.body)break;
+    temp = JSON.parse(temp);
+    var oldpw = temp.oldpw;
+    var newpw = temp.newpw;
+    var confirmpw = temp.confirmpw;
     var data = {};
     if(newpw === confirmpw){
         User.findOne({name:userID},function(err,user){

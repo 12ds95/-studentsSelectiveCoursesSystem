@@ -13,9 +13,9 @@ block script
                 if(newpw.value != confirmpw.value)
                     alert("两次输入新密码不同");
                 else {
-                    oldpw.value = hex_md5(oldpw.value);
-                    newpw.value = hex_md5(newpw.value);
-                    confirmpw.value = hex_md5(confirmpw.value);
+                    //oldpw.value = hex_md5(oldpw.value);
+                    //newpw.value = hex_md5(newpw.value);
+                    //confirmpw.value = hex_md5(confirmpw.value);
                     var data = JSON.stringify($("#form").serializeObject());
                     $.post('/changepw/pw/change', data, function (data) {
                         if (data['status']) {
