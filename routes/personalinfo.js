@@ -16,7 +16,7 @@ var Teacher = require('../models/Teacher');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var userID = req.session.loginUser;
-    if(req.session.userType === 'Student'){
+    if(req.session.userType === 'student'){
         Student.findOne({id:userID},function(err,student){
             res.render('personalinfo',{
                 title : 'Personalinfo',
@@ -53,7 +53,7 @@ router.post('/changeinfo', function(req, res, next) {
     var address = temp.address;
     var email = temp.email;
     var phone = temp.phone;
-    if(req.session.userType === 'Student') {
+    if(req.session.userType === 'student') {
         Student.findOne({id: userID}, function (err, student) {
             student.address = address;
             student.email = email;

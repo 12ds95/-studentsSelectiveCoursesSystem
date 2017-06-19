@@ -86,10 +86,9 @@ router.get('/pickStudents', function(req, res, next) {
     // 需要变成从请求中获取
     var tid = req.session.loginUser;
     var cid = req.query['course_ID'];
-    ApplyClass.fetchStu(tid,cid,function (err, stuPending) {
-       //if(err)
-        Course.fetchStu(cid,tid,function (err, stuReady) {
-            Course.findOne({'_id':cid}, function(err, cou){
+    Course.findOne({'_id':cid}, function(err, cou){
+        ApplyClass.fetchStu(tid,cou.id,function (err, stuPending){
+            Course.fetchStu('_id', tid, function (err, stuReady){
                 res.render('pickStudents',{
                     course:cou.name,
                     studentsPending:stuPending,
@@ -158,18 +157,18 @@ router.get('/curriculumn', function(req, res, next) {
 });
 router.post('/teacher/pickStudents/select', function(req, res, next) {
 
-    var selectedStu = req.body.studentsPending;
+    var selectedStu = req.body.id;
     var teacherID = req.session.loginUser;
-    var courseID = req.body.courseID;
+    var courseID = req.session.courseID;
 
     console.log(req.body);
     // 从待定队列中删除
     ApplyClass.deleteMany({$or:selectedStu},function(err,deleted){
-        assert.equal(err,null);
+        //assert.equal(err,null);
         // 选课流程 - 把课程ID添加到学生的course_list中
         Course.findOne({id:courseID},function (err,curCourse) {
             Student.find({$or:selectedStu},function (err, stuList) {
-                assert.equal(err,null);
+                //assert.equal(err,null);
                 var curIndex = 0;
                 // for(curIndex = 0; curIndex < stuList.length;curIndex++){
                 //     // BUG 这里可能会出现问题，比如一个同学选了两次课。。。
@@ -198,10 +197,10 @@ router.post('/teacher/pickStudents/select', function(req, res, next) {
 function saveNextStu(stuList,curIndex,curCourse,next) {
     stuList[curIndex]._course_list.push(curCourse._id);
     stuList[curIndex].save(function(err,saveRes){
-        assert.equal(null,err);
+        //assert.equal(null,err);
         curCourse._stulist.push(stuList[curIndex]._id);
         curCourse.save(function(err,result){
-            assert.equal(null,err);
+            //assert.equal(null,err);
             curIndex++;
             if (curIndex < stuList.length){
                 saveNextStu(stuList,curIndex,curCourse,next);
@@ -219,7 +218,7 @@ function deleteNextStu(stuList, curIndex, curCourse, next) {
         }
     }
     stuList[curIndex].save(function (err, result) {
-        assert.equal(err,null);
+        //assert.equal(err,null);
         curIndex++;
         if (curIndex<stuList.length){
             deleteNextStu(stuList,curIndex,curCourse,next);
@@ -236,7 +235,7 @@ router.post('/teacher/pickStudents/delete', function(req, res, next) {
     var course_id = req.body._id;
     Course.findOne({_id:course_id},function (err, course) {
         Student.find({$or:selectedStu},function (err, stuList) {
-            assert.equal(null,err);
+            //assert.equal(null,err);
             var curIndex = 0;
             deleteNextStu(stuList,curIndex,course,function () {
                 ApplyClass.fetchStu(teacherID,courseID,function (err, newPending) {

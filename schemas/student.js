@@ -19,7 +19,7 @@ var StudentSchema = new mongoose.Schema({
 	// replace by String:department
 	// _department:{type:Schema.Types.ObjectId, ref:'Department'},
 	department:String,
-	_course_list:{type:Schema.Types.ObjectId, ref:'Course'},
+	_course_list:[{type:Schema.Types.ObjectId, ref:'Course'}],
 	// 以下内容纯属为个人信息
 	address:String,
 	email:String,
@@ -88,6 +88,7 @@ StudentSchema.statics = {
 StudentSchema.pre('save',function(next){
 	var curID = this.id;
 	var User = require('../models/User');
+	//if(typeof ._course_list === undefined)this._course_list = [];
 	User.findOne({name:curID},function(err,res){
 		if(res != null){ next(); } 
 		// User already exists do nothing

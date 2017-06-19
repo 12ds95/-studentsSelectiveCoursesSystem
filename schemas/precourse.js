@@ -118,7 +118,7 @@ PrecourseSchema.statics = {
                             , capacity: preCourseInfo[0].capacity
                             , campus: preCourseInfo[0].campus
                             //, exam:
-                            //, _stulist:
+                            , _stulist:[]
                             //, english:preCourseInfo.ename
                             //, department:preCourseInfo.department
                             //, hour:preCourseInfo.time_one_week

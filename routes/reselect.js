@@ -52,10 +52,11 @@ router.post('/courseData', function(req, res, next) {
     var pageNum = req.body['pageNum'];
     var query = req.body['query'];
     var itemPerPage = 20;
-    var result = getCourseData(query, (pageNum-1)*itemPerPage+1, pageNum*itemPerPage);
-    res.json(result);
+    getCourseData(query, (pageNum-1)*itemPerPage+1, pageNum*itemPerPage, function(result){
+        res.json(result);
+    });
 });
-function getCourseData(query, from, to) {     // 取[from,to]的数据
+function getCourseData(query, from, to, cb) {     // 取[from,to]的数据
     // 以下是后端数据库的函数：根据query条件（如果query为null则无查询全部），读取20条课程信息（不到20则以实际为准），返回课程总数
     // 返回值：result包，包括TotalItem标签的全部学生总数，和Data标签的[from,to]区间的学生学号、姓名、学院信息
     // result = get20Data(...)
@@ -110,8 +111,7 @@ function getCourseData(query, from, to) {     // 取[from,to]的数据
         var jsonn = {};
         jsonn['Content'] = course;
         jsonn['pageTotal'] = parseInt((result['TotalItem']-1) / 20 + 1);
-
-        return jsonn;
+        cb(jsonn);
     })
     
 }

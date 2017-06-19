@@ -208,14 +208,14 @@ block content
                                 .row(id="ulp")
                                     ul.list-group.pre-scrollable(id='listPending',style="height:500px")
                                         each studentP in studentsPending
-                                            a.list-group-item #{studentP.id}
+                                            a.list-group-item #{studentP.sid}
                                 button(id="select",type="submit",class="btn btn-primary btn-sm btn-block") 选进当前课程
                             .col-md-6.column
                                 label(id="num2") 已选人数:#{studentsReady.length}
                                 .row(id="ulp2")
                                     ul.list-group.pre-scrollable(id='listReady',style="height:500px")
                                         each studentR in studentsReady
-                                            a.list-group-item #{studentR.id}
+                                            a.list-group-item #{studentR.sid}
                                 button(id="delete",type="submit",class="btn btn-primary btn-sm btn-block") 退选当前课程
     div(class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
         .modal-dialog

@@ -16,27 +16,26 @@ router.use(function (req, res, next) {
 
 router.get('/', function(req, res, next) {
     var stuID = req.session.loginUser;
-    Student.findOne({id:stuID},function(err,leftColAttr){
-        // 下面的json格式不符合要求
-        // var leftColAttr = {
-        //     '姓名':'蔡老板',
-        //     '照片':'images/people_default.png',
-        //     '学号':'3140102333',
-        //     '院系':'妓院',
-        //     '专业':'程序猿',
-        //     '行政班':'码农一班'
-        // };
+    Student.findOne({id:stuID},function(err,student){
+        var leftColAttr = {};
+        leftColAttr['姓名'] = student['name'];
+        leftColAttr['照片'] = "images/photo_student.png";
+        leftColAttr['学号'] = student['id'];
+        leftColAttr['性别'] = student['ismale'] === true ? '男': '女';
+        leftColAttr['手机'] = student['phone'];
+        leftColAttr['院系'] = student['department'];
+        leftColAttr['学分'] = student['credit'];
         var rightColAttr = [
             {
-                'imgURL':'images/select.png',
+                'imgURL':'images/student_select.png',
                 'URL':'/select',
                 '名称':'选课'
             },{
-                'imgURL':'images/table.png',
+                'imgURL':'images/student_table.png',
                 'URL':'/curriculum',
                 '名称':'查看课表'
             },{
-                'imgURL':'images/rechoose.png',
+                'imgURL':'images/student_reselect.png',
                 'URL':'/reselect',
                 '名称':'补选'
             }
