@@ -1,4 +1,5 @@
 .idea/
 test/
+.vscode/
 node_modules
 mongoose.js
