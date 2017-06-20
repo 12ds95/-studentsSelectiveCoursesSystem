@@ -158,13 +158,20 @@ router.get('/curriculumn', function(req, res, next) {
 });
 router.post('/teacher/pickStudents/select', function(req, res, next) {
 
-    var selectedStu = req.body.id;
+    var selectedStu_ = req.body.id;
     var teacherID = req.session.loginUser;
     var courseID = req.body.course_ID;
 
+    var selectedStu = [];
+    for(var i = 0; i< selectedStu_.length;i++){
+        var stu = {};
+        stu['id'] = selectedStu_[i];
+        selectedStu.push(stu);
+    }
+
     console.log(req.body);
     // 从待定队列中删除
-    ApplyClass.deleteMany({$or:selectedStu},function(err,deleted){
+    ApplyClass.remove({$or:selectedStu},function(err,deleted){
         //assert.equal(err,null);
         // 选课流程 - 把课程ID添加到学生的course_list中
         Course.findOne({'_id':courseID},function (err,curCourse) {

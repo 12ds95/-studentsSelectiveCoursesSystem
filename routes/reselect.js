@@ -98,7 +98,7 @@ function getCourseData(query, from, to, cb) {     // 取[from,to]的数据
                 id = c['id'];
             }
             courseDetailItem['courseId'] = c['_id'];
-            courseDetailItem['courseTeacher'] = c['teacher'];
+            courseDetailItem['courseTeacher'] = c['_teacher'].name;
             courseDetailItem['courseTime'] = c['time'];
             courseDetailItem['coursePlace'] = c['classroom'];
             courseDetailItem['courseCapacity'] = c['capacity'];

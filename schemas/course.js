@@ -90,9 +90,10 @@ CourseSchema.statics = {
 	}
 	,
 	fetchStu:function (cid,tid,cb) {
-		this.find({'id':cid})
+
+		this.find({'_id':cid})
 			.populate('_teacher')
-			.find({'_teacher.uname':tid})
+			//.find({'_teacher.uname':tid})
 			.populate('_stulist')
 			.exec(function(err,res){
 				cb(err, res);
