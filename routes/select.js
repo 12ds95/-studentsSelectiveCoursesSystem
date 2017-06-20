@@ -153,13 +153,16 @@ router.post('/submit', function(req, res, next) {
             // 可以开始选课
             Course.findOne({_id:_id},function(err,course){
                 student._course_list.push(course._id);
+                course._stulist.push(student._id);
                 student.save(function(err, saveRes){
-                    res.json({
-                        status: 0
-                        , errMsg:'Success!'
+                    course.save(function(err, saveResult){
+                        res.json({
+                            status: 0
+                            , errMsg:'Success!'
+                        });
                     });
-                })
-            })
+                });
+            });
         }
     });    
 });
