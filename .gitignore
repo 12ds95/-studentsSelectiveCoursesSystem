@@ -2,4 +2,3 @@
 test/
 node_modules
 mongoose.js
-.gitignore

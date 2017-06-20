@@ -4,38 +4,60 @@ block leftAddition
 
 block rightContent
     script.
-        function init(filterNameDefault, filterOpDefault) {
+        function init(filterName, filterOp) {
             $(document).ready(function () {
-                initSelector(filterNameDefault, filterOpDefault);
-                refreshTable('studentManager/tableData',1)
+                filterName = JSON.parse(filterName);
+                filterOp = JSON.parse(filterOp);
+                initSelector(filterName, filterOp);
+                refreshTable('studentManager/tableData',1, null)
             })
         }
         function showAddModal() {
             var modalData = {
                 'Title': '学生信息添加表',
-                'ContentItem': ['学生学号', '学生姓名', '学院'],
-                'ContentData': ['', '', ''],
+                'ContentItem': ['学号', '姓名', '学院', '性别', '学分'],
+                'ContentData': ['', '', '', '', ''],
+                'ContentShow': [true, true, true, true, true],
+                'ContentDisabled': ['', '', '', '', ''],
                 'SuccessMsg': '添加成功',
                 'ErrorMsg': '添加失败'
             };
             var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'studentManager/tableData');
+            showModal(modalID, modalData, 'studentManager/addData');
         }
-        function showModifyModal(modifyData) {
-            var modalData = {
-                'Title': '学生信息修改表',
-                'ContentItem': modifyData['ModifyItem'],
-                'ContentData': modifyData['ModifyData'],
-                'SuccessMsg': '修改成功',
-                'ErrorMsg': '修改失败'
-            }
-            var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'studentManager/tableData');
+        function showModifyModal(itemNum, tableContent) {
+            var jsonn = {'学号': tableContent[itemNum]['学号']};
+            $.post('/teacherManager/getData', jsonn, function (data) {
+                var modalData = {
+                    'Title': '学生信息修改表',
+                    'ContentItem': ['学号', '姓名', '性别', '学院', '学分'],
+                    'ContentData': [data['学号'], data['姓名'], data['性别'], data['学院'], data['学分']],
+                    'ContentShow': [true, true, true, true, true],
+                    'ContentDisabled': ['readonly','','','','',''],
+                    'SuccessMsg': '修改成功',
+                    'ErrorMsg': '修改失败'
+                }
+                var modalID = '#placeForModal';
+                showModal(modalID, modalData, 'studentManager/modifyData');
+            });
+        }
+        function afterModalSubmitSuccess() {
+            refreshTable('studentManager/tableData', 1, null);
+        }
+        function doDelete(itemNum, tableContent) {
+            var jsonn = {'学号': tableContent[itemNum]['学号']};
+            $.post('/studentManager/deleteData', jsonn, function (data) {
+                refreshTable('studentManager/tableData', 1, null);
+            });
         }
 
-    - var filterNameDefault = filterNameData[0]
-    - var filterOpDefault = filterOpData[0];
-    body(onload = "init('#{filterNameDefault}', '#{filterOpDefault}')")
+        function afterSearchCond(condQuery) {
+            refreshTable('studentManager/tableData', 1, condQuery);
+        }
+
+    - var filterName = JSON.stringify(filterNameData);
+    - var filterOp = JSON.stringify(filterOpData);
+    body(onload = "init('#{filterName}', '#{filterOp}')")
 
     // 筛选器
     .row(style='margin-top:10px; margin-bottom:10px')

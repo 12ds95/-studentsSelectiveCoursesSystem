@@ -1,5 +1,22 @@
 extends ../layout
-
+block script
+    script(type="text/javascript").
+        $(document).ready(function(){  
+            $("#apply-s").click(function(){
+                //post表单
+                $("#modal").modal("hide");
+                var data=JSON.stringify($("#form").serializeObject());
+                //- var data2 =  $("#form").serializeJSON(); 
+                console.log(data);
+                $.post('/teacher/applyforclass/upload', data, function (data) {
+                    if(data['status']==1){
+                        alert("ok!");
+                    }
+                    else
+                        alert("error!");
+                });
+            });
+        });
 block content
     .container
         .row
@@ -7,32 +24,32 @@ block content
                 .panel-heading
                     h3.panel-title 开课申请
                 .panel-body
-                    form.form-horizontal
+                    form.form-horizontal(id="form",method="post",enctype="multipart/form-data")
                         .form-group
                             label(for="classname",class="col-md-3 control-label") 课程名称：
                             .col-md-6
-                                input(type="text",class="form-control input-sm",placeholder="请输入课程名")
+                                input(type="text",name="classname",class="form-control input-sm",placeholder="请输入课程名")
                         .form-group
                             label(for="Engclassname",class="col-md-3 control-label") 课程英文名称：
                             .col-md-6
-                                input(type="text",class="form-control input-sm",placeholder="请输入课程英文名")
+                                input(type="text",name="Engclassname",class="form-control input-sm",placeholder="请输入课程英文名")
                         .form-group
                             label(for="department",class="col-md-3 control-label") 开课学院：
                             .col-md-6
                                 department.droplist
-                                    select department
-                                        option(value="")请选择学院
-                                        option(value='计算机')计算机学院
-                                        option(value='海洋')海洋学院
+                                    select(name="department") department
+                                        option(value="") 请选择学院
+                                        option(value='计算机') 计算机学院
+                                        option(value='海洋') 海洋学院
                         .form-group
                             label(for="classhours",class="col-md-3 control-label") 周学时：
                             .col-md-6
-                                input(type="text",class="form-control input-sm",placeholder="请输入周学时")
+                                input(type="text",name="classhours",class="form-control input-sm",placeholder="请输入周学时")
                         .form-group
                             label(for="credit",class="col-md-3 control-label") 学分：
                             .col-md-6
                                 credit.droplist
-                                    select credit
+                                    select(name="credit") credit
                                         option(value='0.5') 0.5
                                         option(value='1.0') 1.0
                                         option(value='1.5') 1.5
@@ -47,45 +64,50 @@ block content
                             label(for="classtype",class="col-md-3 control-label") 课程归属：
                             .col-md-6
                                 classtype.droplist
-                                    select department
-                                        option(value='')清选择课程归属
-                                        option(value='专业课程')专业课程
-                                        option(value='大类课程')大类课程
-                                        option(value='通识课程')通识课程
-                                        option(value='外语类课程')外语类课程
+                                    select(name="classtype") department
+                                        option(value='') 请选择课程归属
+                                        option(value='专业课程') 专业课程
+                                        option(value='大类课程') 大类课程
+                                        option(value='通识课程') 通识课程
+                                        option(value='外语类课程') 外语类课程
                         .form-group
                             label(for="preparation",class="col-md-3 control-label") 预修要求：
                             .col-md-6
-                                input(type="text",class="form-control input-sm",placeholder="请输入预修要求")
+                                input(type="text",name="preparation",class="form-control input-sm",placeholder="请输入预修要求")
                         .form-group
                             label(for="capacity",class="col-md-3 control-label") 课程容量：
                             .col-md-6
-                                input(type="text",class="form-control input-sm",placeholder="请输入课程容量")
+                                input(type="text",name="capacity",class="form-control input-sm",placeholder="请输入课程容量")
                         .form-group
                             label(for="objectstudent",class="col-md-3 control-label") 面向对象：
                             .col-md-6
-                                input(type="text",class="form-control input-sm",placeholder="请输入面向对象")
+                                input(type="text",name="objectstudent",class="form-control input-sm",placeholder="请输入面向对象")
                         .form-group
                             label(for="campus",class="col-md-3 control-label") 开课校区：
                             .col-md-6
                                 campus.droplist
-                                    select campus
-                                        option(value='紫金港')紫金港
-                                        option(value='玉泉')玉泉
-                                        option(value='西溪')西溪
-                                        option(value='之江')之江
-                                        option(value='华家池')华家池
+                                    select(name="campus") campus
+                                        option(value='紫金港') 紫金港
+                                        option(value='玉泉') 玉泉
+                                        option(value='西溪') 西溪
+                                        option(value='之江') 之江
+                                        option(value='华家池') 华家池
                         .form-group
                             label(for="classinfo",class="col-md-3 control-label") 课程简介：
                             .col-md-6
-                                textarea(style="width:200px;height:80px;",placeholder="不超过1000字")
-                        .form-group
-                            label(for="fileupload",class="col-md-3 control-label") 文件上传：
-                            .col-md-3
-                                input(type="file",id="file1",name="file1")
-                            .col-sm-1
-                                button(type="submit",class="btn btn-primary btn-sm btn-block") 上传
-                        .form-group
+                                textarea(name="classinfo",style="width:200px;height:80px;",placeholder="不超过1000字")
+                        .form-group   
                             .col-md-2
                             .col-sm-1
-                                button(type="submit",class="btn btn-primary btn-sm btn-block") 申请
+                                button(id="apply",type="button",class="btn btn-primary btn-sm btn-block",onclick="$('#modal').modal('show')") 申请
+
+    div(class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
+                    h4.modal-title 操作确认
+                .modal-body 确认提交开课申请？
+                .modal-footer
+                    button(type="button" class="btn btn-default" data-dismiss="modal") 取消
+                    button(id="apply-s",type="button" class="btn btn-primary") 确认

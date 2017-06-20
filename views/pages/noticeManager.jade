@@ -4,38 +4,60 @@ block leftAddition
 
 block rightContent
     script.
-        function init(filterNameDefault, filterOpDefault) {
+        function init(filterName, filterOp) {
             $(document).ready(function () {
-                initSelector(filterNameDefault, filterOpDefault);
-                refreshTable('noticeManager/tableData',1)
+                filterName = JSON.parse(filterName);
+                filterOp = JSON.parse(filterOp);
+                initSelector(filterName, filterOp);
+                refreshTable('noticeManager/tableData', 1, null)
             })
         }
         function showAddModal() {
             var modalData = {
-                'Title': '公告信息添加表',
-                'ContentItem': ['学生学号', '学生姓名', '学院'],
+                'Title': '通知信息添加表',
+                'ContentItem': ['发布单位', '通知标题', '通知内容'],
                 'ContentData': ['', '', ''],
+                'ContentShow': [true, true, true],
+                'ContentDisabled': ['', '', ''],
                 'SuccessMsg': '添加成功',
                 'ErrorMsg': '添加失败'
             };
             var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'noticeManager/tableData');
+            showModal(modalID, modalData, 'noticeManager/addData');
         }
-        function showModifyModal(modifyData) {
-            var modalData = {
-                'Title': '公告信息修改表',
-                'ContentItem': modifyData['ModifyItem'],
-                'ContentData': modifyData['ModifyData'],
-                'SuccessMsg': '修改成功',
-                'ErrorMsg': '修改失败'
-            }
-            var modalID = '#placeForModal';
-            showModal(modalID, modalData, 'noticeManager/tableData');
+        function showModifyModal(itemNum, tableContent) {
+            var jsonn = {'通知编号': tableContent[itemNum]['通知编号']};
+            $.post('/noticeManager/getData', jsonn, function (data) {
+                var modalData = {
+                    'Title': '通知信息修改表',
+                    'ContentItem': ['通知编号', '发布单位', '通知标题', '通知内容'],
+                    'ContentData': [data['通知编号'], data['发布单位'], data['通知标题'], data['通知内容']],
+                    'ContentShow': [false, true, true, true],
+                    'ContentDisabled': ['', '', '', ''],
+                    'SuccessMsg': '修改成功',
+                    'ErrorMsg': '修改失败'
+                }
+                var modalID = '#placeForModal';
+                showModal(modalID, modalData, 'noticeManager/modifyData');
+            });
+        }
+        function afterModalSubmitSuccess() {
+            refreshTable('noticeManager/tableData', 1, null);
+        }
+        function doDelete(itemNum, tableContent) {
+            var jsonn = {'通知编号': tableContent[itemNum]['通知编号']};
+            $.post('/noticeManager/deleteData', jsonn, function (data) {
+                refreshTable('noticeManager/tableData', 1, null);
+            });
         }
 
-    - var filterNameDefault = filterNameData[0]
-    - var filterOpDefault = filterOpData[0];
-    body(onload = "init('#{filterNameDefault}', '#{filterOpDefault}')")
+        function afterSearchCond(condQuery) {
+            refreshTable('noticeManager/tableData', 1, condQuery);
+        }
+
+    - var filterName = JSON.stringify(filterNameData);
+    - var filterOp = JSON.stringify(filterOpData);
+    body(onload = "init('#{filterName}', '#{filterOp}')")
 
     // 筛选器
     .row(style='margin-top:10px; margin-bottom:10px')

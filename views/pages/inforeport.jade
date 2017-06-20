@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .panel.panel-primary
+                .panel-heading
+                    .panel-title 学分不足学生列表
+                table.table.table-hover
+                    thead
+                        tr
+                            th 学号
+                            th 姓名
+                            th 性别
+                            th 学分
+                            th 学院
+                            th 用户名
+                    tbody
+                        each info in data
+                            tr
+                                td #{info.id}
+                                td #{info.name}
+                                if info.ismale
+                                    td #{'男'}
+                                else
+                                    td #{'女'}
+                                td #{info.credits}
+                                td #{info.department}
+                                td #{info.uname}
+            
+           button.btn.btn-primary(type="button" style="float:right",onclick="window.open('stureportdl')") 下载报表

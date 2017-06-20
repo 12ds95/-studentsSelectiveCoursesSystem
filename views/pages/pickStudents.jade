@@ -30,8 +30,9 @@ block script
                 {
                     sList.push($(this)[0].innerText);
                 });
+                var course_ID=$("#course_ID")[0].textContent;
                 console.log(sList);
-                $.post('teacher/pickStudents/select', sList, function (data) {
+                $.post('teacher/pickStudents/select', {'course_ID':course_ID,'id':sList}, function (data) {
                     if(data['status']==1){
                         refreshPending(data['studentsPending']);
                         refreshReady(data['studentsReady']);
@@ -52,8 +53,9 @@ block script
                 {
                     sList.push($(this)[0].innerText);
                 });
+                var course_ID=$("#course_ID")[0].textContent;
                 console.log(sList);
-                $.post('teacher/pickStudents/delete', sList, function (data) {
+                $.post('teacher/pickStudents/delete', {'course_ID':course_ID,'id':sList}, function (data) {
                     if(data['status']==1){
                         refreshPending(data['studentsPending']);
                         refreshReady(data['studentsReady']);
@@ -71,12 +73,12 @@ block script
                 $(this).attr("class","list-group-item");
             });
         };
-        function sortByCreditsA(a,b){
-            return a.credits-b.credits;
-        };
-        function sortByCreditsD(a,b){
-            return b.credits-a.credits;
-        };
+        //- function sortByCreditsA(a,b){
+        //-     return a.credits-b.credits;
+        //- };
+        //- function sortByCreditsD(a,b){
+        //-     return b.credits-a.credits;
+        //- };
         function sortByIdA(a,b){
             return a.id-b.id;
         };
@@ -103,19 +105,19 @@ block script
                     }
 
                 }
-                else if(str=='按学分'){
-                    filter1.firstChild.nodeValue='按学分';
-                    if(aord=='升序'){
-                        filter2.firstChild.nodeValue='升序';
-                        studentsP.sort(sortByCreditsA);
-                        studentsR.sort(sortByCreditsA);
-                    }
-                    else if(aord='降序'){
-                        filter2.firstChild.nodeValue='降序';
-                        studentsP.sort(sortByCreditsD);
-                        studentsR.sort(sortByCreditsD);
-                    }
-                }
+                //- else if(str=='按学分'){
+                //-     filter1.firstChild.nodeValue='按学分';
+                //-     if(aord=='升序'){
+                //-         filter2.firstChild.nodeValue='升序';
+                //-         studentsP.sort(sortByCreditsA);
+                //-         studentsR.sort(sortByCreditsA);
+                //-     }
+                //-     else if(aord='降序'){
+                //-         filter2.firstChild.nodeValue='降序';
+                //-         studentsP.sort(sortByCreditsD);
+                //-         studentsR.sort(sortByCreditsD);
+                //-     }
+                //- }
                 refreshPending(studentsP);
                 refreshReady(studentsR);
                 rebind();
@@ -175,6 +177,7 @@ block content
                 .panel.panel-primary
                     .panel-heading
                         h3.panel-title(id="courseName") #{course}
+                        h3.panel-title.hide(id="course_ID") #{course_ID}
                     .panel-body
                         center
                             .btn-group
@@ -184,7 +187,7 @@ block content
                                 ul.dropdown-menu
                                     li
                                         a(href="javascript:void(0);",onclick="sort('按学号',null,'#{studentsP}','#{studentsR}')") 按学号
-                                    li
+                                    //- li
                                         a(href="javascript:void(0);",onclick="sort('按学分',null,'#{studentsP}','#{studentsR}')") 按学分
                                 .btn-group
                                     button(class="btn btn-default",id="filter2") 升序

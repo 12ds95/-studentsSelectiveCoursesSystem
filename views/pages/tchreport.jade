@@ -1,0 +1,36 @@
+//
+   Created by iqich on 2017/6/17.
+extends ../layout
+
+block content
+    .container
+        .row
+            .panel.panel-primary
+                .panel-heading
+                    .panel-title 教师列表
+                table.table.table-hover
+                    thead
+                        tr
+                            th 工号
+                            th 姓名
+                            th 性别
+                            th 电话
+                            th 学院
+                            th 用户名
+                            th 信息
+                    tbody
+                        each infom in data
+                            tr
+                                td #{infom.id}
+                                td #{infom.name}
+                                if infom.ismale
+                                    td #{'男'}
+                                else
+                                    td #{'女'}
+                                td #{infom.phone_number}
+                                td #{infom.department}
+                                td #{infom.uname}
+                                td #{infom.info}
+
+        button.btn.btn-primary(type="button" style="float:right",onclick="window.open('tchreportdl')") 下载报表
+

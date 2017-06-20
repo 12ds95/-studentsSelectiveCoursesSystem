@@ -2,6 +2,18 @@ var express = require('express');
 var router = express.Router();
 var Student = require('../models/Student');
 
+// router.use(function (req, res, next) {
+//     if (!!req.session.loginUser && !!req.session.userType) {
+//         if (req.session.userType === "student") {
+//             next();
+//         } else {
+//             res.redirect('/');
+//         }
+//     } else {
+//         res.redirect('/');
+//     }
+// });
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     Student.getSchedule(0,function(err,courselist){

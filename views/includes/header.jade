@@ -1,44 +1,62 @@
+script.
+    function f(){
+        $("input[name='user[name]']").focus();
+    };
+    function logout(){
+        $.get("/signout", function(result){
+            alert("已登出");
+            window.location.reload(true);
+        });
+    };
+
 .navbar.navbar-inverse.navbar-fixed-top
     .container
         .navbar-header
-            a.navbar-brand(href="/") demo
+            a.navbar-brand(href="/") 学生选课系统
         .collapse.navbar-collapse
             .nav.navbar-nav.navbar-right
-                li
-                    a(href="#") link
                 li.dropdown
-                    a(href="#",class="dropdown-toggle",data-toggle="dropdown") dropdown
+                    if logStatus
+                        a(href="#",class="dropdown-toggle",data-toggle="dropdown",id="status") 你好! #{uID}
+                    else
+                        a(href="#",class="dropdown-toggle",data-toggle="dropdown",id="status") 未登录
                     ul.dropdown-menu
+                        if logStatus
+                            li
+                                a(onclick="logout()") 退出
+                        else
+                            li
+                                a(onclick="f()") 登录
 
 
-#signupModal.modal.fade
-    .modal-dialog
-        .modal-content
-            form(method="POST",action="/users/signup")
-                .modal-header 注册
-                .modal-body
-                    .form-group
-                        label(for="signupName") 用户名
-                        input#signupName.form-control(name="user[name]",type = "text")
-                    .form-group
-                        label(for="signupPassword") 密码
-                        input#signupName.form-control(name="user[password]",type = "password")
-                .modal-footer
-                    button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                    button.btn.btn-success(type="submit") 提交
+//- #signupModal.modal.fade
+//-     .modal-dialog
+//-         .modal-content
+//-             form(method="POST",action="/users/signup")
+//-                 .modal-header 注册
+//-                 .modal-body
+//-                     .form-group
+//-                         label(for="signupName") 用户名
+//-                         input#signupName.form-control(name="user[name]",type = "text")
+//-                     .form-group
+//-                         label(for="signupPassword") 密码
+//-                         input#signupName.form-control(name="user[password]",type = "password")
+//-                 .modal-footer
+//-                     button.btn.btn-default(type="button",data-dismiss="modal") 关闭
+//-                     button.btn.btn-success(type="submit") 提交
 
-#signinModal.modal.fade
-    .modal-dialog
-        .modal-content
-            form(method="POST",action="/users/signin")
-                .modal-header 登录
-                .modal-body
-                    .form-group
-                        label(for="signinName") 用户名
-                        input#signinName.form-control(name="user[name]",type = "text")
-                    .form-group
-                        label(for="signinPassword") 密码
-                        input#signinName.form-control(name="user[password]",type = "password")
-                .modal-footer
-                    button.btn.btn-default(type="button",data-dismiss="modal") 关闭
-                    button.btn.btn-success(type="submit") 提交
+//- #signinModal.modal.fade
+//-     .modal-dialog
+//-         .modal-content
+//-             form(method="POST",action="/users/signin")
+//-                 .modal-header 登录
+//-                 .modal-body
+//-                     .form-group
+//-                         label(for="signinName") 用户名
+//-                         input#signinName.form-control(name="user[name]",type = "text")
+//-                     .form-group
+//-                         label(for="signinPassword") 密码
+//-                         input#signinName.form-control(name="user[password]",type = "password")
+//-                 .modal-footer
+//-                     button.btn.btn-default(type="button",data-dismiss="modal") 关闭
+//-                     button.btn.btn-success(type="submit") 提交

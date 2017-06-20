@@ -27,7 +27,7 @@ block content
                                     - if(attr != '姓名' && attr != '照片')
                                         h4= attr + '：' + llleft[attr]
                         .row(align="right")
-                            button.btn.btn-primary(type="button" style="margin-right:10px;margin-bottom:10px") 修改个人资料
+                            button.btn.btn-primary(type="button" onclick = "window.open('/personalinfo')" style="margin-right:10px;margin-bottom:10px") 修改个人资料
             // right
             .col-md-9
                 .row(style='margin-left:15px; border-radius:10px; border-style:solid; border-width:1px; border-color:#C1C1C1; box-shadow:3px 3px 3px #C1C1C1')
@@ -39,3 +39,4 @@ block content
                                         img.img-rounded.center-block(style='border-radius:10px', src=link['imgURL'])
                             .row
                                 p.text-center(style='margin-top:5px; font-size:18px')= link['名称']
+

@@ -1,26 +1,30 @@
 // 需要调用refreshTable
-// 需要外部实现showAddModal, showModifyModal等
+// 需要外部实现showAddModal, showModifyModal, doDelete等
 script.
 
     var activePage;
+    var refreshURL;
 
     // 刷新表格
-    function refreshTable(URL, pageNum) {
-        $.post(URL, {'pageNum': pageNum}, function (data) {
+    function refreshTable(refreshURL0, pageNum, query) {
+        $.post(refreshURL0, {'pageNum': pageNum, 'query':query}, function (data) {
             activePage = pageNum;
-            paintTable(data['Title'], data['Content']);
-            initTable(URL, data['Title'], data['Content']);
-            paintPage(data['pageTotal']);
-            initPage(URL);    // 给刚绘制的分页添加属性
+            refreshURL = refreshURL0;
+            paintTable(data['Title'], data['Content'], data['IsShow']);
+            initTable(data['Title'], data['Content']);
+            paintPage(data['PageTotal']);
+            initPage();    // 给刚绘制的分页添加属性
         });
     }
 
     // 给定表头, 表格内容, 绘制表格
-    function paintTable(tableTitle, tableContent) {
+    function paintTable(tableTitle, tableContent, tableIsShow) {
         // 表格标题
         var tableTitleHTML = '';
         for (var i = 0; i < tableTitle.length; i++) {
-            tableTitleHTML += '<th style="text-align:center">' + tableTitle[i] + '</th>';
+            if (tableIsShow[i] == true) {
+                tableTitleHTML += '<th style="text-align:center">' + tableTitle[i] + '</th>';
+            }
         }
         tableTitleHTML += '' +
             '<th style="text-align:center">' +
@@ -30,14 +34,17 @@ script.
         var tableContentHTML = '';
         for (var i = 0; i < tableContent.length; i++) {
             tableContentHTML += '<tr>';
-            for (var j = 0; j < tableContent[i].length; j++)
-                tableContentHTML += '<th style="text-align:center">' + tableContent[i][j] + '</th>';
+            for (var j = 0; j < tableTitle.length; j++) {
+                if (tableIsShow[j] == true) {
+                    tableContentHTML += '<th style="text-align:center">' + tableContent[i][tableTitle[j]] + '</th>';
+                }
+            }
             tableContentHTML += '' +
                 '<th style="text-align:center">' +
                 '   <p>' +
                 '       <a id="modifyTableItem_'+i+'" class="modifyTableItem" style="cursor:pointer">修改</a>' +
                 '       /' +
-                '       <a style="cursor:pointer">删除</a>' +
+                '       <a id="deleteTableItem_'+i+'" class="deleteTableItem" style="cursor:pointer">删除</a>' +
                 '   </p>' +
                 '</th>';
             tableContentHTML += '</tr>';
@@ -46,19 +53,19 @@ script.
     }
 
     // 给表格按钮(添加/删除/修改)赋予属性
-    function initTable(URL,tableTitle, tableContent) {
+    function initTable(tableTitle, tableContent) {
         $('#addTableItem').click(function () {
             showAddModal();
         });
         $('.modifyTableItem').click(function () {
             var str = $(this).attr('id');
             var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
-            var modifyData = {'ModifyItem':[], 'ModifyData':[]};
-            for (var i=0; i<tableTitle.length; i++) {
-                modifyData['ModifyItem'].push(tableTitle[i]);
-                modifyData['ModifyData'].push(tableContent[itemNum][i]);
-            }
-            showModifyModal(modifyData);
+            showModifyModal(itemNum, tableContent);
+        });
+        $('.deleteTableItem').click(function () {
+            var str = $(this).attr('id');
+            var itemNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
+            doDelete(itemNum, tableContent);
         })
     }
 
@@ -78,20 +85,20 @@ script.
     }
 
     // 给分页赋予属性
-    function initPage(URL) {
+    function initPage() {
         $('.page').click(function () {
             var str = $(this).attr('id');
             var pageNum = parseInt(str.substring(str.indexOf('_') + 1, str.length));
-            refreshTable(URL, pageNum);
+            refreshTable(refreshURL, pageNum);
         });
         $('#page_prev').click(function () {
             if ($(this).parent().attr('class') !== 'disabled') {
-                refreshTable(URL, activePage-1);
+                refreshTable(refreshURL, activePage-1);
             }
         });
         $('#page_next').click(function () {
             if ($(this).parent().attr('class') !== 'disabled') {
-                refreshTable(URL, activePage+1);
+                refreshTable(refreshURL, activePage+1);
             }
         });
     }

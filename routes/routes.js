@@ -3,9 +3,9 @@
  */
 var index = require('./index');
 // var users = require('./users');
-// var login = require('./login');
+var login = require('./login');
 var admin = require('./admin');
-var applyforclass = require('./applyforclass');
+// var applyforclass = require('./applyforclass');
 var curriculum = require('./curriculum');
 var student = require('./student');
 var select = require('./select');
@@ -17,35 +17,41 @@ var studentManager = require('./studentManager');
 var noticeManager = require('./noticeManager');
 var captcha = require('./captcha');
 var byselection = require('./byselection');
+var reselect = require('./reselect');
+var publicKeyPem = require('../modules/crypto').publicKeyPem;
 
 module.exports = function(app) {
-    //user session
-    app.use(function (req, res, next) {
-         next();
+    app.locals.publicKey = publicKeyPem;
+    app.locals.logStatus = false;
+    app.locals.uID = "0000000000";
+    app.use(function(req, res, next){
+        if (!!req.session.loginUser) {
+            app.locals.logStatus=true;
+            app.locals.uID = req.session.loginUser;
+        } else {
+            app.locals.logStatus=false;
+            app.locals.uID = "0000000000";
+        }
+        next();
     });
 
     app.use('/', index);
     // app.use('/users', users);
-    // app.use('/login', login);
+    app.use('/login', login);
     app.use('/admin', admin);
-    app.use('/curriculum', curriculum)
+    app.use('/curriculum', curriculum);
     app.use('/student', student);
     app.use('/select', select);
     app.use('/teacher',teacher);
     app.use('/changepw',changepw);
     app.use('/personalinfo',personalinfo);
     app.use('/teacherManager',teacherManager);
-    app.post('/teacherManager/tableData', teacherManager);
-    app.post('/teacherManager/addData', teacherManager);
     app.use('/studentManager', studentManager);
-    app.post('/studentManager/tableData', studentManager);
-    app.post('/studentManager/addData', studentManager);
     app.use('/noticeManager', noticeManager);
-    app.post('/noticeManager/tableData', noticeManager);
-    app.post('/noticeManager/addData', noticeManager);
     app.use('/captcha',captcha);
     app.use('/byselection',byselection);
-    app.use('/applyforclass',applyforclass);
+    // app.use('/applyforclass',applyforclass);
+    app.use('/reselect',reselect);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
