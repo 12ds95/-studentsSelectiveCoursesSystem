@@ -63,6 +63,24 @@ StudentSchema.statics = {
 				cb(pageResult);
 			});
 	}
+	,
+	getLowCredit: function(cb){
+		this.find({credit:{$lt:15}})
+			.exec(function(err, result){
+				var LowResult = new Array();
+				for(var i = 0; i < result.length; i++){
+					var temp = {};
+					temp.id = result[i].id;
+					temp.name = result[i].name;
+					temp.sex = result[i].ismale;
+					temp.credits = result[i].credit;
+					temp.department = result[i].department;
+					temp.userName = result[i].uname;
+					LowResult[i] = temp;
+				}
+				cb(LowResult);
+			})
+	}
 };
 
 StudentSchema.pre('save',function(next){

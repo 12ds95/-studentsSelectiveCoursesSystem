@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User.js');
 var PreCourse = require('../models/PreCourse');
-
+var Student = require('../models/Student');
 
 
 // router.use(function (req, res, next) {
@@ -69,7 +69,7 @@ router.get('/', function(req, res, next) {
         '名称':'开课审核'
     },{
         'imgURL':'images/admin_statistic.png',
-        'URL':'http://www.baidu.com',
+        'URL':'/admin/report/inforeport',
         '名称':'报表统计'
     }
     ];
@@ -93,9 +93,13 @@ router.get('/userlist',function(req,res){
         });
     });
 });
+router.get('/report/inforeport', function(req, res, next) {
+    Student.getLowCredit(function(data){
+        res.render('inforeport', {'data':data});
+    });
+});
 router.get('/reviewClasses',function(req,res){
     //re?time=""
-
     PreCourse.getAll(0, function(err, courselist){
         res.render('reviewClasses', {classList:courselist});
     });

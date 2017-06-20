@@ -180,7 +180,7 @@ block content
                         h3.panel-title.hide(id="course_ID") #{course_ID}
                     .panel-body
                         center
-                            .btn-group
+                            //.btn-group
                                 button(class="btn btn-default",id="filter1") 按学号
                                 button(data-toggle="dropdown",class="btn btn-default dropdown-toggle")
                                     span.caret
@@ -198,10 +198,10 @@ block content
                                             a(href="javascript:void(0);",onclick="sort(null,'升序','#{studentsP}','#{studentsR}')") 升序
                                         li
                                             a(href="javascript:void(0);",onclick="sort(null,'降序','#{studentsP}','#{studentsR}')") 降序
-                                    .input-group
-                                        input(type="text" class="form-control",id="key")
-                                        span.input-group-btn
-                                            button.btn.btn-default(type="button",id="search") 搜索
+                            .input-group
+                                input(type="text" class="form-control",id="key")
+                                span.input-group-btn
+                                    button.btn.btn-default(type="button",id="search") 搜索
                         div(style="padding-top:20px")
                             .col-md-6.column
                                 label(id="num1") 补选人数:#{studentsPending.length}
