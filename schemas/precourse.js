@@ -5,7 +5,6 @@ var Course = require("../models/Course");
 var Timeslot = require("../models/Timeslot");
 var Classroom = require("../models/Classroom");
 var Schema = mongoose.Schema;
-global.courseID = 100000;
 
 var PrecourseSchema = new mongoose.Schema({
       name:{type:String, alias:'courseName'}
@@ -90,7 +89,7 @@ PrecourseSchema.statics = {
         var whereStr = {'date': _id};
         this.find(whereStr, function (err, preCourseInfo) {
             if (err) { console.log('Error in confirmOneCourse:' + err); }
-            var count = Math.floor(preCourseInfo[0].time_one_week) + 1;
+            var count = Math.floor(preCourseInfo[0].time_one_week);
             var timeIndex = new Array();
             var has_arr = new Array();
             var temp = '';
@@ -107,36 +106,47 @@ PrecourseSchema.statics = {
             var roomIndex = Math.round(Math.random() * 100);
             Timeslot.findByIndex(timeIndex, function (timeRes) {
                 Classroom.findByNumberAndCampus(roomIndex, preCourseInfo[0].campus, function (roomRes) {
-                        var newCourse = new Course({
-                            id: global.courseID
-                            , name: preCourseInfo[0].name
-                            , credit: preCourseInfo[0].credit
-                            , courese_info: preCourseInfo[0].info
-                            , course_type: preCourseInfo[0].course_type
-                            , _teacher: preCourseInfo[0]._teacher
-                            , semester: '春夏'
-                            , capacity: preCourseInfo[0].capacity
-                            , campus: preCourseInfo[0].campus
-                            //, exam:
-                            , _stulist:[]
-                            //, english:preCourseInfo.ename
-                            //, department:preCourseInfo.department
-                            //, hour:preCourseInfo.time_one_week
-                            //, prerequistite:preCourseInfo.prestudy
-                            //, syllabus:preCourseInfo.course_info
-                        });
-                        for (var i = 0; i < timeRes.length; i++) {
-                            newCourse._time[i] = timeRes[i]._id;
-                            newCourse._classroom[i] = roomRes._id;
-                        }
-                        global.courseID = global.courseID + 1;
-                        newCourse.save(function (err) {
-                            if (err) {
-                                console.log("Error in newCourse.save:" + err);
-                                cb(0);
+                    Course.find()
+                        .sort('id')
+                        .exec(function(err, courseExist){
+                            if(courseExist.length == 0)temp = 100000;
+                            else {
+                                var temp = courseExist[courseExist.length-1];
+                                temp = parseInt(temp.id);
+                                temp++;
                             }
-                            else cb(1);
-                        });
+                            var newCourse = new Course({
+                                  id: temp
+                                , name: preCourseInfo[0].name
+                                , credit: preCourseInfo[0].credit
+                                , courese_info: preCourseInfo[0].info
+                                , course_type: preCourseInfo[0].course_type
+                                , _teacher: preCourseInfo[0]._teacher
+                                , semester: '春夏'
+                                , capacity: preCourseInfo[0].capacity
+                                , campus: preCourseInfo[0].campus
+                                //, exam:
+                                , _stulist:[]
+                                //, english:preCourseInfo.ename
+                                //, department:preCourseInfo.department
+                                //, hour:preCourseInfo.time_one_week
+                                //, prerequistite:preCourseInfo.prestudy
+                                //, syllabus:preCourseInfo.course_info
+                            });
+                            for (var i = 0; i < timeRes.length; i++) {
+                                newCourse._time[i] = timeRes[i]._id;
+                                newCourse._classroom[i] = roomRes._id;
+                            }
+                            global.courseID = global.courseID + 1;
+                            newCourse.save(function (err) {
+                                if (err) {
+                                    console.log("Error in newCourse.save:" + err);
+                                    cb(0);
+                                }
+                                else cb(1);
+                            });
+                        })
+
                     }
                 );
             });
