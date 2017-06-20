@@ -23,7 +23,10 @@ block content
                             tr
                                 td #{infom.id}
                                 td #{infom.name}
-                                td #{infom.ismale}
+                                if infom.ismale
+                                    td #{'男'}
+                                else
+                                    td #{'女'}
                                 td #{infom.phone_number}
                                 td #{infom.department}
                                 td #{infom.uname}

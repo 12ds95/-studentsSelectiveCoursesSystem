@@ -185,20 +185,22 @@ router.get('/report/inforeport', function(req, res, next) {
         {
             id:'3140102449',
             name:'Qi',
-            sex:true,
+            ismale:true,
             credits:25.5,
             department:'计算机',
-            userName:'iqicheng'
+            uname:'iqicheng'
         },{
             id:'3140102448',
             name:'zhou',
-            sex:false,
+            ismale:false,
             credits:30,
             department:'软件',
-            userName:'ke'
+            uname:'ke'
         }];
-    res.render('inforeport',{data}
-    )
+    res.render('inforeport',{
+        data,
+        sex: '男'
+    })
 
 });
 router.get('/report/tchreport', function(req, res, next) {
@@ -222,56 +224,73 @@ router.get('/report/tchreport', function(req, res, next) {
             uname:'ke',
             info: '蔡老大'
         }];
-    res.render('tchreport',{data}
-    )
+    res.render('tchreport',{
+        data,
+        sex: '女'
+    })
 
 });
 
 router.get('/report/stureportdl', function(req, res, next) {
     var data=[
-        [
-            '3140102449',
-            'Qi',
-            true,
-            25.5,
-            '计算机',
-            'iqicheng'
-        ],[
-            '3140102448',
-            'zhou',
-            false,
-            30,
-            '软件',
-            'ke'
-        ]];
+        {
+            id:'3140102449',
+            name:'Qi',
+            ismale:true,
+            credits:25.5,
+            department:'计算机',
+            uname:'iqicheng'
+        }, {
+            id:'3140102448',
+            name:'zhou',
+            ismale:false,
+            credits:30,
+            department:'软件',
+            uname:'ke'
+        }];
+    var array=[];
+    var myobj = eval(data);
+    for(var i=0; i<myobj.length;i++){
+        var myarray =[];
+        myarray[0]=myobj[i].id;
+        myarray[1]=myobj[i].name;
+        if(myobj[i].ismale)
+            myarray[2]='男';
+        else
+            myarray[2]='女';
+        myarray[3]=myobj[i].credits;
+        myarray[4]=myobj[i].department;
+        myarray[5]=myobj[i].uname;
+        array[i]=myarray;
+    }
     var conf = {};
     conf.name = 'studentinfo';
     conf.cols = [{
-        caption: 'id',
+        caption: '学号',
         type: 'string'
     },
         {
-            caption: 'name',
+            caption: '姓名',
             type: 'string'
         },
         {
-            caption: 'ismale',
-            type: 'bool'
+            caption: '性别',
+            type: 'string'
         },
         {
-            caption: 'credit',
+            caption: '学分',
             type: 'number'
         },
         {
-            caption: 'department',
+            caption: '学院',
             type: 'string'
         },
         {
-            caption: 'uname',
+            caption: '用户名',
             type: 'string'
         }];
 
-    conf.rows = data;
+    conf.rows = array;
     var result = nodeExcel.execute(conf);
     //console.log(result);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats');
@@ -282,51 +301,67 @@ router.get('/report/stureportdl', function(req, res, next) {
 
 router.get('/report/tchreportdl', function(req, res, next) {
     var data=[
-        [
-            '3140102656',
-            'cai',
-            true,
-            '17816899099',
-            '计算机',
-            'iqicheng',
-            'cailaoda'
-        ],[
-            '3140102448',
-            'zhou',
-            false,
-            '17837492482',
-            '软件',
-            'ke',
-            '蔡老大'
-        ]];
+        {
+            id:'3140102656',
+            name:'cai',
+            ismale:true,
+            phone_number:'17816899099',
+            department:'计算机',
+            uname:'iqicheng',
+            info: 'cailaoda'
+        },{
+            id:'3140102448',
+            name:'zhou',
+            ismale:false,
+            phone_number:'17837492482',
+            department:'软件',
+            uname:'ke',
+            info: '蔡老大'
+        }];
+    var array=[];
+    var myobj = eval(data);
+    for(var i=0; i<myobj.length;i++){
+        var myarray =[];
+        myarray[0]=myobj[i].id;
+        myarray[1]=myobj[i].name;
+        if(myobj[i].ismale)
+            myarray[2]='男';
+        else
+            myarray[2]='女';
+        myarray[3]=myobj[i].phone_number;
+        myarray[4]=myobj[i].department;
+        myarray[5]=myobj[i].uname;
+        myarray[6]=myobj[i].info;
+        array[i]=myarray;
+    }
     var conf = {};
     conf.name = 'studentinfo';
     conf.cols = [{
-        caption: 'id',
+        caption: '工号',
         type: 'string'
     },
         {
-            caption: 'name',
+            caption: '姓名',
             type: 'string'
         },
         {
-            caption: 'ismale',
-            type: 'bool'
-        },
-        {
-            caption: 'phonenumber',
+            caption: '性别',
             type: 'string'
         },
         {
-            caption: 'department',
+            caption: '电话',
             type: 'string'
         },
         {
-            caption: 'uname',
+            caption: '专业',
             type: 'string'
         },
         {
-            caption: 'info',
+            caption: '用户名',
+            type: 'string'
+        },
+        {
+            caption: '信息',
             type: 'string'
         }];
 
