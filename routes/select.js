@@ -43,14 +43,11 @@ router.get('/', function(req, res, next) {
         ['学期', 'semester']
     ];
     var filterOpData = [
-        ['包含', 'include'],
-        ['不包含', 'not_include'],
-        ['等于', 'equal'],
-        ['不等于', 'not_equal'],
-        ['始于', 'beginWith'],
-        ['并非起始于', 'not_beginWith'],
-        ['止于', 'endWith'],
-        ['并非停止于', 'not_endWith']
+        ['等于', '$eq'],
+        ['不等于', '$ne'],
+        ['包含', '$regex'],
+        ['大于', '$gt'],
+        ['小于', '$lt']
     ];
     res.render('select',{
         title: '选课页',
