@@ -6,7 +6,9 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User.js');
 var nodeExcel = require('excel-export');
-
+var PreCourse = require('../models/PreCourse');
+var Student = require('../models/Student');
+var reportData;
 
 // router.use(function (req, res, next) {
 //     if (!!req.session.loginUser && !!req.session.userType) {
@@ -25,9 +27,15 @@ router.get('/', function(req, res, next) {
     // 以下是后端数据库的函数：查找教师
     // 返回值：result包，包括该教师的所有信息
     // result = getData(...)
+    var userID = req.session.loginUser;
+    var userType = req.session.userType;
+    if(userType != "admin"){
+        // 不知道如何处理
+        res.redirect("/");
+    }
     var result = {
-        name: '张传华',
-        id: '3456',
+        name: 'Edm',
+        id: 'na1121na',
         ismale: true,
         phone_number: '88123123',
         department: '计算机学院'
@@ -54,15 +62,15 @@ router.get('/', function(req, res, next) {
             '名称':'通知管理'
     },{
         'imgURL':'images/admin_reselectPermission.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/teacher/pickStudent',
             '名称':'补选审核'
     },{
         'imgURL':'images/admin_coursePermission.png',
-        'URL':'http://www.baidu.com',
+        'URL':'/admin/reviewClasses',
         '名称':'开课审核'
     },{
         'imgURL':'images/admin_statistic.png',
-        'URL':'/admin/report',
+        'URL':'/admin/report/inforeport',
         '名称':'报表统计'
     }
     ];
@@ -83,28 +91,41 @@ router.get('/userlist',function(req,res){
         res.render('userlist',{
             title: "用户列表",
             users: users
-        })
+        });
+    });
+});
+router.get('/report/inforeport', function(req, res, next) {
+    Student.getLowCredit(function(data){
+        reportData = data;
+        res.render('inforeport', {'data':data});
     });
 });
 router.get('/reviewClasses',function(req,res){
-    res.render('reviewClasses',{
-        classList:[
-            {
-                courseName: '当代中国经济',
-                userName: '徐晓红',
-                department: '经济学院',
-                date: '2017/5/17'
-            },
-            {
-                courseName: '当代中国经济2',
-                userName: '徐晓红',
-                department: '经济学院',
-                date: '2017/5/17'
-            }
-        ]
-    })
+    //re?time=""
+    PreCourse.getAll(0, function(err, courselist){
+        res.render('reviewClasses', {classList:courselist});
+    });
 });
 router.get('/reviewApplyforclass',function(req,res){
+    var temp = req.query['time'];
+    PreCourse.findOneCourse(temp, function(list){
+        var tmp = list;
+        res.render('reviewApplyforclass',{
+            classname: list.classname,
+            Engclassname: list.Engclassname,
+            department: list.department,
+            classhours: list.classhours,
+            credit: list.credit,
+            classtype: list.classtype,
+            preparation: list.preparation,
+            capacity: list.capacity,
+            objectstudent: list.objectstudent,
+            campus: list.campus,
+            classinfo: list.classinfo,
+            _id: list._id
+        })
+    });
+    /*
     res.render('reviewApplyforclass',{
         _id:'0001',
         classname: '当代中国经济',
@@ -120,30 +141,49 @@ router.get('/reviewApplyforclass',function(req,res){
         classinfo: 'classinfo classinfo classinfo',
         file1: './index.js'
     })
-});
-router.post('/admin/reviewClasses/apply', function(req, res, next) {
-    console.log(req.body);
-    var data={
-        status: 1
-    };
-    console.log(data);
-    res.json(data);
-});
-router.post('/admin/reviewClasses/search', function(req, res, next) {
-    console.log(req.body);
-    var data={
-        status: 1
-    };
-    console.log(data);
-    res.json(data);
+    */
 });
 router.post('/admin/reviewApplyforclass/pass', function(req, res, next) {
     console.log(req.body);
-    var data={
-        status: 1
-    };
+    var tmp;
+    for(tmp in req.body) break;
+    PreCourse.confirmOneCourse(tmp, function(res1){
+        if(res1 == 0) console.log("Confirm Fail!");
+        if(res1 == 1) PreCourse.deleteOneCourse(tmp, function (res2) {
+            var data = {status : res2};
+            console.log(data);
+            res.json(data);
+        });
+    });
+});
+/*
+router.post('/admin/reviewClasses/apply', function(req, res, next) {
+    console.log(req.body);
+    var data= PreCourse.confirmOneCourse(req.body, function());
     console.log(data);
     res.json(data);
+});
+*/
+router.post('/admin/reviewClasses/search', function(req, res, next) {
+
+    console.log(req.body);
+    var keyword;
+    for (keyword in req.body) break;
+    PreCourse.find({$or:[
+        {name:{$regex:keyword}}
+        ,{ename:{$regex:keyword}}
+        ,{department:{$regex:keyword}}
+        ,{course_type:{$regex:keyword}}
+        ]},function(err,courseList){
+            res.json({
+                status:1
+                ,data:courseList});
+        })
+    // var data={
+    //     status: 1
+    // };
+    // console.log(data);
+    // res.json(data);
 });
 
 router.get('/report',function (req,res,next) {
@@ -166,10 +206,6 @@ router.get('/report',function (req,res,next) {
         'imgURL':'../images/admin_studentManager.png',
         'URL':'/admin/report/inforeport',
         '名称':'学生报表'
-    },{
-        'imgURL':'../images/admin_teacherManager.png',
-        'URL':'/admin/report/tchreport',
-        '名称':'教师报表'
     }];
     res.render('mainPage',{
         title: '报表统计',
@@ -178,165 +214,58 @@ router.get('/report',function (req,res,next) {
     });
 });
 
-router.get('/report/inforeport', function(req, res, next) {
-
-    // var data = [['3140102448','zhou',false, 30,'软件','ke']];
-    var data=[
-        {
-            id:'3140102449',
-            name:'Qi',
-            sex:true,
-            credits:25.5,
-            department:'计算机',
-            userName:'iqicheng'
-        },{
-            id:'3140102448',
-            name:'zhou',
-            sex:false,
-            credits:30,
-            department:'软件',
-            userName:'ke'
-        }];
-    res.render('inforeport',{data}
-    )
-
-});
-router.get('/report/tchreport', function(req, res, next) {
-
-    // var data = [['3140102448','zhou',false, 30,'软件','ke']];
-    var data=[
-        {
-            id:'3140102656',
-            name:'cai',
-            ismale:true,
-            phone_number:'17816899099',
-            department:'计算机',
-            uname:'iqicheng',
-            info: 'cailaoda'
-        },{
-            id:'3140102448',
-            name:'zhou',
-            ismale:false,
-            phone_number:'17837492482',
-            department:'软件',
-            uname:'ke',
-            info: '蔡老大'
-        }];
-    res.render('tchreport',{data}
-    )
-
-});
 
 router.get('/report/stureportdl', function(req, res, next) {
-    var data=[
-        [
-            '3140102449',
-            'Qi',
-            true,
-            25.5,
-            '计算机',
-            'iqicheng'
-        ],[
-            '3140102448',
-            'zhou',
-            false,
-            30,
-            '软件',
-            'ke'
-        ]];
+    var array=[];
+    var myobj = eval(reportData);
+    for(var i=0; i<myobj.length;i++){
+        var myarray =[];
+        myarray[0]=myobj[i].id;
+        myarray[1]=myobj[i].name;
+        if(myobj[i].ismale)
+            myarray[2]='男';
+        else
+            myarray[2]='女';
+        myarray[3]=myobj[i].credits;
+        myarray[4]=myobj[i].department;
+        myarray[5]=myobj[i].uname;
+        array[i]=myarray;
+    }
     var conf = {};
     conf.name = 'studentinfo';
     conf.cols = [{
-        caption: 'id',
+        caption: '学号',
         type: 'string'
     },
         {
-            caption: 'name',
+            caption: '姓名',
             type: 'string'
         },
         {
-            caption: 'ismale',
-            type: 'bool'
+            caption: '性别',
+            type: 'string'
         },
         {
-            caption: 'credit',
+            caption: '学分',
             type: 'number'
         },
         {
-            caption: 'department',
+            caption: '学院',
             type: 'string'
         },
         {
-            caption: 'uname',
+            caption: '用户名',
             type: 'string'
         }];
 
-    conf.rows = data;
+    conf.rows = array;
     var result = nodeExcel.execute(conf);
     //console.log(result);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats');
     res.setHeader("Content-Disposition", "attachment; filename= stureport.xlsx");
     // //res.setHeader('Content-Type', 'text/plain');
     res.end(result, 'binary');
-});
-
-router.get('/report/tchreportdl', function(req, res, next) {
-    var data=[
-        [
-            '3140102656',
-            'cai',
-            true,
-            '17816899099',
-            '计算机',
-            'iqicheng',
-            'cailaoda'
-        ],[
-            '3140102448',
-            'zhou',
-            false,
-            '17837492482',
-            '软件',
-            'ke',
-            '蔡老大'
-        ]];
-    var conf = {};
-    conf.name = 'studentinfo';
-    conf.cols = [{
-        caption: 'id',
-        type: 'string'
-    },
-        {
-            caption: 'name',
-            type: 'string'
-        },
-        {
-            caption: 'ismale',
-            type: 'bool'
-        },
-        {
-            caption: 'phonenumber',
-            type: 'string'
-        },
-        {
-            caption: 'department',
-            type: 'string'
-        },
-        {
-            caption: 'uname',
-            type: 'string'
-        },
-        {
-            caption: 'info',
-            type: 'string'
-        }];
-
-    conf.rows = data;
-    var result = nodeExcel.execute(conf);
-    //console.log(result);
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-    res.setHeader("Content-Disposition", "attachment; filename= tchreport.xlsx");
-    // //res.setHeader('Content-Type', 'text/plain');
-    res.end(result, 'binary');
+    
 });
 
 module.exports = router;

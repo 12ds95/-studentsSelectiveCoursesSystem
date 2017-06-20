@@ -3,7 +3,7 @@ var mongoose = require('mongoose')
 
 var SemesterSchema = new Schema({
 	semester:{
-		type:string,
+		type:String,
 		enum:['春','夏','秋','冬','短']
 	}
 });

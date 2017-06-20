@@ -32,7 +32,11 @@ script.
         $('#addItemSubmit').click(function () {
             var submitData = {};
             for (var i = 0; i < modalData['ContentItem'].length; i++) {
-                submitData[modalData['ContentItem'][i]] = $('#ContentItem_' + i).val();
+                if (modalData['ContentShow'][i] === false)
+                    submitData[modalData['ContentItem'][i]] = modalData['ContentData'][i];
+                else
+                    submitData[modalData['ContentItem'][i]] = $('#ContentItem_' + i).val();
+
             }
             $.post(submitURL, submitData, function (data) {
                 var status = data['status'];

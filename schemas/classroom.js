@@ -10,4 +10,14 @@ var ClassroomSchema = new mongoose.Schema({
 	}
 });
 
+ClassroomSchema.statics = {
+    findByNumberAndCampus: function(number, campus, cb){
+		this.find({'campus':campus})
+			.exec(function(err,res){
+				if(err){console.log('Error in Classroom findByNumber');}
+				var result = res[number];
+				cb(result);
+			});
+	}
+}
 module.exports = ClassroomSchema;

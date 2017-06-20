@@ -29,7 +29,7 @@ block content
                 .panel-heading
                     h3.panel-title 个人信息修改
                 .panel-body
-                    form.form-horizontal
+                    form.form-horizontal(id="form",method="post",enctype="multipart/form-data")
                         .form-group
                             label(for="studentID",class="col-md-3 control-label") 学号：
                             .col-md-6
@@ -67,3 +67,4 @@ block content
                 .modal-footer
                     button(type="button" class="btn btn-default" data-dismiss="modal") 取消
                     button(id="confirm",type="button" class="btn btn-primary") 确认
+

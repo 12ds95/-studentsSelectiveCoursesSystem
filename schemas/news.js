@@ -1,5 +1,6 @@
-var mongoose = require('mongoose');
-
+var mongoose = require('mongoose')
+	, assert = require('assert')
+	;
 var NewsSchema = new mongoose.Schema({
 	content:String,
 	title:String,
@@ -10,10 +11,11 @@ var NewsSchema = new mongoose.Schema({
 	updateAt:{
 		type:Date,
 		default: Date.now()
+		, alias:'date'
 	},
 	department:{
-		type:mongoose.Schema.Types.ObjectId, 
-		ref:'Department'
+		type: String
+		, alias: 'author'
 	}
 });
 
@@ -32,6 +34,27 @@ NewsSchema.statics ={
 			.find({})
 			.sort('updateAt')
 			.exec(cb)
+	}
+	,
+    getAPage: function (pageNum,pageSize, cb) {
+		var skipNum = (pageNum - 1) * pageSize;
+        this.find({})
+            .sort('createAt')
+			.skip(skipNum)
+			.limit(pageSize)
+            //.select('content title')
+            .exec(function(err, pageResult){
+				assert.equal(err,null);
+				cb(pageResult);
+            });
+    },
+	getNumberOfPages:function(pageSize,cb){
+		var number;
+		this.find({},function(err,result){
+			assert.equal(err,null);
+			number = Math.ceil(result.length / pageSize);
+			cb(number);
+		});
 	}
 };
 

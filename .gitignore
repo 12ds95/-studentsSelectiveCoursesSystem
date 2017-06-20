@@ -1,4 +1,7 @@
+
 .idea/
-test/
-node_modules
+node_modules/
+.vscode/
 mongoose.js
+public/libs
+

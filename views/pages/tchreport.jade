@@ -23,10 +23,14 @@ block content
                             tr
                                 td #{infom.id}
                                 td #{infom.name}
-                                td #{infom.ismale}
+                                if infom.ismale
+                                    td #{'男'}
+                                else
+                                    td #{'女'}
                                 td #{infom.phone_number}
                                 td #{infom.department}
                                 td #{infom.uname}
                                 td #{infom.info}
 
         button.btn.btn-primary(type="button" style="float:right",onclick="window.open('tchreportdl')") 下载报表
+

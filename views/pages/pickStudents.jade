@@ -180,7 +180,7 @@ block content
                         h3.panel-title.hide(id="course_ID") #{course_ID}
                     .panel-body
                         center
-                            .btn-group
+                            //.btn-group
                                 button(class="btn btn-default",id="filter1") 按学号
                                 button(data-toggle="dropdown",class="btn btn-default dropdown-toggle")
                                     span.caret
@@ -198,24 +198,24 @@ block content
                                             a(href="javascript:void(0);",onclick="sort(null,'升序','#{studentsP}','#{studentsR}')") 升序
                                         li
                                             a(href="javascript:void(0);",onclick="sort(null,'降序','#{studentsP}','#{studentsR}')") 降序
-                                    .input-group
-                                        input(type="text" class="form-control",id="key")
-                                        span.input-group-btn
-                                            button.btn.btn-default(type="button",id="search") 搜索
+                            .input-group
+                                input(type="text" class="form-control",id="key")
+                                span.input-group-btn
+                                    button.btn.btn-default(type="button",id="search") 搜索
                         div(style="padding-top:20px")
                             .col-md-6.column
                                 label(id="num1") 补选人数:#{studentsPending.length}
                                 .row(id="ulp")
                                     ul.list-group.pre-scrollable(id='listPending',style="height:500px")
                                         each studentP in studentsPending
-                                            a.list-group-item #{studentP.id}
+                                            a.list-group-item #{studentP.sid}
                                 button(id="select",type="submit",class="btn btn-primary btn-sm btn-block") 选进当前课程
                             .col-md-6.column
                                 label(id="num2") 已选人数:#{studentsReady.length}
                                 .row(id="ulp2")
                                     ul.list-group.pre-scrollable(id='listReady',style="height:500px")
                                         each studentR in studentsReady
-                                            a.list-group-item #{studentR.id}
+                                            a.list-group-item #{studentR.sid}
                                 button(id="delete",type="submit",class="btn btn-primary btn-sm btn-block") 退选当前课程
     div(class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
         .modal-dialog

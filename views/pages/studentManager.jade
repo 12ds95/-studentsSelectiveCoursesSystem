@@ -27,7 +27,7 @@ block rightContent
         }
         function showModifyModal(itemNum, tableContent) {
             var jsonn = {'学号': tableContent[itemNum]['学号']};
-            $.post('/teacherManager/getData', jsonn, function (data) {
+            $.post('/studentManager/getData', jsonn, function (data) {
                 var modalData = {
                     'Title': '学生信息修改表',
                     'ContentItem': ['学号', '姓名', '性别', '学院', '学分'],
