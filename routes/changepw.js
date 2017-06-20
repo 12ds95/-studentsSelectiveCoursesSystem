@@ -7,6 +7,7 @@ var Student = require('../models/Student')
     , User = require('../models/User')
     , assert = require('assert')
     ;
+var privateKey = require('../modules/crypto').privateKey;
 
 // router.use(function (req, res, next) {
 //     if (!!req.session.loginUser) {
@@ -27,12 +28,12 @@ router.post('/pw/change', function(req, res, next) {
     // 0 表示修改密码失败， 1 表示修改成功
     console.log(req.body);
     var userID = req.session.loginUser;
-    var temp;
-    for(temp in req.body)break;
-    temp = JSON.parse(temp);
-    var oldpw = temp.oldpw;
-    var newpw = temp.newpw;
-    var confirmpw = temp.confirmpw;
+    var temp = JSON.parse(req.body.data);
+
+
+    var oldpw = privateKey.decrypt(temp.oldpw, 'utf8');
+    var newpw = privateKey.decrypt(temp.newpw, 'utf8');
+    var confirmpw = privateKey.decrypt(temp.confirmpw, 'utf8');
     var data = {};
     if(newpw === confirmpw){
         User.findOne({name:userID},function(err,user){

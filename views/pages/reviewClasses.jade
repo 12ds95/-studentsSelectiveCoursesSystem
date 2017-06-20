@@ -4,7 +4,7 @@ block script
         $(document).ready(function(){
             $("tr").click(function(){
                 var send=$(this)[0].childNodes[7].firstChild.nodeValue;
-                window.open('/admin/reviewApplyforclass?time=' + send);
+                window.location.assign('/admin/reviewApplyforclass?time=' + send);
                 //$.post('admin/reviewClasses/apply', send, function (data) {
                 //    if(data['status']==1){
                 //    }
