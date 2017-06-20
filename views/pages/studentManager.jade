@@ -8,7 +8,7 @@ block rightContent
             $(document).ready(function () {
                 filterName = JSON.parse(filterName);
                 filterOp = JSON.parse(filterOp);
-                initSelector(filterName, filterOp);
+                //initSelector(filterName, filterOp);
                 refreshTable('studentManager/tableData',1, null)
             })
         }
@@ -60,7 +60,7 @@ block rightContent
     body(onload = "init('#{filterName}', '#{filterOp}')")
 
     // 筛选器
-    .row(style='margin-top:10px; margin-bottom:10px')
+    //.row(style='margin-top:10px; margin-bottom:10px')
         include ../includes/selector
     // 带分页的列表
     .row(style='margin-top:10px; margin-left:15px; margin-right:15px;')

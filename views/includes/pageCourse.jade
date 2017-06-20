@@ -35,6 +35,7 @@ script.
     var type;
 
     function refreshCourse(URL, pageNum, type0, query) {
+        console.log(query);
         $.post(URL, {'pageNum': pageNum, 'query': query}, function (data) {
             activePage = pageNum;
             type = type0;
