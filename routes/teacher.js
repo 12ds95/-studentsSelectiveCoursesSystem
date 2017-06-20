@@ -89,6 +89,12 @@ router.get('/pickStudents', function(req, res, next) {
     Course.findOne({'_id':cid}, function(err, cou){
         ApplyClass.fetchStu(tid,cou.id,function (err, stuPending){
             Course.fetchStu('_id', tid, function (err, stuReady){
+                if(typeof(stuPending) === "undefined"){
+                    stuPending = new Array();
+                }
+                if(typeof(stuReady) === "undefined"){
+                    stuReady = new Array();
+                }
                 res.render('pickStudents',{
                     course:cou.name,
                     course_ID:cou._id,
@@ -165,13 +171,19 @@ router.post('/teacher/pickStudents/select', function(req, res, next) {
     var selectedStu = [];
     for(var i = 0; i< selectedStu_.length;i++){
         var stu = {};
-        stu['id'] = selectedStu_[i];
+        stu['sid'] = selectedStu_[i];
+        selectedStu.push(stu);
+    }
+    if(selectedStu.length <= 1){
+        var stu = {};
+        stu['sid'] = '-1';
+        selectedStu.push(stu);
         selectedStu.push(stu);
     }
 
     console.log(req.body);
     // 从待定队列中删除
-    ApplyClass.remove({$or:selectedStu},function(err,deleted){
+    ApplyClass.remove({$or:selectedStu,tid:teacherID},function(err,deleted){
         //assert.equal(err,null);
         // 选课流程 - 把课程ID添加到学生的course_list中
         Course.findOne({'_id':courseID},function (err,curCourse) {
@@ -191,7 +203,7 @@ router.post('/teacher/pickStudents/select', function(req, res, next) {
                             res.json({
                                 status:1,
                                 studentsPending:newPending,
-                                studentsReady:newReady
+                                studentsReady:newReady._stulist
                             });
                         });
                     });
@@ -286,10 +298,10 @@ router.post('/applyforclass/upload', function(req, res, next) {
             , info:obj.classinfo
         });
         PreCourse.saveOneCourse(item, function (err) {
-            var data={
-                status: 1
-            };
-            res.json(data);
+            if(err!=null){
+                res.json({status:-1});
+            }
+            else{ res.json({status: 1}); }
         })
     });
 });
