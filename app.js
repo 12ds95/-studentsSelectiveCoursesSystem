@@ -11,7 +11,6 @@ var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
 var morgan = require('morgan');
 
-
 mongoose.Promise = global.Promise;
 var dbUrl = 'mongodb://localhost/test';
 
@@ -62,3 +61,4 @@ app.listen(app.get('port'), function () {
 
 
 module.exports = app;
+

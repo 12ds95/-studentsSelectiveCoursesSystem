@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var Student = require('../models/Student');
 /* GET home page. */
 router.use(function (req, res, next) {
     if (!!req.session.loginUser && !!req.session.userType) {
@@ -15,43 +15,37 @@ router.use(function (req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-    // 以下是后端数据库的函数：查找学生
-    // 返回值：result包，包括该学生的所有信息
-    // result = getData(...)
-    var result = {
-        name: '张三',
-        id: '3140102345',
-        ismale: true,
-        credit: 130,
-        department: '计算机学院'
-    };
-    // 以上为伪造数据，需要替换掉
-    var leftColAttr = {};
-    leftColAttr['姓名'] = result['name'];
-    leftColAttr['照片'] = "images/photo_student.png";
-    leftColAttr['学号'] = result['id'];
-    leftColAttr['性别'] = result['ismale'] === true ? '男': '女';
-    leftColAttr['学分'] = result['credit'];
-    leftColAttr['院系'] = result['department'];
-    var rightColAttr = [{
-            'imgURL':'images/student_select.png',
-            'URL':'/select',
-            '名称':'选课'
-        },{
-            'imgURL':'images/student_table.png',
-            'URL':'/curriculum',
-            '名称':'查看课表'
-        },{
-            'imgURL':'images/student_reselect.png',
-            'URL':'/reselect',
-            '名称':'补选'
-        }
-    ];
-    res.render('mainPage',{
-        title: '学生主页',
-        leftColAttr: leftColAttr,
-        rightColAttr: rightColAttr
-    });
+    var stuID = req.session.loginUser;
+    Student.findOne({id:stuID},function(err,student){
+        var leftColAttr = {};
+        leftColAttr['姓名'] = student['name'];
+        leftColAttr['照片'] = "images/photo_student.png";
+        leftColAttr['学号'] = student['id'];
+        leftColAttr['性别'] = student['ismale'] === true ? '男': '女';
+        leftColAttr['手机'] = student['phone'];
+        leftColAttr['院系'] = student['department'];
+        leftColAttr['学分'] = student['credit'];
+        var rightColAttr = [
+            {
+                'imgURL':'images/student_select.png',
+                'URL':'/select',
+                '名称':'选课'
+            },{
+                'imgURL':'images/student_table.png',
+                'URL':'/curriculum',
+                '名称':'查看课表'
+            },{
+                'imgURL':'images/student_reselect.png',
+                'URL':'/reselect',
+                '名称':'补选'
+            }
+        ];
+        res.render('student',{
+            title: '学生主页',
+            leftColAttr: leftColAttr,
+            rightColAttr: rightColAttr
+        });
+    })
 });
 
 module.exports = router;
