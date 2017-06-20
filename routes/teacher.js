@@ -91,6 +91,7 @@ router.get('/pickStudents', function(req, res, next) {
             Course.fetchStu('_id', tid, function (err, stuReady){
                 res.render('pickStudents',{
                     course:cou.name,
+                    course_ID:cou._id,
                     studentsPending:stuPending,
                     studentsReady:stuReady
                 });
@@ -159,14 +160,14 @@ router.post('/teacher/pickStudents/select', function(req, res, next) {
 
     var selectedStu = req.body.id;
     var teacherID = req.session.loginUser;
-    var courseID = req.session.courseID;
+    var courseID = req.body.course_ID;
 
     console.log(req.body);
     // 从待定队列中删除
     ApplyClass.deleteMany({$or:selectedStu},function(err,deleted){
         //assert.equal(err,null);
         // 选课流程 - 把课程ID添加到学生的course_list中
-        Course.findOne({id:courseID},function (err,curCourse) {
+        Course.findOne({'_id':courseID},function (err,curCourse) {
             Student.find({$or:selectedStu},function (err, stuList) {
                 //assert.equal(err,null);
                 var curIndex = 0;
