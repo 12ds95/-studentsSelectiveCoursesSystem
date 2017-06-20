@@ -61,11 +61,11 @@ router.get('/', function(req, res, next) {
             '名称':'通知管理'
     },{
         'imgURL':'images/admin_reselectPermission.png',
-            'URL':'http://www.baidu.com',
+            'URL':'/teacher/pickStudent',
             '名称':'补选审核'
     },{
         'imgURL':'images/admin_coursePermission.png',
-        'URL':'http://www.baidu.com',
+        'URL':'/admin/reviewClasses',
         '名称':'开课审核'
     },{
         'imgURL':'images/admin_statistic.png',
@@ -159,12 +159,25 @@ router.post('/admin/reviewClasses/apply', function(req, res, next) {
 });
 */
 router.post('/admin/reviewClasses/search', function(req, res, next) {
+
     console.log(req.body);
-    var data={
-        status: 1
-    };
-    console.log(data);
-    res.json(data);
+    var keyword;
+    for (keyword in req.body) break;
+    PreCourse.find({$or:[
+        {name:{$regex:keyword}}
+        ,{ename:{$regex:keyword}}
+        ,{department:{$regex:keyword}}
+        ,{course_type:{$regex:keyword}}
+        ]},function(err,courseList){
+            res.json({
+                status:1
+                ,data:courseList});
+        })
+    // var data={
+    //     status: 1
+    // };
+    // console.log(data);
+    // res.json(data);
 });
 
 module.exports = router;
