@@ -119,7 +119,7 @@ PrecourseSchema.statics = {
                                   id: temp
                                 , name: preCourseInfo[0].name
                                 , credit: preCourseInfo[0].credit
-                                , courese_info: preCourseInfo[0].info
+                                , course_info: preCourseInfo[0].info
                                 , course_type: preCourseInfo[0].course_type
                                 , _teacher: preCourseInfo[0]._teacher
                                 , semester: '春夏'

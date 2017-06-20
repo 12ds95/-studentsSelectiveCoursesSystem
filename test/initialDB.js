@@ -73,6 +73,7 @@ var teacher28 = new Teacher({name:'老师28',ismale:true,uname:'teacher28',id:'t
 teacher28.save(function(err,res){if(err){console.log('Error in teacher28.save()\n',err);}});
 var teacher29 = new Teacher({name:'老师29',ismale:true,uname:'teacher29',id:'teacher29',department:'计算机学院',phono_number:'10029',info:'no',address:'no',email:'no'});
 teacher29.save(function(err,res){if(err){console.log('Error in teacher29.save()\n',err);}});
+
 var stu0=new Student({id:'3140103100',name:'stu0',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
 stu0.save(function(err,res){if(err){console.log('Error in student0.save()\n',err);}});
 var stu1=new Student({id:'3140103101',name:'stu1',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
