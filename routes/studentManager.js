@@ -31,12 +31,11 @@ router.get('/', function(req, res, next) {
         ['学院', 'department']
     ];
     var filterOpData = [
-        ['等于', 'equal'],
-        ['不等于', 'not_equal'],
-        ['包含', 'include'],
-        ['不包含', 'not_include'],
-        ['大于', 'greater_than'],
-        ['小于', 'less_than']
+        ['等于', '$eq'],
+        ['不等于', '$ne'],
+        ['包含', '$regex'],
+        ['大于', '$gt'],
+        ['小于', '$lt']
     ];
     // 渲染
     res.render('studentManager',{

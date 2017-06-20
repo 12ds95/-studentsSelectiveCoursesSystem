@@ -96,9 +96,9 @@ script.
             andQuery['$and'] = [];
             for (var i=0; i<filterNum; i++) {
                 var cond = {};
-                cond['type'] = condList[i]['type'];
-                cond['op'] = condList[i]['op'];
-                cond['value'] = condList[i]['value'];
+                var temp = {};
+                temp[condList[i]['op']] = condList[i]['value'];
+                cond[condList[i]['type']] = temp;
                 if (condList[i]['connection'] === 'and') {
                     andQuery['$and'].push(cond);
                 } else {
