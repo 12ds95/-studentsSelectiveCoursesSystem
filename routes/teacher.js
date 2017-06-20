@@ -203,7 +203,8 @@ router.post('/teacher/pickStudents/select', function(req, res, next) {
 });
 
 function saveNextStu(stuList,curIndex,curCourse,next) {
-    stuList[curIndex]._course_list.push(curCourse._id);
+    stuList[curIndex]._course_list.push(curCourse._id)
+    stuList[curIndex].credit += curCourse.credit;
     stuList[curIndex].save(function(err,saveRes){
         //assert.equal(null,err);
         curCourse._stulist.push(stuList[curIndex]._id);

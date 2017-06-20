@@ -153,6 +153,7 @@ router.post('/submit', function(req, res, next) {
             // 可以开始选课
             Course.findOne({_id:_id},function(err,course){
                 student._course_list.push(course._id);
+                student.credit += course.credit;
                 course._stulist.push(student._id);
                 student.save(function(err, saveRes){
                     course.save(function(err, saveResult){
