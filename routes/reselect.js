@@ -59,7 +59,7 @@ function getCourseData(query, from, to, cb) {     // 取[from,to]的数据
     // result = get20Data(...)
 
     // 以上为伪造数据，需替换
-    Course.getAll(Math.ceil(from/20),function(err,courseList){
+    Course.getAll(query,Math.ceil(from/20),function(err,courseList){
         result = {
             Data: courseList
             , TotalItem: courseList.length

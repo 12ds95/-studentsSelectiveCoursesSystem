@@ -71,7 +71,7 @@ function getCourseData(query, from, to, cb) {     // 取[from,to]的数据
     // 返回值：result包，包括TotalItem标签的全部学生总数，和Data标签的[from,to]区间的学生学号、姓名、学院信息
     // result = get20Data(...)
     // 以上为伪造数据，需替换
-    Course.getAll(Math.ceil(from/20),function(err,courseList){
+    Course.getAll(query,Math.ceil(from/20),function(err,courseList){
         var course = [];
         var courseItem = {};
         var courseDetail = [];
