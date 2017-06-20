@@ -109,9 +109,12 @@ PrecourseSchema.statics = {
                     Course.find()
                         .sort('id')
                         .exec(function(err, courseExist){
-                            var temp = courseExist[courseExist.length-1];
-                            temp = parseInt(temp.id);
-                            temp++;
+                            if(courseExist.length == 0)temp = 100000;
+                            else {
+                                var temp = courseExist[courseExist.length-1];
+                                temp = parseInt(temp.id);
+                                temp++;
+                            }
                             var newCourse = new Course({
                                   id: temp
                                 , name: preCourseInfo[0].name
