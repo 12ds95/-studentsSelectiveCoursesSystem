@@ -6,17 +6,20 @@ var Timeslot = require('../models/Timeslot');
 var Classroom = require('../models/Classroom');
 var Student = require('../models/Student');
 var Teacher = require('../models/Teacher');
+var Course = require('../models/Course');
 var User = require('../models/User');
+var News = require('../models/News');
 
 mongoose.connect('mongodb://localhost/test');
 mongoose.Promise = global.Promise;
+
 
 var stu1 = new Student({
     id:'3140104200'
     , uname:'3140104200'
     , name:'Edm'
     , ismale:true
-    , credit:160
+    , credit:0
     , department:'计算机科学与技术'
 });
 var stu2 = new Student({
@@ -24,7 +27,7 @@ var stu2 = new Student({
     , name:'hello'
     , uname:'3140104201'
     , ismale:false
-    , credit:150
+    , credit:0
     , department:'计算机科学与技术'
 });
 stu1.save(function (err, res) {});
@@ -34,11 +37,22 @@ var teacher1 = new Teacher({
     , ismale:true
     , uname:'teacher1'
     , id:'teacher1'
-    , department:"计算机学院"
-    , phone_number:"123456"
-    , info:"no"
+    , department:'计算机学院'
+    , phone_number:'123456'
+    , info:'no'
+    , address:'no'
+    , email: 'no'
 });
 teacher1.save(function (err, res) {
+    var course1_1 = new Course({
+          id:100000
+        , name:'testCourse1'
+        , creadit:2
+        , course_info:'no'
+        , course_type:'专业选修课'
+        , _teacher:teacher1._id
+        , _time:[]
+    })
     if(err) {console.log('Error in teacher1.save()\n',err);}
 });
 var teacher2 = new Teacher({
