@@ -20,8 +20,9 @@ block content
                 var modalID = '#placeForModal';
                 var modalData = {
                     'Title': '补选申请表',
-                    'ContentItem': ['课程名称','课程教师','上课时间','上课地点','手机号码','补选理由'],
+                    'ContentItem': ['课程编号','课程名称','课程教师','上课时间','上课地点','手机号码','补选理由'],
                     'ContentData': [
+                        courseItemList[num1]['courseDetail'][num2]['courseId'],
                         courseItemList[num1]['courseName'],
                         courseItemList[num1]['courseDetail'][num2]['courseTeacher'],
                         courseItemList[num1]['courseDetail'][num2]['courseTime'],
@@ -29,8 +30,8 @@ block content
                         '',
                         ''
                     ],
-                    'ContentShow': [true, true, true, true, true, true],
-                    'ContentDisabled': ['readonly', 'readonly', 'readonly', 'readonly', '', ''],
+                    'ContentShow': [false, true, true, true, true, true, true],
+                    'ContentDisabled': ['readonly', 'readonly', 'readonly', 'readonly', 'readonly', '', ''],
                     'SuccessMsg': '补选提交成功',
                     'ErrorMsg': '补选提交失败'
                 };

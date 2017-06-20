@@ -13,60 +13,268 @@ var News = require('../models/News');
 mongoose.connect('mongodb://localhost/test');
 mongoose.Promise = global.Promise;
 
+var teacher0 = new Teacher({name:'老师0',ismale:true,uname:'teacher0',id:'teacher0',department:'计算机学院',phono_number:'10000',info:'no',address:'no',email:'no'});
+teacher0.save(function(err,res){if(err){console.log('Error in teacher0.save()\n',err);}});
+var teacher1 = new Teacher({name:'老师1',ismale:true,uname:'teacher1',id:'teacher1',department:'计算机学院',phono_number:'10001',info:'no',address:'no',email:'no'});
+teacher1.save(function(err,res){if(err){console.log('Error in teacher1.save()\n',err);}});
+var teacher2 = new Teacher({name:'老师2',ismale:true,uname:'teacher2',id:'teacher2',department:'计算机学院',phono_number:'10002',info:'no',address:'no',email:'no'});
+teacher2.save(function(err,res){if(err){console.log('Error in teacher2.save()\n',err);}});
+var teacher3 = new Teacher({name:'老师3',ismale:true,uname:'teacher3',id:'teacher3',department:'计算机学院',phono_number:'10003',info:'no',address:'no',email:'no'});
+teacher3.save(function(err,res){if(err){console.log('Error in teacher3.save()\n',err);}});
+var teacher4 = new Teacher({name:'老师4',ismale:true,uname:'teacher4',id:'teacher4',department:'计算机学院',phono_number:'10004',info:'no',address:'no',email:'no'});
+teacher4.save(function(err,res){if(err){console.log('Error in teacher4.save()\n',err);}});
+var teacher5 = new Teacher({name:'老师5',ismale:true,uname:'teacher5',id:'teacher5',department:'计算机学院',phono_number:'10005',info:'no',address:'no',email:'no'});
+teacher5.save(function(err,res){if(err){console.log('Error in teacher5.save()\n',err);}});
+var teacher6 = new Teacher({name:'老师6',ismale:true,uname:'teacher6',id:'teacher6',department:'计算机学院',phono_number:'10006',info:'no',address:'no',email:'no'});
+teacher6.save(function(err,res){if(err){console.log('Error in teacher6.save()\n',err);}});
+var teacher7 = new Teacher({name:'老师7',ismale:true,uname:'teacher7',id:'teacher7',department:'计算机学院',phono_number:'10007',info:'no',address:'no',email:'no'});
+teacher7.save(function(err,res){if(err){console.log('Error in teacher7.save()\n',err);}});
+var teacher8 = new Teacher({name:'老师8',ismale:true,uname:'teacher8',id:'teacher8',department:'计算机学院',phono_number:'10008',info:'no',address:'no',email:'no'});
+teacher8.save(function(err,res){if(err){console.log('Error in teacher8.save()\n',err);}});
+var teacher9 = new Teacher({name:'老师9',ismale:true,uname:'teacher9',id:'teacher9',department:'计算机学院',phono_number:'10009',info:'no',address:'no',email:'no'});
+teacher9.save(function(err,res){if(err){console.log('Error in teacher9.save()\n',err);}});
+var teacher10 = new Teacher({name:'老师10',ismale:true,uname:'teacher10',id:'teacher10',department:'计算机学院',phono_number:'10010',info:'no',address:'no',email:'no'});
+teacher10.save(function(err,res){if(err){console.log('Error in teacher10.save()\n',err);}});
+var teacher11 = new Teacher({name:'老师11',ismale:true,uname:'teacher11',id:'teacher11',department:'计算机学院',phono_number:'10011',info:'no',address:'no',email:'no'});
+teacher11.save(function(err,res){if(err){console.log('Error in teacher11.save()\n',err);}});
+var teacher12 = new Teacher({name:'老师12',ismale:true,uname:'teacher12',id:'teacher12',department:'计算机学院',phono_number:'10012',info:'no',address:'no',email:'no'});
+teacher12.save(function(err,res){if(err){console.log('Error in teacher12.save()\n',err);}});
+var teacher13 = new Teacher({name:'老师13',ismale:true,uname:'teacher13',id:'teacher13',department:'计算机学院',phono_number:'10013',info:'no',address:'no',email:'no'});
+teacher13.save(function(err,res){if(err){console.log('Error in teacher13.save()\n',err);}});
+var teacher14 = new Teacher({name:'老师14',ismale:true,uname:'teacher14',id:'teacher14',department:'计算机学院',phono_number:'10014',info:'no',address:'no',email:'no'});
+teacher14.save(function(err,res){if(err){console.log('Error in teacher14.save()\n',err);}});
+var teacher15 = new Teacher({name:'老师15',ismale:true,uname:'teacher15',id:'teacher15',department:'计算机学院',phono_number:'10015',info:'no',address:'no',email:'no'});
+teacher15.save(function(err,res){if(err){console.log('Error in teacher15.save()\n',err);}});
+var teacher16 = new Teacher({name:'老师16',ismale:true,uname:'teacher16',id:'teacher16',department:'计算机学院',phono_number:'10016',info:'no',address:'no',email:'no'});
+teacher16.save(function(err,res){if(err){console.log('Error in teacher16.save()\n',err);}});
+var teacher17 = new Teacher({name:'老师17',ismale:true,uname:'teacher17',id:'teacher17',department:'计算机学院',phono_number:'10017',info:'no',address:'no',email:'no'});
+teacher17.save(function(err,res){if(err){console.log('Error in teacher17.save()\n',err);}});
+var teacher18 = new Teacher({name:'老师18',ismale:true,uname:'teacher18',id:'teacher18',department:'计算机学院',phono_number:'10018',info:'no',address:'no',email:'no'});
+teacher18.save(function(err,res){if(err){console.log('Error in teacher18.save()\n',err);}});
+var teacher19 = new Teacher({name:'老师19',ismale:true,uname:'teacher19',id:'teacher19',department:'计算机学院',phono_number:'10019',info:'no',address:'no',email:'no'});
+teacher19.save(function(err,res){if(err){console.log('Error in teacher19.save()\n',err);}});
+var teacher20 = new Teacher({name:'老师20',ismale:true,uname:'teacher20',id:'teacher20',department:'计算机学院',phono_number:'10020',info:'no',address:'no',email:'no'});
+teacher20.save(function(err,res){if(err){console.log('Error in teacher20.save()\n',err);}});
+var teacher21 = new Teacher({name:'老师21',ismale:true,uname:'teacher21',id:'teacher21',department:'计算机学院',phono_number:'10021',info:'no',address:'no',email:'no'});
+teacher21.save(function(err,res){if(err){console.log('Error in teacher21.save()\n',err);}});
+var teacher22 = new Teacher({name:'老师22',ismale:true,uname:'teacher22',id:'teacher22',department:'计算机学院',phono_number:'10022',info:'no',address:'no',email:'no'});
+teacher22.save(function(err,res){if(err){console.log('Error in teacher22.save()\n',err);}});
+var teacher23 = new Teacher({name:'老师23',ismale:true,uname:'teacher23',id:'teacher23',department:'计算机学院',phono_number:'10023',info:'no',address:'no',email:'no'});
+teacher23.save(function(err,res){if(err){console.log('Error in teacher23.save()\n',err);}});
+var teacher24 = new Teacher({name:'老师24',ismale:true,uname:'teacher24',id:'teacher24',department:'计算机学院',phono_number:'10024',info:'no',address:'no',email:'no'});
+teacher24.save(function(err,res){if(err){console.log('Error in teacher24.save()\n',err);}});
+var teacher25 = new Teacher({name:'老师25',ismale:true,uname:'teacher25',id:'teacher25',department:'计算机学院',phono_number:'10025',info:'no',address:'no',email:'no'});
+teacher25.save(function(err,res){if(err){console.log('Error in teacher25.save()\n',err);}});
+var teacher26 = new Teacher({name:'老师26',ismale:true,uname:'teacher26',id:'teacher26',department:'计算机学院',phono_number:'10026',info:'no',address:'no',email:'no'});
+teacher26.save(function(err,res){if(err){console.log('Error in teacher26.save()\n',err);}});
+var teacher27 = new Teacher({name:'老师27',ismale:true,uname:'teacher27',id:'teacher27',department:'计算机学院',phono_number:'10027',info:'no',address:'no',email:'no'});
+teacher27.save(function(err,res){if(err){console.log('Error in teacher27.save()\n',err);}});
+var teacher28 = new Teacher({name:'老师28',ismale:true,uname:'teacher28',id:'teacher28',department:'计算机学院',phono_number:'10028',info:'no',address:'no',email:'no'});
+teacher28.save(function(err,res){if(err){console.log('Error in teacher28.save()\n',err);}});
+var teacher29 = new Teacher({name:'老师29',ismale:true,uname:'teacher29',id:'teacher29',department:'计算机学院',phono_number:'10029',info:'no',address:'no',email:'no'});
+teacher29.save(function(err,res){if(err){console.log('Error in teacher29.save()\n',err);}});
 
-var stu1 = new Student({
-    id:'3140104200'
-    , uname:'3140104200'
-    , name:'Edm'
-    , ismale:true
-    , credit:0
-    , department:'计算机科学与技术'
-});
-var stu2 = new Student({
-    id:'3140104201'
-    , name:'hello'
-    , uname:'3140104201'
-    , ismale:false
-    , credit:0
-    , department:'计算机科学与技术'
-});
-stu1.save(function (err, res) {});
-stu2.save(function (err, res) {});
-var teacher1 = new Teacher({
-    name:'老师1'
-    , ismale:true
-    , uname:'teacher1'
-    , id:'teacher1'
-    , department:'计算机学院'
-    , phone_number:'123456'
-    , info:'no'
-    , address:'no'
-    , email: 'no'
-});
-teacher1.save(function (err, res) {
-    var course1_1 = new Course({
-          id:100000
-        , name:'testCourse1'
-        , creadit:2
-        , course_info:'no'
-        , course_type:'专业选修课'
-        , _teacher:teacher1._id
-        , _time:[]
-    })
-    if(err) {console.log('Error in teacher1.save()\n',err);}
-});
-var teacher2 = new Teacher({
-    name:'老师2'
-    , ismale:true
-    , uname:'teacher2'
-    , id:"teacher2"
-    , department:"新店学院"
-    , phone_number:"123456789"
-    , info:"yes"
-});
-teacher2.save(function (err, res) {
-    if(err) {console.log('Error in teacher2.save()\n',err);}
-});
+var stu0=new Student({id:'3140103100',name:'stu0',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu0.save(function(err,res){if(err){console.log('Error in student0.save()\n',err);}});
+var stu1=new Student({id:'3140103101',name:'stu1',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu1.save(function(err,res){if(err){console.log('Error in student1.save()\n',err);}});
+var stu2=new Student({id:'3140103102',name:'stu2',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu2.save(function(err,res){if(err){console.log('Error in student2.save()\n',err);}});
+var stu3=new Student({id:'3140103103',name:'stu3',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu3.save(function(err,res){if(err){console.log('Error in student3.save()\n',err);}});
+var stu4=new Student({id:'3140103104',name:'stu4',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu4.save(function(err,res){if(err){console.log('Error in student4.save()\n',err);}});
+var stu5=new Student({id:'3140103105',name:'stu5',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu5.save(function(err,res){if(err){console.log('Error in student5.save()\n',err);}});
+var stu6=new Student({id:'3140103106',name:'stu6',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu6.save(function(err,res){if(err){console.log('Error in student6.save()\n',err);}});
+var stu7=new Student({id:'3140103107',name:'stu7',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu7.save(function(err,res){if(err){console.log('Error in student7.save()\n',err);}});
+var stu8=new Student({id:'3140103108',name:'stu8',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu8.save(function(err,res){if(err){console.log('Error in student8.save()\n',err);}});
+var stu9=new Student({id:'3140103109',name:'stu9',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu9.save(function(err,res){if(err){console.log('Error in student9.save()\n',err);}});
+var stu10=new Student({id:'3140103110',name:'stu10',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu10.save(function(err,res){if(err){console.log('Error in student10.save()\n',err);}});
+var stu11=new Student({id:'3140103111',name:'stu11',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu11.save(function(err,res){if(err){console.log('Error in student11.save()\n',err);}});
+var stu12=new Student({id:'3140103112',name:'stu12',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu12.save(function(err,res){if(err){console.log('Error in student12.save()\n',err);}});
+var stu13=new Student({id:'3140103113',name:'stu13',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu13.save(function(err,res){if(err){console.log('Error in student13.save()\n',err);}});
+var stu14=new Student({id:'3140103114',name:'stu14',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu14.save(function(err,res){if(err){console.log('Error in student14.save()\n',err);}});
+var stu15=new Student({id:'3140103115',name:'stu15',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu15.save(function(err,res){if(err){console.log('Error in student15.save()\n',err);}});
+var stu16=new Student({id:'3140103116',name:'stu16',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu16.save(function(err,res){if(err){console.log('Error in student16.save()\n',err);}});
+var stu17=new Student({id:'3140103117',name:'stu17',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu17.save(function(err,res){if(err){console.log('Error in student17.save()\n',err);}});
+var stu18=new Student({id:'3140103118',name:'stu18',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu18.save(function(err,res){if(err){console.log('Error in student18.save()\n',err);}});
+var stu19=new Student({id:'3140103119',name:'stu19',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu19.save(function(err,res){if(err){console.log('Error in student19.save()\n',err);}});
+var stu20=new Student({id:'3140103120',name:'stu20',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu20.save(function(err,res){if(err){console.log('Error in student20.save()\n',err);}});
+var stu21=new Student({id:'3140103121',name:'stu21',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu21.save(function(err,res){if(err){console.log('Error in student21.save()\n',err);}});
+var stu22=new Student({id:'3140103122',name:'stu22',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu22.save(function(err,res){if(err){console.log('Error in student22.save()\n',err);}});
+var stu23=new Student({id:'3140103123',name:'stu23',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu23.save(function(err,res){if(err){console.log('Error in student23.save()\n',err);}});
+var stu24=new Student({id:'3140103124',name:'stu24',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu24.save(function(err,res){if(err){console.log('Error in student24.save()\n',err);}});
+var stu25=new Student({id:'3140103125',name:'stu25',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu25.save(function(err,res){if(err){console.log('Error in student25.save()\n',err);}});
+var stu26=new Student({id:'3140103126',name:'stu26',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu26.save(function(err,res){if(err){console.log('Error in student26.save()\n',err);}});
+var stu27=new Student({id:'3140103127',name:'stu27',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu27.save(function(err,res){if(err){console.log('Error in student27.save()\n',err);}});
+var stu28=new Student({id:'3140103128',name:'stu28',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu28.save(function(err,res){if(err){console.log('Error in student28.save()\n',err);}});
+var stu29=new Student({id:'3140103129',name:'stu29',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu29.save(function(err,res){if(err){console.log('Error in student29.save()\n',err);}});
+var stu30=new Student({id:'3140103130',name:'stu30',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu30.save(function(err,res){if(err){console.log('Error in student30.save()\n',err);}});
+var stu31=new Student({id:'3140103131',name:'stu31',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu31.save(function(err,res){if(err){console.log('Error in student31.save()\n',err);}});
+var stu32=new Student({id:'3140103132',name:'stu32',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu32.save(function(err,res){if(err){console.log('Error in student32.save()\n',err);}});
+var stu33=new Student({id:'3140103133',name:'stu33',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu33.save(function(err,res){if(err){console.log('Error in student33.save()\n',err);}});
+var stu34=new Student({id:'3140103134',name:'stu34',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu34.save(function(err,res){if(err){console.log('Error in student34.save()\n',err);}});
+var stu35=new Student({id:'3140103135',name:'stu35',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu35.save(function(err,res){if(err){console.log('Error in student35.save()\n',err);}});
+var stu36=new Student({id:'3140103136',name:'stu36',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu36.save(function(err,res){if(err){console.log('Error in student36.save()\n',err);}});
+var stu37=new Student({id:'3140103137',name:'stu37',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu37.save(function(err,res){if(err){console.log('Error in student37.save()\n',err);}});
+var stu38=new Student({id:'3140103138',name:'stu38',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu38.save(function(err,res){if(err){console.log('Error in student38.save()\n',err);}});
+var stu39=new Student({id:'3140103139',name:'stu39',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu39.save(function(err,res){if(err){console.log('Error in student39.save()\n',err);}});
+var stu40=new Student({id:'3140103140',name:'stu40',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu40.save(function(err,res){if(err){console.log('Error in student40.save()\n',err);}});
+var stu41=new Student({id:'3140103141',name:'stu41',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu41.save(function(err,res){if(err){console.log('Error in student41.save()\n',err);}});
+var stu42=new Student({id:'3140103142',name:'stu42',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu42.save(function(err,res){if(err){console.log('Error in student42.save()\n',err);}});
+var stu43=new Student({id:'3140103143',name:'stu43',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu43.save(function(err,res){if(err){console.log('Error in student43.save()\n',err);}});
+var stu44=new Student({id:'3140103144',name:'stu44',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu44.save(function(err,res){if(err){console.log('Error in student44.save()\n',err);}});
+var stu45=new Student({id:'3140103145',name:'stu45',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu45.save(function(err,res){if(err){console.log('Error in student45.save()\n',err);}});
+var stu46=new Student({id:'3140103146',name:'stu46',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu46.save(function(err,res){if(err){console.log('Error in student46.save()\n',err);}});
+var stu47=new Student({id:'3140103147',name:'stu47',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu47.save(function(err,res){if(err){console.log('Error in student47.save()\n',err);}});
+var stu48=new Student({id:'3140103148',name:'stu48',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu48.save(function(err,res){if(err){console.log('Error in student48.save()\n',err);}});
+var stu49=new Student({id:'3140103149',name:'stu49',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu49.save(function(err,res){if(err){console.log('Error in student49.save()\n',err);}});
+var stu50=new Student({id:'3140103150',name:'stu50',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu50.save(function(err,res){if(err){console.log('Error in student50.save()\n',err);}});
+var stu51=new Student({id:'3140103151',name:'stu51',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu51.save(function(err,res){if(err){console.log('Error in student51.save()\n',err);}});
+var stu52=new Student({id:'3140103152',name:'stu52',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu52.save(function(err,res){if(err){console.log('Error in student52.save()\n',err);}});
+var stu53=new Student({id:'3140103153',name:'stu53',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu53.save(function(err,res){if(err){console.log('Error in student53.save()\n',err);}});
+var stu54=new Student({id:'3140103154',name:'stu54',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu54.save(function(err,res){if(err){console.log('Error in student54.save()\n',err);}});
+var stu55=new Student({id:'3140103155',name:'stu55',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu55.save(function(err,res){if(err){console.log('Error in student55.save()\n',err);}});
+var stu56=new Student({id:'3140103156',name:'stu56',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu56.save(function(err,res){if(err){console.log('Error in student56.save()\n',err);}});
+var stu57=new Student({id:'3140103157',name:'stu57',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu57.save(function(err,res){if(err){console.log('Error in student57.save()\n',err);}});
+var stu58=new Student({id:'3140103158',name:'stu58',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu58.save(function(err,res){if(err){console.log('Error in student58.save()\n',err);}});
+var stu59=new Student({id:'3140103159',name:'stu59',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu59.save(function(err,res){if(err){console.log('Error in student59.save()\n',err);}});
+var stu60=new Student({id:'3140103160',name:'stu60',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu60.save(function(err,res){if(err){console.log('Error in student60.save()\n',err);}});
+var stu61=new Student({id:'3140103161',name:'stu61',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu61.save(function(err,res){if(err){console.log('Error in student61.save()\n',err);}});
+var stu62=new Student({id:'3140103162',name:'stu62',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu62.save(function(err,res){if(err){console.log('Error in student62.save()\n',err);}});
+var stu63=new Student({id:'3140103163',name:'stu63',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu63.save(function(err,res){if(err){console.log('Error in student63.save()\n',err);}});
+var stu64=new Student({id:'3140103164',name:'stu64',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu64.save(function(err,res){if(err){console.log('Error in student64.save()\n',err);}});
+var stu65=new Student({id:'3140103165',name:'stu65',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu65.save(function(err,res){if(err){console.log('Error in student65.save()\n',err);}});
+var stu66=new Student({id:'3140103166',name:'stu66',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu66.save(function(err,res){if(err){console.log('Error in student66.save()\n',err);}});
+var stu67=new Student({id:'3140103167',name:'stu67',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu67.save(function(err,res){if(err){console.log('Error in student67.save()\n',err);}});
+var stu68=new Student({id:'3140103168',name:'stu68',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu68.save(function(err,res){if(err){console.log('Error in student68.save()\n',err);}});
+var stu69=new Student({id:'3140103169',name:'stu69',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu69.save(function(err,res){if(err){console.log('Error in student69.save()\n',err);}});
+var stu70=new Student({id:'3140103170',name:'stu70',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu70.save(function(err,res){if(err){console.log('Error in student70.save()\n',err);}});
+var stu71=new Student({id:'3140103171',name:'stu71',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu71.save(function(err,res){if(err){console.log('Error in student71.save()\n',err);}});
+var stu72=new Student({id:'3140103172',name:'stu72',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu72.save(function(err,res){if(err){console.log('Error in student72.save()\n',err);}});
+var stu73=new Student({id:'3140103173',name:'stu73',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu73.save(function(err,res){if(err){console.log('Error in student73.save()\n',err);}});
+var stu74=new Student({id:'3140103174',name:'stu74',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu74.save(function(err,res){if(err){console.log('Error in student74.save()\n',err);}});
+var stu75=new Student({id:'3140103175',name:'stu75',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu75.save(function(err,res){if(err){console.log('Error in student75.save()\n',err);}});
+var stu76=new Student({id:'3140103176',name:'stu76',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu76.save(function(err,res){if(err){console.log('Error in student76.save()\n',err);}});
+var stu77=new Student({id:'3140103177',name:'stu77',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu77.save(function(err,res){if(err){console.log('Error in student77.save()\n',err);}});
+var stu78=new Student({id:'3140103178',name:'stu78',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu78.save(function(err,res){if(err){console.log('Error in student78.save()\n',err);}});
+var stu79=new Student({id:'3140103179',name:'stu79',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu79.save(function(err,res){if(err){console.log('Error in student79.save()\n',err);}});
+var stu80=new Student({id:'3140103180',name:'stu80',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu80.save(function(err,res){if(err){console.log('Error in student80.save()\n',err);}});
+var stu81=new Student({id:'3140103181',name:'stu81',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu81.save(function(err,res){if(err){console.log('Error in student81.save()\n',err);}});
+var stu82=new Student({id:'3140103182',name:'stu82',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu82.save(function(err,res){if(err){console.log('Error in student82.save()\n',err);}});
+var stu83=new Student({id:'3140103183',name:'stu83',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu83.save(function(err,res){if(err){console.log('Error in student83.save()\n',err);}});
+var stu84=new Student({id:'3140103184',name:'stu84',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu84.save(function(err,res){if(err){console.log('Error in student84.save()\n',err);}});
+var stu85=new Student({id:'3140103185',name:'stu85',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu85.save(function(err,res){if(err){console.log('Error in student85.save()\n',err);}});
+var stu86=new Student({id:'3140103186',name:'stu86',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu86.save(function(err,res){if(err){console.log('Error in student86.save()\n',err);}});
+var stu87=new Student({id:'3140103187',name:'stu87',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu87.save(function(err,res){if(err){console.log('Error in student87.save()\n',err);}});
+var stu88=new Student({id:'3140103188',name:'stu88',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu88.save(function(err,res){if(err){console.log('Error in student88.save()\n',err);}});
+var stu89=new Student({id:'3140103189',name:'stu89',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu89.save(function(err,res){if(err){console.log('Error in student89.save()\n',err);}});
+var stu90=new Student({id:'3140103190',name:'stu90',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu90.save(function(err,res){if(err){console.log('Error in student90.save()\n',err);}});
+var stu91=new Student({id:'3140103191',name:'stu91',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu91.save(function(err,res){if(err){console.log('Error in student91.save()\n',err);}});
+var stu92=new Student({id:'3140103192',name:'stu92',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu92.save(function(err,res){if(err){console.log('Error in student92.save()\n',err);}});
+var stu93=new Student({id:'3140103193',name:'stu93',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu93.save(function(err,res){if(err){console.log('Error in student93.save()\n',err);}});
+var stu94=new Student({id:'3140103194',name:'stu94',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu94.save(function(err,res){if(err){console.log('Error in student94.save()\n',err);}});
+var stu95=new Student({id:'3140103195',name:'stu95',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu95.save(function(err,res){if(err){console.log('Error in student95.save()\n',err);}});
+var stu96=new Student({id:'3140103196',name:'stu96',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu96.save(function(err,res){if(err){console.log('Error in student96.save()\n',err);}});
+var stu97=new Student({id:'3140103197',name:'stu97',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu97.save(function(err,res){if(err){console.log('Error in student97.save()\n',err);}});
+var stu98=new Student({id:'3140103198',name:'stu98',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu98.save(function(err,res){if(err){console.log('Error in student98.save()\n',err);}});
+var stu99=new Student({id:'3140103199',name:'stu99',ismale:true,credit:0,info:'no',address:'no',email:'no',department:'计算机学院'});
+stu99.save(function(err,res){if(err){console.log('Error in student99.save()\n',err);}});
+
 var admin = new User({
     name: 'na1121na'
     , password: 'qweasd'

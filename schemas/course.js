@@ -28,6 +28,11 @@ var CourseSchema = new mongoose.Schema({
 		type:String,
 		enum:['紫金港','玉泉','西溪','华家池','之江','舟山','海宁']
 	}
+	, english: String
+	, department: String
+	, hour:String
+	, prerequistite: String
+	, syllabus:String
 	, exam:{type:Schema.Types.ObjectId, ref	:'exam'}
 	, _stulist:[{type:Schema.Types.ObjectId,ref:'Student'}]
 	// tid:String, // teacher's id
@@ -60,8 +65,8 @@ CourseSchema.pre('find',function(next){
 	next();
 });
 CourseSchema.statics = {
-	getAll: function(page, cb){
-		this.find({})
+	getAll: function(query,page, cb){
+		this.find({query})
 			.populate({path:'_teacher'})
 			.populate({path:'_time'})
 			.populate({path:'_classroom'})
@@ -70,28 +75,30 @@ CourseSchema.statics = {
 			.exec(function(err, res){
 				if(res.length == 0 || res.length<(page-1)*20)
 					cb(err, res);
-				var begin = 0;
-				var count = 0, i;
-				var last = "";
-				for(i = 0; i < res.length; i++){
-                    if(count == 20*(page-1))begin = i;
-                    else if(count == 20 * page)break;
-					if(res[i].id != last.id){
-						count++;
-						last = res[i];
-					}
+				else{
+					var begin = 0;
+					var count = 0, i;
+					var last = "";
+					for(i = 0; i < res.length; i++){
+						if(count == 20*(page-1))begin = i;
+						else if(count == 20 * page)break;
+						if(res[i].id != last.id){
+							count++;
+							last = res[i];
+						}
 
-				}
-				var result = new Array();
-				for(var count = begin; count < i; count++)
-					result[count-begin] = res[count];
-				cb(err,result);
+					}
+					var result = new Array();
+					for(var count = begin; count < i; count++)
+						result[count-begin] = res[count];
+					cb(err,result);
+				}		
 			})
 	}
 	,
 	fetchStu:function (cid,tid,cb) {
 
-		this.find({'_id':cid})
+		this.findOne({'_id':cid})
 			.populate('_teacher')
 			//.find({'_teacher.uname':tid})
 			.populate('_stulist')

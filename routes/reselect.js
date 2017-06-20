@@ -31,14 +31,11 @@ router.get('/', function(req, res, next) {
         ['学期', 'semester']
     ];
     var filterOpData = [
-        ['包含', 'include'],
-        ['不包含', 'not_include'],
-        ['等于', 'equal'],
-        ['不等于', 'not_equal'],
-        ['始于', 'beginWith'],
-        ['并非起始于', 'not_beginWith'],
-        ['止于', 'endWith'],
-        ['并非停止于', 'not_endWith']
+        ['等于', '$eq'],
+        ['不等于', '$ne'],
+        ['包含', '$regex'],
+        ['大于', '$gt'],
+        ['小于', '$lt']
     ];
     res.render('reselect',{
         title: '补选页',
@@ -62,7 +59,7 @@ function getCourseData(query, from, to, cb) {     // 取[from,to]的数据
     // result = get20Data(...)
 
     // 以上为伪造数据，需替换
-    Course.getAll(Math.ceil(from/20),function(err,courseList){
+    Course.getAll(query,Math.ceil(from/20),function(err,courseList){
         result = {
             Data: courseList
             , TotalItem: courseList.length
@@ -118,28 +115,43 @@ function getCourseData(query, from, to, cb) {     // 取[from,to]的数据
 
 router.post('/submit', function(req, res, next) {
     var stuID = req.session.loginUser;
+    var courseId = req.body['课程编号'];
     var courseName = req.body['课程名称'];
     var courseTime = req.body['上课时间'];
     var coursePlace = req.body['上课地点'];
     var phoneNum = req.body['手机号码'];
     var reselectReason = req.body['补选理由'];
     // 可以给我一个课程id吗
-    Course.findOne({name:courseName})
-        .populate('_teacher')
-        .exec(function(err,course){
-            var applyclass = new ApplyClass({
-                sid:stuID
-                , tid:course._teacher.id
-                , cid:course.id
-                , reason: reselectReason
-            });
-            applyclass.save(function(err){
-                if (err) { res.json({'status':-1,'errMsg':err}); }
-                else {
-                    res.json({'status':0,'errMsg':'成功'});
-                }
-            })
-        });
+    var status = 0;
+    Student.findOne({id:stuID},function(err,curStu){
+        for(var i = 0;i<curStu._course_list.length;i++){
+            if(curStu._course_list[i] == courseId){
+                status = -1;
+                res.json({'status':-1,'errMsg':'您已经选过该门课了'});
+                break;
+            }
+        }
+        if(status == 0){
+            Course.findOne({_id:courseId})
+                .populate('_teacher')
+                .exec(function(err,course){
+                    var applyclass = new ApplyClass({
+                        sid:stuID
+                        , tid:course._teacher.id
+                        , cid:course.id
+                        , reason: reselectReason
+                    });
+                    applyclass.save(function(err){
+                        if (err) { res.json({'status':-1,'errMsg':err}); }
+                        else {
+                            res.json({'status':0,'errMsg':'成功'});
+                        }
+                    })
+                });
+        }
+    })
+    
+    
 });
 
 module.exports = router;

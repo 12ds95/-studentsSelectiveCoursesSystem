@@ -43,14 +43,11 @@ router.get('/', function(req, res, next) {
         ['学期', 'semester']
     ];
     var filterOpData = [
-        ['包含', 'include'],
-        ['不包含', 'not_include'],
-        ['等于', 'equal'],
-        ['不等于', 'not_equal'],
-        ['始于', 'beginWith'],
-        ['并非起始于', 'not_beginWith'],
-        ['止于', 'endWith'],
-        ['并非停止于', 'not_endWith']
+        ['等于', '$eq'],
+        ['不等于', '$ne'],
+        ['包含', '$regex'],
+        ['大于', '$gt'],
+        ['小于', '$lt']
     ];
     res.render('select',{
         title: '选课页',
@@ -74,7 +71,7 @@ function getCourseData(query, from, to, cb) {     // 取[from,to]的数据
     // 返回值：result包，包括TotalItem标签的全部学生总数，和Data标签的[from,to]区间的学生学号、姓名、学院信息
     // result = get20Data(...)
     // 以上为伪造数据，需替换
-    Course.getAll(Math.ceil(from/20),function(err,courseList){
+    Course.getAll(query,Math.ceil(from/20),function(err,courseList){
         var course = [];
         var courseItem = {};
         var courseDetail = [];
@@ -140,7 +137,7 @@ router.post('/submit', function(req, res, next) {
         else{
             status = 0; errMsg = "选课成功";
             for(var i = 0; i < student._course_list.length;i++){
-                if(_id === student._course_list[i]) {
+                if(_id == student._course_list[i]) {
                     status = -1;
                     errMsg = "已选该课程";
                     var jsonn = {};
@@ -151,19 +148,21 @@ router.post('/submit', function(req, res, next) {
                 }
             }
             // 可以开始选课
-            Course.findOne({_id:_id},function(err,course){
-                student._course_list.push(course._id);
-                student.credit += course.credit;
-                course._stulist.push(student._id);
-                student.save(function(err, saveRes){
-                    course.save(function(err, saveResult){
-                        res.json({
-                            status: 0
-                            , errMsg:'Success!'
+            if(status == 0){
+                Course.findOne({_id:_id},function(err,course){
+                    student._course_list.push(course._id);
+                    student.credit += course.credit;
+                    course._stulist.push(student._id);
+                    student.save(function(err, saveRes){
+                        course.save(function(err, saveResult){
+                            res.json({
+                                status: 0
+                                , errMsg:'Success!'
+                            });
                         });
                     });
                 });
-            });
+            }
         }
     });    
 });

@@ -169,7 +169,14 @@ router.post('/admin/reviewClasses/search', function(req, res, next) {
     console.log(req.body);
     var keyword;
     for (keyword in req.body) break;
-    PreCourse.find({$or:[
+    if(typeof(keyword)== "undefined"){
+        PreCourse.find({},function(err,courseList){
+            res.json({
+                status:1
+                ,classList:courseList});
+        })
+    }else{
+        PreCourse.find({$or:[
         {name:{$regex:keyword}}
         ,{ename:{$regex:keyword}}
         ,{department:{$regex:keyword}}
@@ -177,8 +184,10 @@ router.post('/admin/reviewClasses/search', function(req, res, next) {
         ]},function(err,courseList){
             res.json({
                 status:1
-                ,data:courseList});
-        })
+                ,classList:courseList});
+        });
+    }
+    
     // var data={
     //     status: 1
     // };

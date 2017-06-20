@@ -23,12 +23,11 @@ router.get('/', function(req, res, next) {
         ['学院', 'department']
     ];
     var filterOpData = [
-        ['等于', 'equal'],
-        ['不等于', 'not_equal'],
-        ['包含', 'include'],
-        ['不包含', 'not_include'],
-        ['大于', 'greater_than'],
-        ['小于', 'less_than']
+        ['等于', '$eq'],
+        ['不等于', '$ne'],
+        ['包含', '$regex'],
+        ['大于', '$gt'],
+        ['小于', '$lt']
     ];
     // 渲染
     res.render('teacherManager',{
@@ -44,12 +43,13 @@ router.get('/', function(req, res, next) {
 router.post('/tableData', function(req, res, next) {
     // TODO assume pageNum start from 1
     var pageNum = req.body['pageNum'];
+    var query = req.body['query'];
     var pageSize = 20;
-    getTeacherData(pageNum,pageSize,function(jsonn){
+    getTeacherData(query,pageNum,pageSize,function(jsonn){
         res.json(jsonn);
     });
 });
-function getTeacherData(pageNum,pageSize,cb) {
+function getTeacherData(query,pageNum,pageSize,cb) {
     // 以下是后端数据库的函数：读取20位教师信息（不到20则以实际为准），返回教师总数
     // 返回值：result包，包括TotalItem标签的全部教师总数，和Data标签的[from,to]区间的教师工号、姓名、学院信息
     // result = get20Data(...)

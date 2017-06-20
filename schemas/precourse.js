@@ -119,7 +119,7 @@ PrecourseSchema.statics = {
                                   id: temp
                                 , name: preCourseInfo[0].name
                                 , credit: preCourseInfo[0].credit
-                                , courese_info: preCourseInfo[0].info
+                                , course_info: preCourseInfo[0].info
                                 , course_type: preCourseInfo[0].course_type
                                 , _teacher: preCourseInfo[0]._teacher
                                 , semester: '春夏'
@@ -127,11 +127,11 @@ PrecourseSchema.statics = {
                                 , campus: preCourseInfo[0].campus
                                 //, exam:
                                 , _stulist:[]
-                                //, english:preCourseInfo.ename
-                                //, department:preCourseInfo.department
-                                //, hour:preCourseInfo.time_one_week
-                                //, prerequistite:preCourseInfo.prestudy
-                                //, syllabus:preCourseInfo.course_info
+                                , english:preCourseInfo.ename
+                                , department:preCourseInfo.department
+                                , hour:preCourseInfo.time_one_week
+                                , prerequistite:preCourseInfo.prestudy
+                                , syllabus:preCourseInfo.course_info
                             });
                             for (var i = 0; i < timeRes.length; i++) {
                                 newCourse._time[i] = timeRes[i]._id;

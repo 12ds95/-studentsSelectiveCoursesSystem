@@ -22,8 +22,8 @@ router.get('/', function(req, res, next) {
     var leftTitle = '信息与动态';
     var leftImage = 'images/photo_admin.png';
     var leftText = {
-        '工号': '2333',
-        '院系': '妓院妓院妓院'
+        '工号': 'na1121na',
+        '院系': '计算机学院'
     };
     // 右侧筛选器固定参数
     var filterNameData = [
@@ -32,12 +32,11 @@ router.get('/', function(req, res, next) {
         ['通知标题', 'title']
     ];
     var filterOpData = [
-        ['等于', 'equal'],
-        ['不等于', 'not_equal'],
-        ['包含', 'include'],
-        ['不包含', 'not_include'],
-        ['大于', 'greater_than'],
-        ['小于', 'less_than']
+        ['等于', '$eq'],
+        ['不等于', '$ne'],
+        ['包含', '$regex'],
+        ['大于', '$gt'],
+        ['小于', '$lt']
     ];
     // 渲染
     res.render('noticeManager',{
@@ -52,6 +51,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/tableData', function(req, res, next) {
     var pageNum = req.body['pageNum'];
+    var query = req.body['query'];
     var pageSize = 20;
     News.getNumberOfPages(pageSize,function(totalPages){
         News.getAPage(pageNum,pageSize,function(pageResult){
