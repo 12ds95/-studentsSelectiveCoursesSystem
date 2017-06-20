@@ -13,11 +13,47 @@ block script
                 //});
             });
         });
+        function refreshdata(classList){
+            var tbody=document.getElementById('tbody');
+            $("tr").unbind();
+            $("#tbody tr").remove();
+            for(var i=0;i<classList.length;i++){
+                var tr=document.createElement("tr");
+                tbody.appendChild(tr);
+                var td=document.createElement("td");
+                td.innerText=classList[i].courseName;
+                tr.appendChild(td);
+                td=document.createElement("td");
+                td.innerText=classList[i].userName;
+                tr.appendChild(td);
+                td=document.createElement("td");
+                td.innerText=classList[i].department;
+                tr.appendChild(td);
+                td=document.createElement("td");
+                td.innerText=classList[i].date;
+                tr.appendChild(td);
+            }
+            rebind();
+        };
+
+        function rebind(){
+            $("#tbody tr").click(function(){
+                var send=$(this)[0].lastChild.textContent;
+                //get  http://localhost:3000/admin/reviewApplyforclass?time=send
+                window.open('/admin/reviewApplyforclass?time='+send);
+                //- $.post('admin/reviewClasses/apply', send, function (data) {
+                //-     if(data['status']==1){
+                //-     }
+                //-     else
+                //-         alert("error!");
+                //- });
+            });
+        };
         function search(){
             var keywords=$("#keywords")[0].value;
             $.post('admin/reviewClasses/search',keywords,function(data){
                 if(data['status']==1){
-
+                    refreshdata(data['classList']);
                 }
                 else
                     alert("error!");
@@ -42,9 +78,9 @@ block content
                                 th 申请人
                                 th 学院
                                 th 申请时间
-                        tbody
+                        tbody(id="tbody")
                             each course in classList
-                                tr(onclick="ret()")
+                                tr
                                     td #{course.courseName}
                                     td #{course.userName}
                                     td #{course.department}

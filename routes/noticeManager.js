@@ -22,8 +22,8 @@ router.get('/', function(req, res, next) {
     var leftTitle = '信息与动态';
     var leftImage = 'images/photo_admin.png';
     var leftText = {
-        '工号': '2333',
-        '院系': '妓院妓院妓院'
+        '工号': 'na1121na',
+        '院系': '计算机学院'
     };
     // 右侧筛选器固定参数
     var filterNameData = [

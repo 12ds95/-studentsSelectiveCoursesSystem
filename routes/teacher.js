@@ -181,13 +181,26 @@ router.post('/teacher/pickStudents/select', function(req, res, next) {
         selectedStu.push(stu);
     }
 
+    var selectedStu2 = [];
+    for(var i = 0; i< selectedStu_.length;i++){
+        var stu = {};
+        stu['id'] = selectedStu_[i];
+        selectedStu2.push(stu);
+    }
+    if(selectedStu2.length <= 1){
+        var stu = {};
+        stu['id'] = '-1';
+        selectedStu2.push(stu);
+        selectedStu2.push(stu);
+    }
+
     console.log(req.body);
     // 从待定队列中删除
     ApplyClass.remove({$or:selectedStu,tid:teacherID},function(err,deleted){
         //assert.equal(err,null);
         // 选课流程 - 把课程ID添加到学生的course_list中
         Course.findOne({'_id':courseID},function (err,curCourse) {
-            Student.find({$or:selectedStu},function (err, stuList) {
+            Student.find({$or:selectedStu2},function (err, stuList) {
                 //assert.equal(err,null);
                 var curIndex = 0;
                 // for(curIndex = 0; curIndex < stuList.length;curIndex++){

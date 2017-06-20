@@ -28,6 +28,11 @@ var CourseSchema = new mongoose.Schema({
 		type:String,
 		enum:['紫金港','玉泉','西溪','华家池','之江','舟山','海宁']
 	}
+	, english: String
+	, department: String
+	, hour:String
+	, prerequistite: String
+	, syllabus:String
 	, exam:{type:Schema.Types.ObjectId, ref	:'exam'}
 	, _stulist:[{type:Schema.Types.ObjectId,ref:'Student'}]
 	// tid:String, // teacher's id
@@ -91,7 +96,7 @@ CourseSchema.statics = {
 	,
 	fetchStu:function (cid,tid,cb) {
 
-		this.find({'_id':cid})
+		this.findOne({'_id':cid})
 			.populate('_teacher')
 			//.find({'_teacher.uname':tid})
 			.populate('_stulist')

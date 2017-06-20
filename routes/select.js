@@ -140,7 +140,7 @@ router.post('/submit', function(req, res, next) {
         else{
             status = 0; errMsg = "选课成功";
             for(var i = 0; i < student._course_list.length;i++){
-                if(_id === student._course_list[i]) {
+                if(_id == student._course_list[i]) {
                     status = -1;
                     errMsg = "已选该课程";
                     var jsonn = {};
@@ -151,19 +151,21 @@ router.post('/submit', function(req, res, next) {
                 }
             }
             // 可以开始选课
-            Course.findOne({_id:_id},function(err,course){
-                student._course_list.push(course._id);
-                student.credit += course.credit;
-                course._stulist.push(student._id);
-                student.save(function(err, saveRes){
-                    course.save(function(err, saveResult){
-                        res.json({
-                            status: 0
-                            , errMsg:'Success!'
+            if(status == 0){
+                Course.findOne({_id:_id},function(err,course){
+                    student._course_list.push(course._id);
+                    student.credit += course.credit;
+                    course._stulist.push(student._id);
+                    student.save(function(err, saveRes){
+                        course.save(function(err, saveResult){
+                            res.json({
+                                status: 0
+                                , errMsg:'Success!'
+                            });
                         });
                     });
                 });
-            });
+            }
         }
     });    
 });

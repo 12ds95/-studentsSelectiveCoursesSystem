@@ -118,28 +118,43 @@ function getCourseData(query, from, to, cb) {     // 取[from,to]的数据
 
 router.post('/submit', function(req, res, next) {
     var stuID = req.session.loginUser;
+    var courseId = req.body['课程编号'];
     var courseName = req.body['课程名称'];
     var courseTime = req.body['上课时间'];
     var coursePlace = req.body['上课地点'];
     var phoneNum = req.body['手机号码'];
     var reselectReason = req.body['补选理由'];
     // 可以给我一个课程id吗
-    Course.findOne({name:courseName})
-        .populate('_teacher')
-        .exec(function(err,course){
-            var applyclass = new ApplyClass({
-                sid:stuID
-                , tid:course._teacher.id
-                , cid:course.id
-                , reason: reselectReason
-            });
-            applyclass.save(function(err){
-                if (err) { res.json({'status':-1,'errMsg':err}); }
-                else {
-                    res.json({'status':0,'errMsg':'成功'});
-                }
-            })
-        });
+    var status = 0;
+    Student.findOne({id:stuID},function(err,curStu){
+        for(var i = 0;i<curStu._course_list.length;i++){
+            if(curStu._course_list[i] == courseId){
+                status = -1;
+                res.json({'status':-1,'errMsg':'您已经选过该门课了'});
+                break;
+            }
+        }
+        if(status == 0){
+            Course.findOne({_id:courseId})
+                .populate('_teacher')
+                .exec(function(err,course){
+                    var applyclass = new ApplyClass({
+                        sid:stuID
+                        , tid:course._teacher.id
+                        , cid:course.id
+                        , reason: reselectReason
+                    });
+                    applyclass.save(function(err){
+                        if (err) { res.json({'status':-1,'errMsg':err}); }
+                        else {
+                            res.json({'status':0,'errMsg':'成功'});
+                        }
+                    })
+                });
+        }
+    })
+    
+    
 });
 
 module.exports = router;
