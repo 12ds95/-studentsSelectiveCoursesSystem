@@ -60,11 +60,13 @@ router.get('/', function(req, res, next) {
         'imgURL':'images/admin_noticeManager.png',
             'URL':'/noticeManager',
             '名称':'通知管理'
-    },{
-        'imgURL':'images/admin_reselectPermission.png',
-            'URL':'/teacher/pickStudent',
-            '名称':'补选审核'
-    },{
+    },
+        //{
+        // 'imgURL':'images/admin_reselectPermission.png',
+        //     'URL':'/teacher/pickStudent',
+        //     '名称':'补选审核'
+        //},
+    {
         'imgURL':'images/admin_coursePermission.png',
         'URL':'/admin/reviewClasses',
         '名称':'开课审核'
@@ -265,7 +267,8 @@ router.get('/report/stureportdl', function(req, res, next) {
         {
             caption: '用户名',
             type: 'string'
-        }];
+        }
+        ];
 
     conf.rows = array;
     var result = nodeExcel.execute(conf);
