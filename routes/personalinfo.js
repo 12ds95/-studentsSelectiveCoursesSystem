@@ -74,7 +74,7 @@ router.post('/changeinfo', function(req, res, next) {
         Teacher.findByUname(userID, function(teacher){
             teacher.address = address;
             teacher.email = email;
-            teacher.phone_number = phone_number;
+            teacher.phone_number = phone;
             teacher.save(function (err, statusCode) {
                 var data;
                 if (err) {

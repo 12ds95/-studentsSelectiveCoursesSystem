@@ -66,34 +66,71 @@ CourseSchema.pre('find',function(next){
 });
 CourseSchema.statics = {
 	getAll: function(query,page, cb){
-		this.find({query})
-			.populate({path:'_teacher'})
-			.populate({path:'_time'})
-			.populate({path:'_classroom'})
-			.populate({path:'_semester'})
-			.sort('id')
-			.exec(function(err, res){
-				if(res.length == 0 || res.length<(page-1)*20)
-					cb(err, res);
-				else{
-					var begin = 0;
-					var count = 0, i;
-					var last = "";
-					for(i = 0; i < res.length; i++){
-						if(count == 20*(page-1))begin = i;
-						else if(count == 20 * page)break;
-						if(res[i].id != last.id){
-							count++;
-							last = res[i];
-						}
+		if(query == ""){
+			this.find({})
+                .populate({path:'_teacher'})
+                .populate({path:'_time'})
+                .populate({path:'_classroom'})
+                .populate({path:'_semester'})
+                .sort('id')
+                .exec(function(err, res){
+                    if(res.length == 0 || res.length<(page-1)*20)
+                        cb(err, res);
+                    else{
+                        var begin = 0;
+                        var count = 0, i;
+                        var last = "";
+                        for(i = 0; i < res.length; i++){
+                            if(count == 20*(page-1))begin = i;
+                            else if(count == 20 * page)break;
+                            if(res[i].id != last.id){
+                                count++;
+                                last = res[i];
+                            }
 
-					}
-					var result = new Array();
-					for(var count = begin; count < i; count++)
-						result[count-begin] = res[count];
-					cb(err,result);
-				}		
-			})
+                        }
+                        var result = new Array();
+                        for(var count = begin; count < i; count++)
+                            result[count-begin] = res[count];
+                        cb(err,result);
+                    }
+                });
+		}
+		else{
+            this.find({$or:[
+                {name:{$regex:query}}
+                ,{id:{$regex:query}}
+                ,{department:{$regex:query}}
+                ,{campus:{$regex:query}}]})
+                .populate({path:'_teacher'})
+                .populate({path:'_time'})
+                .populate({path:'_classroom'})
+                .populate({path:'_semester'})
+                .sort('id')
+                .exec(function(err, res){
+                    if(res.length == 0 || res.length<(page-1)*20)
+                        cb(err, res);
+                    else{
+                        var begin = 0;
+                        var count = 0, i;
+                        var last = "";
+                        for(i = 0; i < res.length; i++){
+                            if(count == 20*(page-1))begin = i;
+                            else if(count == 20 * page)break;
+                            if(res[i].id != last.id){
+                                count++;
+                                last = res[i];
+                            }
+
+                        }
+                        var result = new Array();
+                        for(var count = begin; count < i; count++)
+                            result[count-begin] = res[count];
+                        cb(err,result);
+                    }
+                })
+		}
+
 	}
 	,
 	fetchStu:function (cid,tid,cb) {
