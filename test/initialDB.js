@@ -13,22 +13,24 @@ var News = require('../models/News');
 mongoose.connect('mongodb://localhost/test');
 mongoose.Promise = global.Promise;
 var new1 = new News({
-        title: "大大大大新闻"
+    title: "大大大大新闻"
     , content:"计算机学院开始选导师了"
     , department: "计算机学院"
 });
 
 var new2 = new News({
-        title:  "关于本科生第二轮选课的通知"
+    title:  "关于本科生第二轮选课的通知"
     , content:"第二轮选课就要开始了，大家快快来选课吧"
     , department: "本科生院"
 });
+
 new1.save(function(err,res){
     assert.equal(err,null);
     new2.save(function(err2,res2){
         assert.equal(err2,null);;
     });
 });
+
 var teacher0 = new Teacher({name:'老师0',ismale:true,uname:'teacher0',id:'teacher0',department:'计算机学院',phono_number:'10000',info:'no',address:'no',email:'no'});
 teacher0.save(function(err,res){if(err){console.log('Error in teacher0.save()\n',err);}});
 var teacher1 = new Teacher({name:'老师1',ismale:true,uname:'teacher1',id:'teacher1',department:'计算机学院',phono_number:'10001',info:'no',address:'no',email:'no'});

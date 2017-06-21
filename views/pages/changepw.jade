@@ -2,7 +2,6 @@
    Created by iqich on 2017/5/30.
 extends ../layout
 block script
-    script(src="js/md5.js").
     script(type="text/javascript").
         $(document).ready(function () {
             $("#confirm").click(function () {
@@ -13,11 +12,15 @@ block script
                 if(newpw.value != confirmpw.value)
                     alert("两次输入新密码不同");
                 else {
+                    $("#encry").remove();
+                    var js = $("\<script id = 'encry'/\>");
+                    js.attr('src', "/js/bundle2.js");
+                    $('head').append(js);
                     //oldpw.value = hex_md5(oldpw.value);
                     //newpw.value = hex_md5(newpw.value);
                     //confirmpw.value = hex_md5(confirmpw.value);
                     var data = JSON.stringify($("#form").serializeObject());
-                    $.post('/changepw/pw/change', data, function (data) {
+                    $.post('/changepw/pw/change', {'data':data}, function (data) {
                         if (data['status']) {
                             alert("修改成功");
                             window.close();
@@ -52,6 +55,7 @@ block content
                             .col-sm-2
                             .col-sm-1
                                 button(type="button",class="btn btn-primary btn-sm btn-block",onclick="$('#modal').modal('show')") 确认修改
+                                p(hidden=true id='publicKeyPem') #{publicKey}
 
     div(class="modal fade" id="modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
         .modal-dialog

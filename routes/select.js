@@ -62,7 +62,7 @@ router.post('/courseData', function(req, res, next) {
     var query = req.body['query'];
     var itemPerPage = 20;
     getCourseData(query, (pageNum-1)*itemPerPage+1, pageNum*itemPerPage, function(result){
-        res.json(result);
+         res.json(result);
     });
 
 });

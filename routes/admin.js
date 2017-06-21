@@ -206,7 +206,7 @@ router.get('/report',function (req,res,next) {
     // 以上为伪造数据，需要替换掉
     var leftColAttr = {};
     leftColAttr['姓名'] = result['name'];
-    leftColAttr['照片'] = "images/photo_admin.png"
+    leftColAttr['照片'] = "/images/photo_admin.png"
     leftColAttr['工号'] = result['id'];
     leftColAttr['性别'] = result['ismale'] === true ? '男': '女';
     leftColAttr['手机'] = result['phone_number'];
