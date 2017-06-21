@@ -1,3 +1,18 @@
+# studentsSelectiveCoursesSystem
+
+In the working directory, use
+`npm install`
+to install dependencies
+
+use 
+`bower install` 
+to install bootstrap
+
+You have to install mongoDB to use this web app, if you have mongoDB, 
+use command line
+`mongod`
+to run mongoDB before you run this webapp
+
 # issue 1
 * 直接把department改成字符串，取消这个表
 
